@@ -1,0 +1,186 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Making your first game, part 1</title>
+    <script src="phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var gridSize = 16;
+var game = new Phaser.Game(gridSize*48, gridSize*32, Phaser.AUTO, 'SAGDCX', { preload: preload, create: create, update: update }, false, false);
+var cursors, keyboard;
+var blocks, mobs;
+var player, truck, floater, floater2;
+var jumpMax, jumpCompleted, jumpStart, jumpSpeed, jumpReady;
+var infoText;
+
+function preload() {
+  game.load.image('block', 'assets/block.png');
+  game.load.image('box', 'assets/box.png');
+  game.load.image('carrier', 'assets/carrier.png')
+  game.load.image('floater', 'assets/floater.png')
+  game.load.image('player', 'assets/player.png')
+  game.load.image('roller', 'assets/roller.png')
+}
+
+function create() {
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+  game.stage.backgroundColor = 0xbada55;
+
+  blocks = game.add.group();
+  blocks.enableBody = true;
+  var block;
+  for (var i = 0; i < 12; i++){
+    block = blocks.create(i*gridSize*4,game.world.height-(gridSize*4), 'block');
+  }
+  for (var i = 0; i < 12; i++){
+    block = blocks.create(i*gridSize*4,game.world.height-(gridSize*4*3), 'block');
+  }
+  blocks.setAll('body.immovable', true);
+  blocks.forEach(function(sprite){ sprite.scale.setTo(gridSize, gridSize); });
+
+  player = game.add.sprite(32, 214, 'player');
+  player.scale.setTo(gridSize, gridSize);
+  game.physics.arcade.enable(player);
+  player.body.gravity.y = 0;
+  player.body.collideWorldBounds = true;
+
+  mobs = game.add.group();
+  mobs.enableBody = true;
+  truck = mobs.create(gridSize*48,game.world.height-(gridSize*8), 'roller');
+  floater = mobs.create(gridSize*36,gridSize, 'carrier');
+  floater.route = [[36,1], [36, 14], [12,14], [12,1]]
+  floater.waypoint = 1;
+  floater.hitDirection = 1;
+  floater.hitTimer = 0;
+  floater2 = mobs.create(gridSize*12,gridSize*14, 'carrier');
+  floater2.route = [[36,1], [36, 14], [12,14], [12,1]]
+  floater2.waypoint = 3;
+  floater.hitDirection = 1;
+  floater.hitTimer = 0;
+  mobs.setAll('body.immovable', true);
+  mobs.forEach(function(sprite){ sprite.scale.setTo(gridSize, gridSize); });
+
+  cursors = game.input.keyboard.createCursorKeys();
+  keyboard = game.input.keyboard;
+  jumpStart = 0;
+  jumpMax = gridSize*4;
+  jumpCompleted = jumpMax;
+  jumpSpeed = 10;
+  jumpReady = true;
+  infoText = game.add.text(16, 16, 'JUMP INFO?', { fontSize: '32px', fill: '#000' });
+}
+
+function update() {
+  game.physics.arcade.collide(player, blocks);
+  game.physics.arcade.collide(player, mobs);
+
+  updatePlayer(player);
+  updateTruck(truck);
+  updateFloater(floater);
+  updateFloater(floater2);
+}
+
+function updateTruck(truck){
+  truck.body.velocity.x = gridSize*-5;
+  truck.body.velocity.y = 0;
+  if(truck.right < 0){
+    truck.body.velocity.y = 0;
+    truck.body.velocity.x = 0;
+    truck.y = game.world.height-(gridSize*8);
+    truck.x = 12*gridSize*4;
+  }
+  infoText.text = "TRUCK POSITION: "+Math.floor(truck.left/gridSize);
+}
+
+function updateFloater(mob){
+  var next = mob.route[mob.waypoint];
+  mob.body.velocity.x = 0;
+  mob.body.velocity.y = 0;
+  var speed = gridSize*10;
+  var targetX = next[0]*gridSize;
+  var targetY = next[1]*gridSize;
+
+  //If we've gone past our target, stop
+  if((Math.abs(targetX-mob.x)+Math.abs(targetY-mob.y)) < gridSize ){
+    mob.x = targetX;
+    mob.y = targetY;
+  }
+  
+  //Otherwise, move towards waypoint
+  if(targetX > mob.x){
+    mob.body.velocity.x = speed;
+  } else if(targetX < mob.x){
+    mob.body.velocity.x = -speed;
+  }
+  if(targetY > mob.y){
+    mob.body.velocity.y = speed;
+  } else if(targetY < mob.y){
+    mob.body.velocity.y = -speed;
+  }
+
+  //Finally, if we've reached our waypoint, set the next one
+  if(targetX == mob.x && targetY == mob.y){
+    mob.waypoint += 1;
+    if(mob.waypoint >= mob.route.length){
+      mob.waypoint = 0;
+    }
+  }
+
+  if(mob.hitTimer > 0){
+    mob.hitTimer -= 1;
+    mob.body.velocity.x = 1*speed;
+    mob.body.velocity.y = -2*speed;
+  }
+
+}
+
+function updatePlayer(player){
+  //  Reset the players velocity (movement)
+  player.body.velocity.x = 0;
+
+  if (cursors.left.isDown){
+    player.body.velocity.x = gridSize*-10;
+  }
+  else if (cursors.right.isDown){
+    player.body.velocity.x = gridSize*10;
+  } else if (keyboard.isDown(32)){
+    mobs.forEach(function(mob){if(mob.hitTimer==0){mob.hitTimer = 30};});
+  }
+  
+  if(player.body.touching.down){
+    player.body.velocity.y = 0;
+    if (cursors.up.isDown){
+      if(jumpReady){
+        player.body.velocity.y = gridSize*-jumpSpeed;
+        jumpStart = player.body.bottom;
+        jumpCompleted = 0;
+        jumpReady = false;
+      }
+    } else {
+      jumpReady = true;
+    }
+  }else{
+    if (cursors.up.isDown && jumpCompleted < jumpMax){
+      player.body.velocity.y = gridSize*-jumpSpeed;
+      jumpCompleted = jumpStart - player.body.bottom;
+    } else {
+      //jumpCompleted = jumpMax;
+      player.body.velocity.y = gridSize*jumpSpeed;
+    }
+  }
+
+}
+
+</script>
+
+</body>
+</html>
