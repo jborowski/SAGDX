@@ -1,7 +1,9 @@
 var gridSize = 16;
 var game = new Phaser.Game(gridSize*48, gridSize*32, Phaser.AUTO, 'SAGDCX', { preload: preload, create: create, update: update }, false, false);
 var cursors, ground, player;
-var jumpMax, jumpCompleted, jumpStart, jumpSpeed, jumpReady;
+var jumpTimer = 0;
+var jumpSpeed = 350;
+var playerSpeed = 15;
 
 function preload() {
   game.load.image('groundTileTop', 'assets/groundTile.png');
@@ -27,15 +29,10 @@ function create() {
 
   player = game.add.sprite(playerStartX, playerStartY, 'player');
   game.physics.arcade.enable(player);
-  player.body.gravity.y = 0;
+  player.body.gravity.y = 800;
   player.body.collideWorldBounds = true;
 
   cursors = game.input.keyboard.createCursorKeys();
-  jumpStart = 0;
-  jumpMax = gridSize*4;
-  jumpCompleted = jumpMax;
-  jumpSpeed = 15;
-  jumpReady = true;
 }
 
 function update() {
@@ -47,31 +44,15 @@ function updatePlayer(player){
   //  Reset the players velocity (movement)
   player.body.velocity.x = 0;
   if (cursors.left.isDown){
-    player.body.velocity.x = gridSize*-10;
+    player.body.velocity.x = gridSize*-playerSpeed;
   }
   else if (cursors.right.isDown) {
-    player.body.velocity.x = gridSize*10;
+    player.body.velocity.x = gridSize*playerSpeed;
   }
   
-  if(player.body.touching.down) {
-    player.body.velocity.y = 0;
-    if (cursors.up.isDown) {
-      if(jumpReady) {
-        player.body.velocity.y = gridSize*-jumpSpeed;
-        jumpStart = player.body.bottom;
-        jumpCompleted = 0;
-        jumpReady = false;
-      }
-    } else {
-      jumpReady = true;
-    }
-  } else {
-    if (cursors.up.isDown && jumpCompleted < jumpMax) {
-      player.body.velocity.y = gridSize*-jumpSpeed;
-      jumpCompleted = jumpStart - player.body.bottom;
-    } else {
-      player.body.velocity.y = gridSize*jumpSpeed;
-    }
+  if (cursors.up.isDown && player.body.touching.down && game.time.now > jumpTimer) {
+      player.body.velocity.y = -jumpSpeed;
+      jumpTimer = game.time.now + 750;
   }
 }
 
