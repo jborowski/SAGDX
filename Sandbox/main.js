@@ -1,10 +1,9 @@
 var gridSize = 16;
 var game = new Phaser.Game(gridSize*48, gridSize*32, Phaser.AUTO, 'SAGDCX', { preload: preload, create: create, update: update }, false, false);
 var cursors, ground, player;
-var dx, dy
 var jumpSpeed = 15;
 var playerSpeed = 15;
-var jumpReady = false;
+var jumpFinished = true;
 var jumpTimer;
 
 function preload() {
@@ -42,13 +41,12 @@ function update() {
 }
 
 function updatePlayer(player){
-  //  Reset the players velocity (movement)
-
   player.body.velocity.x *= 0.5;
 
-  if (player.body.touching.down && cursors.up.isDown) {
+  if (player.body.touching.down && cursors.up.isDown && jumpFinished == true) {
     jumpTimer = game.time.now;
     player.body.velocity.y = gridSize*-jumpSpeed;
+    jumpFinished = false;
   }
 
   if (cursors.left.isDown){
@@ -66,7 +64,9 @@ function updatePlayer(player){
 
   if (player.body.velocity.y > gridSize*15)
     player.body.velocity.y = gridSize*15;
-    
+
+  if (player.body.touching.down && cursors.up.isUp)
+    jumpFinished = true;
 }
 
 function generateGeometry(world, mapData, ground){
