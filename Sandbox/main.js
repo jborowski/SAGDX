@@ -1,9 +1,11 @@
 var gridSize = 16;
 var game = new Phaser.Game(gridSize*48, gridSize*32, Phaser.AUTO, 'SAGDCX', { preload: preload, create: create, update: update }, false, false);
 var cursors, ground, player;
-var jumpTimer = 0;
-var jumpSpeed = 350;
+var dx, dy
+var jumpSpeed = 15;
 var playerSpeed = 15;
+var jumpReady = false;
+var jumpTimer;
 
 function preload() {
   game.load.image('groundTileTop', 'assets/groundTile.png');
@@ -19,7 +21,6 @@ function create() {
   ground.enableBody = true;
 
   levelData = levels.level1;
-
   generateGeometry(game.world, levelData, ground);
 
   ground.setAll('body.immovable', true);
@@ -29,9 +30,9 @@ function create() {
 
   player = game.add.sprite(playerStartX, playerStartY, 'player');
   game.physics.arcade.enable(player);
-  player.body.gravity.y = 800;
+  player.body.gravity.y = 0;
   player.body.collideWorldBounds = true;
-
+  game.camera.follow(player);
   cursors = game.input.keyboard.createCursorKeys();
 }
 
@@ -42,22 +43,34 @@ function update() {
 
 function updatePlayer(player){
   //  Reset the players velocity (movement)
-  player.body.velocity.x = 0;
+
+  player.body.velocity.x *= 0.5;
+
+  if (player.body.touching.down && cursors.up.isDown) {
+    jumpTimer = game.time.now;
+    player.body.velocity.y = gridSize*-jumpSpeed;
+  }
+
   if (cursors.left.isDown){
     player.body.velocity.x = gridSize*-playerSpeed;
   }
   else if (cursors.right.isDown) {
     player.body.velocity.x = gridSize*playerSpeed;
   }
-  
-  if (cursors.up.isDown && player.body.touching.down && game.time.now > jumpTimer) {
-      player.body.velocity.y = -jumpSpeed;
-      jumpTimer = game.time.now + 750;
-  }
+
+  if (!player.body.touching.down)
+    player.body.velocity.y += gridSize*1.2;
+
+  if (cursors.up.isDown && !player.body.touching.down && game.time.now - jumpTimer < 200)
+    player.body.velocity.y = gridSize*-jumpSpeed;
+
+  if (player.body.velocity.y > gridSize*15)
+    player.body.velocity.y = gridSize*15;
+    
 }
 
 function generateGeometry(world, mapData, ground){
-  //world.bounds = new Phaser.Rectangle(0, 0, mapData.levelSize[0], mapData.levelSize[1]);
+  world.setBounds(0, 0, gridSize*mapData.levelSize[0], gridSize*mapData.levelSize[1]);
   // find out number of floor rectangles
   for(var floorPart in mapData.geometry){
     if(mapData.geometry.hasOwnProperty(floorPart)){
