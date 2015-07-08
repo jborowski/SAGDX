@@ -7,8 +7,10 @@ var jumpFinished = true;
 var jumpTimer;
 
 function preload() {
-  game.load.tilemap('map', 'assets/tilemap.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.tilemap('map', 'assets/tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.tilemap('bg_map', 'assets/bg_tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles', 'assets/level_tileset.png');
+  game.load.image('bg_tiles', 'assets/bg_tileset.png');
   game.load.image('player', 'assets/player1.png');
 }
 
@@ -18,11 +20,17 @@ function create() {
 
   map.addTilesetImage('tiles');
   
-  layer = map.createLayer('Tile Layer 1');
+  layer = map.createLayer('tiles_layer');
 
   layer.resizeWorld();
 
   map.setCollisionByExclusion([1], true, layer);
+
+  bgMap = game.add.tilemap('bg_map');
+
+  bgMap.addTilesetImage('bg_tiles');
+  
+  bgLayer = bgMap.createLayer('bg_tiles_layer');
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.stage.backgroundColor = 808080;
