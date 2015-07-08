@@ -1,0 +1,97 @@
+This governs the behaviour of all Mobs (mobile objects) in the game.
+
+BASIC OBJECTS:
+Box
+  Boxes fall when nothing is underneath them at a constant rate.
+  Boxes can be pushed.
+  Boxes with another Mob on top of them cannot be pushed.
+  Boxes cannot be pushed past walls or other Mobs.
+  Pushing, punching, blasting or lifting a box Desyncs it.
+  Punching or Blasting causes it to move in opposite direction of Punch or Blast along the x-axis.
+  Landing on top of a box does not Desync it.
+  Can be ridden.
+
+Barrel
+  Barrels fall when nothing is underneath them at a constant rate.
+  Boxes can be pushed, so long as there is not another box on top of them.
+  Pushing or lifting a box Desyncs it.
+  Punching, Pinging, or Blasting a box causes it to explode, Blasting nearby objects.
+  Landing on top of a box does not Desync it.
+  Can be ridden.
+
+Small Blast
+  Moves in a given direction at a steady speed once created, unless paused.
+  Contacting a small blast causes Ping to the other object and destroys the small blast.
+  Pinging a small Blast destroys it.
+  
+Big Blast
+  Moves in a given direction at a steady speed once created, unless paused.
+  Pinging a Big Blast Desyncs it, but is otherwise ignored.
+  Contact with a Big Blast destroys the blast, and creates a desynced small blast moving in the opposite direction.
+  Contact with a Big Blast causes Blast to the thing being contacted.
+  Excerts Blast Force in direction of travel.
+
+Platform
+  Moves back and forth along a set vertical path.
+  When not being ridden, moves to and waits at top of path until a Mob is riding it and is completely on it, or until a circuit activates it.
+  Can be ridden.
+  When being ridden, moves to and waits at bottom of path until there is no longer a Mob on it.
+  Pushes up and down when possible, stops moving otherwise.
+  Pushes with force of 4.
+  
+UNITS:
+Truck
+  Trucks fall when nothing is underneath them at a constant rate.
+  Trucks move forward at a constant rate unless paused or hitting a stop zone.
+  Trucks that hit a stop zone wait until they would be desynced before moving (but they do not pause).
+  When a box is dropped on a normal truck it becomes a desynced Box Truck.
+  When a barrel is dropped on a normal truck it becomes a desynced Barrel Truck.
+  Trucks will move Mobs in front of them, including the Player, if that Mob can be moved.
+  Exerts 3 push force.
+  Punching or Blasting a truck will Desync it.
+  Punching or Blasting a truck will knock it back 4 units.
+  Can be ridden.
+  If riding an object and that object moves, this unit will desync.
+
+Box Truck
+  As Truck, except a Carrier can remove the Cargo and create a Desynced regular truck.
+
+Barrel Truck
+  As a Box Truck, except that Blasting or Punching from behind causes the Barrel to explode, creating a Regular Truck and Blasting nearby objects.
+  
+Carrier
+  Has a list of directions, which include Waypoints, Waits, Drops, and Pickups.
+  Is set to Loop or Destroy.
+  When next direction is a waypoint, moves at a steady speed towards next Waypoint.
+  Reaching a Waypoint changes the next direction.
+  Waits indicate the unit should cease moving for an amount of time.
+  If set to Loop, reaching the last Waypoint sets the first Waypoint as the next Waypoint.
+  If set to Destroy, reaching the last Waypoint destroys this object.
+  Pushes Mobs in direction of waypoint when possible.
+  Movement is split between x and y. Blocking in the x direction cancels x movement, but has no impact on y movement, and vice versa.
+  Exerts 2 push force - Pushes everything but trucks at a decent speed, but is (slowly) pushed by trucks when opposed them.
+  Landing on a Carrier very slightly causes it to drop or, if moving up, momentarily lose some y speed. This Desyncs the Carrier.
+  Punching, Blasting, or Pushing a Carrier desyncs it.
+  Can pick up boxes and barrels as a Box Carrier or Barrel Carrier via the Pickup Direction.
+  When Punched or Blasted, moves in the opposite direction of the Punch Force, both x and y.
+  
+Box Carrier
+  As Carrier, except drops will cause it to drop the Cargo.
+
+Barrel Truck
+  As Box Carrier, except that Blasting or Punching from anywhere but above causes the Barrel to explode, creating a Regular Truck and Blasting nearby objects.
+  
+Swooper
+  Exerts 1 push force.
+
+Zoomer
+  Exerts 1 push force.
+
+Turret
+  Stationary.
+  Desynced by ciruits.
+  Fires Big Blasts in facing direction.
+  Punching or Blasting a turret Desyncs it and makes it flip the direction it is facing.
+
+PLAYER CHARACTER:
+  Exerts 1 push force.
