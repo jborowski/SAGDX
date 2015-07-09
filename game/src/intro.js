@@ -2,6 +2,7 @@ var introState = {
   jumpSpeed: 15,
   playerSpeed: 15,
   jumpFinished: true,
+  jumpTimer: 0,
   debug:false,
   preload: function(){
     this.game.load.tilemap('map', 'data/tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -14,24 +15,26 @@ var introState = {
   },
   create: function(){
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.jumpTimer = this.game.time.now;
-
     this.map = this.game.add.tilemap('map');
     this.layer = this.map.createLayer('tiles_layer');
     this.map.addTilesetImage('tiles');
     this.layer.resizeWorld();
+
     this.bgMap = this.game.add.tilemap('bg_map');
     this.bgMap.addTilesetImage('bg_tiles');
     this.bgMap.createLayer('bg_tiles_layer');
+
     this.collisionMap = this.game.add.tilemap('collision_map');
     this.collisionLayer = this.collisionMap.createLayer('collision_tiles_layer');
     this.collisionMap.addTilesetImage('collision_tiles');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
+
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
     this.player = this.game.add.sprite(60, 200, 'player');
+    this.player.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 0;
     this.player.body.collideWorldBounds = true;
@@ -53,9 +56,9 @@ var introState = {
     this.player.body.velocity.x = 0;
 
     if (this.player.body.onFloor() && this.cursors.up.isDown && this.jumpFinished == true) {
-      this.jumpTimer = this.game.time.now;
       this.player.body.velocity.y = gridSize*-this.jumpSpeed;
       this.jumpFinished = false;
+      this.jumpTimer = 0;
     }
 
     if (this.cursors.left.isDown){
@@ -67,18 +70,20 @@ var introState = {
 
     if (!this.player.body.onFloor()){
       this.player.body.velocity.y += gridSize*1.2;
+      this.jumpTimer += this.game.time.physicsElapsed;
     }
 
-    if (this.cursors.up.isDown && !this.player.body.onFloor() && this.game.time.now - this.jumpTimer < 200){
-      this.player.body.velocity.y = gridSize*-this.jumpSpeed;
+    if (this.cursors.up.isDown && !this.player.body.onFloor() && this.jumpTimer < 0.2){
+      this.player.body.velocity.y += gridSize*-1.3;
     }
 
     if (this.player.body.velocity.y > gridSize*15){
       this.player.body.velocity.y = gridSize*15;
     }
 
-    if (this.player.body.onFloor() && this.cursors.up.isUp){
+    if (this.player.body.blocked.down && this.cursors.up.isUp){
       this.jumpFinished = true;
+      this.player.body.velocity.y = 0;
     }
   }
 }
