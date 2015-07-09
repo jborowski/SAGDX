@@ -13,7 +13,8 @@ TILE_SIZE = 16
 # provide the input/output data in the form of a list of tuples:
 # (input image filename, tileset filename, tileset scripting name)
 input_data = [("Act-1-Tiles.png", "level_tileset.png", "tiles"), 
-              ("Act-1-BackgroundTiles.png", "bg_tileset.png", "bg_tiles")]
+              ("Act-1-BackgroundTiles.png", "bg_tileset.png", "bg_tiles"),
+              ("Act-1-CollisionTiles.png", "collision_tileset.png", "collision_tiles")]
 
 for infile, tiles, name in input_data:
 
@@ -30,9 +31,9 @@ for infile, tiles, name in input_data:
     for j in range (level_size_x):
       # compare pixel color with reference and output GID represented by that color
       if data[j, i] != (0, 0, 0, 255):
-        formatted_data.extend([2])
-      else:
         formatted_data.extend([1])
+      else:
+        formatted_data.extend([0])
 
   tileset = Image.open(tiles)
 

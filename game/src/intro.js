@@ -6,8 +6,10 @@ var introState = {
   preload: function(){
     this.game.load.tilemap('map', 'data/tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('bg_map', 'data/bg_tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('collision_map', 'data/collision_tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.image('tiles', 'assets/level_tileset.png');
     this.game.load.image('bg_tiles', 'assets/bg_tileset.png');
+    this.game.load.image('collision_tiles', 'assets/collision_tileset.png');
     this.game.load.image('player', 'assets/player1.png');
   },
   create: function(){
@@ -18,14 +20,18 @@ var introState = {
     this.layer = this.map.createLayer('tiles_layer');
     this.map.addTilesetImage('tiles');
     this.layer.resizeWorld();
-    this.map.setCollisionByExclusion([1], true, this.layer);
     this.bgMap = this.game.add.tilemap('bg_map');
     this.bgMap.addTilesetImage('bg_tiles');
     this.bgMap.createLayer('bg_tiles_layer');
+    this.collisionMap = this.game.add.tilemap('collision_map');
+    this.collisionLayer = this.collisionMap.createLayer('collision_tiles_layer');
+    this.collisionMap.addTilesetImage('collision_tiles');
+    this.collisionMap.setCollision(1, true, this.collisionLayer);
+    this.collisionLayer.visible = false;
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = this.game.add.sprite(20, 200, 'player');
+    this.player = this.game.add.sprite(60, 200, 'player');
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 0;
     this.player.body.collideWorldBounds = true;
@@ -35,7 +41,7 @@ var introState = {
     }
   },
   update: function(){
-    this.game.physics.arcade.collide(this.player, this.layer);
+    this.game.physics.arcade.collide(this.player, this.collisionLayer);
     this.updatePlayer();
 
     if(this.debug){
