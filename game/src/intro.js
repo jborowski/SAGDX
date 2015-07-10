@@ -5,6 +5,9 @@ var introState = {
   jumping: false,
   jumpStart: 0,
   jumpHeight: 0,
+  jumpSpeed: 20*gridSize,
+  fallSpeed: 20*gridSize,
+  speedReduction: 0,
   debug:false,
   preload: function(){
     this.game.load.tilemap('map', 'data/tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -51,7 +54,7 @@ var introState = {
 
     if(this.debug){
       this.debugText.text = "DEBUG INFO - Player Info: [X:"+this.player.x+"] [Y:"+this.player.y+"]\n"+
-          "[JUMP HEIGHT:"+this.jumpHeight+"] [JUMPING:"+this.jumping+"] [ON FLOOR:"+this.player.body.onFloor()+"]";
+          "[JUMP HEIGHT:"+this.jumpHeight+"] [JUMPING:"+this.jumping+"] [ON FLOOR:"+this.player.body.onFloor()+"] [SPEED REDUCTION:"+this.speedReduction+"]";
     }
   },
   updatePlayer: function(){
@@ -74,17 +77,22 @@ var introState = {
     if(this.jumping){
       this.jumpHeight = this.jumpStart - this.player.body.y;
       if(this.cursors.up.isDown && !this.player.body.blocked.up && this.jumpHeight <= this.maxJumpHeight){
-        this.player.body.velocity.y += gridSize*-(1.1-this.jumpHeight/this.maxJumpHeight);
+        if(this.speedReduction < 0.8){
+          this.speedReduction = 1 - this.jumpHeight/this.maxJumpHeight;
+        } else {
+          this.speedReduction = 0.8
+        }
+        this.player.body.velocity.y = -this.jumpSpeed * this.speedReduction;
       } else {
         this.jumping = false;
         this.jumpingFor = 0;
         this.player.body.velocity.y = 0;
       }
     } else {
-      this.player.body.gravity.y = gridSize*20;
+      this.player.body.gravity.y = gridSize*40;
     }
-    if(this.player.body.velocity.y > gridSize*15){
-      this.player.body.velocity.y = gridSize*15;
+    if(this.player.body.velocity.y > this.fallSpeed){
+      this.player.body.velocity.y = this.fallSpeed;
     }
   }
 }
