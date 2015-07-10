@@ -24,15 +24,18 @@ var introState = {
     this.game.load.image('player', 'assets/player1.png');
   },
   create: function(){
+    this.game.renderer.renderSession.roundPixels = true;
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.map = this.game.add.tilemap('map');
-    this.layer = this.map.createLayer('tiles_layer');
+    this.fgLayer = this.map.createLayer('tiles_layer');
     this.map.addTilesetImage('tiles');
-    this.layer.resizeWorld();
+    this.fgLayer.resizeWorld();
+    this.fgLayer.renderSettings.enableScrollDelta = false;
 
     this.bgMap = this.game.add.tilemap('bg_map');
     this.bgMap.addTilesetImage('bg_tiles');
-    this.bgMap.createLayer('bg_tiles_layer');
+    this.bgLayer = this.bgMap.createLayer('bg_tiles_layer');
+    this.bgLayer.renderSettings.enableScrollDelta = false;
 
     this.collisionMap = this.game.add.tilemap('collision_map');
     this.collisionLayer = this.collisionMap.createLayer('collision_tiles_layer');
@@ -115,6 +118,11 @@ var introState = {
     }
     if(this.player.body.velocity.y > this.fallSpeed){
       this.player.body.velocity.y = this.fallSpeed;
+    }
+
+    // Set our position to a solid pixel value if we're on the floor
+    if(this.player.body.onFloor()){
+      this.player.y = Math.ceil(this.player.y);
     }
   }
 }
