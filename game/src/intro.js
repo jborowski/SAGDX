@@ -1,13 +1,18 @@
 var introState = {
-  jumpSpeed: 15,
-  playerSpeed: 15,
+  // Settings
+  runSpeed: 15,
   maxJumpHeight: 4*gridSize,
+  minJumpHeight: 1*gridSize,
+  jumpSpeed: 20*gridSize,
+  maxJumpReduction: 0.7,
+  fallSpeed: 20*gridSize,
+
+  // State Variables
   jumping: false,
   jumpStart: 0,
   jumpHeight: 0,
-  jumpSpeed: 20*gridSize,
-  fallSpeed: 20*gridSize,
-  speedReduction: 0,
+  jumpReduction: 0,
+  landed: false,
   debug:false,
   preload: function(){
     this.game.load.tilemap('map', 'data/tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -54,7 +59,8 @@ var introState = {
 
     if(this.debug){
       this.debugText.text = "DEBUG INFO - Player Info: [X:"+this.player.x+"] [Y:"+this.player.y+"]\n"+
-          "[JUMP HEIGHT:"+this.jumpHeight+"] [JUMPING:"+this.jumping+"] [ON FLOOR:"+this.player.body.onFloor()+"] [SPEED REDUCTION:"+this.speedReduction+"]";
+          "[MIN JUMP HEIGHT:"+this.minJumpHeight+"] [MAX JUMP HEIGHT:"+this.maxJumpHeight+"]\n"+
+          "[JUMP HEIGHT:"+this.jumpHeight+"] [JUMPING:"+this.jumping+"] [OKAY TO JUMP:"+this.landed+"] [SPEED REDUCTION:"+this.jumpReduction+"]";
     }
   },
   updatePlayer: function(){
@@ -62,31 +68,47 @@ var introState = {
 
     // Horizontal Movement
     if(this.cursors.left.isDown){
-      this.player.body.velocity.x = gridSize*-this.playerSpeed;
+      this.player.body.velocity.x = gridSize*-this.runSpeed;
     }
     else if(this.cursors.right.isDown){
-      this.player.body.velocity.x = gridSize*this.playerSpeed;
+      this.player.body.velocity.x = gridSize*this.runSpeed;
     }
 
     // Jumps
-    if(this.player.body.onFloor() && this.cursors.up.isDown) {
+    /// Check if we can jump
+    if(this.player.body.onFloor() && this.landed){
+      this.landed = true;
+    } else if(this.player.body.onFloor() && this.cursors.up.isUp){
+      this.landed = true;
+    } else {
+      this.landed = false;
+    }
+
+    /// Start a Jump
+    if(this.landed && this.cursors.up.isDown) {
       this.jumping = true;
       this.jumpStart = this.player.body.y;
     }
     
+    /// Handle a Jump
     if(this.jumping){
-      this.jumpHeight = this.jumpStart - this.player.body.y;
-      if(this.cursors.up.isDown && !this.player.body.blocked.up && this.jumpHeight <= this.maxJumpHeight){
-        if(this.speedReduction < 0.8){
-          this.speedReduction = 1 - this.jumpHeight/this.maxJumpHeight;
-        } else {
-          this.speedReduction = 0.8
-        }
-        this.player.body.velocity.y = -this.jumpSpeed * this.speedReduction;
-      } else {
+      this.jumpHeight = Math.floor(this.jumpStart - this.player.body.y)
+      if(this.jumpHeight >= this.maxJumpHeight || this.player.body.blocked.up || this.cursors.up.isUp){
         this.jumping = false;
-        this.jumpingFor = 0;
         this.player.body.velocity.y = 0;
+        if(this.jumpHeight < this.minJumpHeight){
+          this.jumping = true;
+          this.player.body.velocity.y = -this.jumpSpeed
+        }
+      } else {
+        this.jumpReduction = 0;
+        if(this.jumpHeight >= this.minJumpHeight){
+          this.jumpReduction = (this.jumpHeight - this.minJumpHeight) / (this.maxJumpHeight - this.minJumpHeight);
+          if(this.jumpReduction > this.maxJumpReduction){
+            this.jumpReduction = this.maxJumpReduction;
+          }
+        }
+        this.player.body.velocity.y = - (this.jumpSpeed - (this.jumpSpeed * this.jumpReduction));
       }
     } else {
       this.player.body.gravity.y = gridSize*40;
