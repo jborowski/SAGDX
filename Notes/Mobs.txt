@@ -1,7 +1,7 @@
 This governs the behaviour of all Mobs (mobile objects) in the game.
 
 BASIC OBJECTS:
-Box
+Box - 2x3
   Boxes fall when nothing is underneath them at a constant rate.
   Boxes can be pushed.
   Boxes with another Mob on top of them cannot be pushed.
@@ -11,7 +11,7 @@ Box
   Landing on top of a box does not Desync it.
   Can be ridden.
 
-Barrel
+Barrel - 2x3
   Barrels fall when nothing is underneath them at a constant rate.
   Boxes can be pushed, so long as there is not another box on top of them.
   Pushing or lifting a box Desyncs it.
@@ -19,19 +19,20 @@ Barrel
   Landing on top of a box does not Desync it.
   Can be ridden.
 
-Small Blast
+Small Blast - 2x1
   Moves in a given direction at a steady speed once created, unless paused.
   Contacting a small blast causes Ping to the other object and destroys the small blast.
   Pinging a small Blast destroys it.
   
-Big Blast
+Big Blast - Visually - 4x3, with a tail. Mechanically - a 4x1 over a 2x3, with the rear and front of the blast not causing contact except in the middle.
+  Like -[]-
   Moves in a given direction at a steady speed once created, unless paused.
   Pinging a Big Blast Desyncs it, but is otherwise ignored.
   Contact with a Big Blast destroys the blast, and creates a desynced small blast moving in the opposite direction.
   Contact with a Big Blast causes Blast to the thing being contacted.
   Excerts Blast Force in direction of travel.
 
-Platform
+Platform - 1x6 and 1x4 varieties.
   Moves back and forth along a set vertical path.
   When not being ridden, moves to and waits at top of path until a Mob is riding it and is completely on it, or until a circuit activates it.
   Can be ridden.
@@ -40,7 +41,7 @@ Platform
   Pushes with force of 4.
   
 UNITS:
-Truck
+Truck - 4x1 base with a 1x2 section on the very front. Like ...|
   Trucks fall when nothing is underneath them at a constant rate.
   Trucks move forward at a constant rate unless paused or hitting a stop zone.
   Trucks that hit a stop zone wait until they would be desynced before moving (but they do not pause).
@@ -53,13 +54,13 @@ Truck
   Can be ridden.
   If riding an object and that object moves, this unit will desync.
 
-Box Truck
+Box Truck - 4x3
   As Truck, except a Carrier can remove the Cargo and create a Desynced regular truck.
 
-Barrel Truck
+Barrel Truck - 4x3
   As a Box Truck, except that Blasting or Punching from behind causes the Barrel to explode, creating a Regular Truck and Blasting nearby objects.
   
-Carrier
+Carrier - 5x2
   Has a list of directions, which include Waypoints, Waits, Drops, and Pickups.
   Is set to Loop or Destroy.
   When next direction is a waypoint, moves at a steady speed towards next Waypoint.
@@ -75,19 +76,19 @@ Carrier
   Can pick up boxes and barrels as a Box Carrier or Barrel Carrier via the Pickup Direction.
   When Punched or Blasted, moves in the opposite direction of the Punch Force, both x and y.
   
-Box Carrier
+Box Carrier - 5x4, although it would be nice for the bottom most part to have a width of only 3
   As Carrier, except drops will cause it to drop the Cargo.
 
-Barrel Truck
+Barrel Truck - 5x4, although it would be nice for the bottom most part to have a width of only 3
   As Box Carrier, except that Blasting or Punching from anywhere but above causes the Barrel to explode, creating a Regular Truck and Blasting nearby objects.
   
-Swooper
+Swooper - 2x2
   Exerts 1 push force.
 
-Zoomer
+Zoomer - 2x2
   Exerts 1 push force.
 
-Turret
+Turret - 3x3
   Stationary.
   Desynced by ciruits.
   Fires Big Blasts in facing direction.
