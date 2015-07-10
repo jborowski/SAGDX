@@ -22,6 +22,8 @@ var introState = {
     this.game.load.image('bg_tiles', 'assets/bg_tileset.png');
     this.game.load.image('collision_tiles', 'assets/collision_tileset.png');
     this.game.load.image('player', 'assets/player1.png');
+    this.game.load.image('truck_bottom', 'assets/truckbottom.png');
+    this.game.load.image('truck_front', 'assets/truckfront.png');
   },
   create: function(){
     this.game.renderer.renderSession.roundPixels = true;
@@ -46,19 +48,25 @@ var introState = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = this.game.add.sprite(60, 200, 'player');
+    this.player = this.game.add.sprite(5*gridSize, 16*gridSize, 'player');
     this.player.anchor.setTo(0.5, 0.5);
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 0;
     this.player.body.collideWorldBounds = true;
     this.game.camera.follow(this.player);
+
+    this.test_truck = this.spawnTruck(7*gridSize, 17*gridSize, -1);
+
     if(this.debug){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '8px', fill: '#000' });
     }
   },
   update: function(){
     this.game.physics.arcade.collide(this.player, this.collisionLayer);
+    this.game.physics.arcade.collide(this.test_truck, this.collisionLayer);
+    this.game.physics.arcade.collide(this.player, this.test_truck);
     this.updatePlayer();
+    this.updateTruck(this.test_truck);
 
     if(this.debug){
       this.debugText.text = "DEBUG INFO - Player Info: [X:"+this.player.x+"] [Y:"+this.player.y+"]\n"+
@@ -123,6 +131,24 @@ var introState = {
     // Set our position to a solid pixel value if we're on the floor
     if(this.player.body.onFloor()){
       this.player.y = Math.ceil(this.player.y);
+    }
+  },
+  spawnTruck: function(xCoord, yCoord, direction){
+    truck = this.game.add.sprite(xCoord, yCoord, 'truck_bottom');
+    truck_front = this.game.add.sprite(3*gridSize, -2*gridSize, 'truck_front');
+    this.game.physics.arcade.enable(truck);
+    this.game.physics.arcade.enable(truck_front);
+    truck.addChild(truck_front);
+    truck.outOfBoundsKill = true;
+    truck.body.velocity.x = direction*5*gridSize;
+    truck.body.gravity.y = gridSize*40;
+    return truck;
+  },
+  updateTruck: function(truck){
+    if(truck.body.blocked.left){
+      truck.body.velocity.x = 5*gridSize;
+    } else if(truck.body.blocked.right){
+      truck.body.velocity.x = -5*gridSize;
     }
   }
 }
