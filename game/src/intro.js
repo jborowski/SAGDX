@@ -16,9 +16,9 @@ var introState = {
   landed: false,
   debug:false,
   preload: function(){
-    this.game.load.tilemap('map', 'data/tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('bg_map', 'data/bg_tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('collision_map', 'data/collision_tiles_map.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('map', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('bg_map', 'data/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('collision_map', 'data/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.image('tiles', 'assets/level_tileset.png');
     this.game.load.image('bg_tiles', 'assets/bg_tileset.png');
     this.game.load.image('collision_tiles', 'assets/collision_tileset.png');

@@ -5,20 +5,24 @@
 
 from PIL import Image
 import json
+import sys
 
 # global variables
 TILE_SIZE = 16
 
+source = sys.argv[1]
+target = sys.argv[2]
+
 # put the input png file and tileset image in the same folder as this script
 # provide the input/output data in the form of a list of tuples:
 # (input image filename, tileset filename, tileset scripting name)
-input_data = [("Act-1-Tiles.png", "level_tileset.png", "tiles"), 
-              ("Act-1-BackgroundTiles.png", "bg_tileset.png", "bg_tiles"),
-              ("Act-1-CollisionTiles.png", "collision_tileset.png", "collision_tiles")]
+input_data = [("FGLayer.png", "FGTileset.png", "foregroundLayer"), 
+              ("BGLayer.png", "BGTileset.png", "backgroundLayer"),
+              ("CLayer.png", "CTileset.png", "collisionLayer")]
 
 for infile, tiles, name in input_data:
 
-  bitmap = Image.open(infile)
+  bitmap = Image.open(source+infile)
 
   level_size_x = bitmap.size[0]
   level_size_y = bitmap.size[1]
@@ -35,7 +39,7 @@ for infile, tiles, name in input_data:
       else:
         formatted_data.extend([0])
 
-  tileset = Image.open(tiles)
+  tileset = Image.open(source+tiles)
 
   tileset_size_x = tileset.size[0]
   tileset_size_y = tileset.size[1]
@@ -46,7 +50,7 @@ for infile, tiles, name in input_data:
     "layers":[{
       "data": formatted_data,
       "height": level_size_y,
-      "name": name + "_layer",
+      "name": name,
       "opacity": 1,
       "type": "tilelayer",
       "visible": "true",
@@ -74,7 +78,7 @@ for infile, tiles, name in input_data:
     "width": level_size_x
   }
 
-  outfile = open(name + "_map.json", 'w')
+  outfile = open(target+name+".json", 'w')
 
   json_dump = json.dumps(output_data, sort_keys=True, indent=2)
 
