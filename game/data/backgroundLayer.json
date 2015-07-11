@@ -20020,7 +20020,7 @@
   "tilesets": [
     {
       "firstgid": 1, 
-      "image": "backgroundTileset", 
+      "image": "backgroundTileset.png", 
       "imageheight": 16, 
       "imagewidth": 16, 
       "margin": 0, 

@@ -13,6 +13,8 @@ TILE_SIZE = 16
 source = sys.argv[1]
 target = sys.argv[2]
 
+print "Generating level from "+source+" to "+target
+
 # put the input png file and tileset image in the same folder as this script
 # provide the input/output data in the form of a list of tuples:
 # (input image filename, tileset filename, tileset scripting name)
@@ -63,7 +65,7 @@ for infile, tiles, name in input_data:
     "tileheight": TILE_SIZE,
     "tilesets":[{
       "firstgid": 1,
-      "image": tiles,
+      "image": tiles+".png",
       "imageheight": tileset_size_y,
       "imagewidth": tileset_size_x,
       "margin": 0,
@@ -78,7 +80,7 @@ for infile, tiles, name in input_data:
     "width": level_size_x
   }
 
-  outfile = open(target+name+".json", 'w')
+  outfile = open(target+"data/"+name+".json", 'w')
 
   json_dump = json.dumps(output_data, sort_keys=True, indent=2)
 
