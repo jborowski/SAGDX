@@ -53,8 +53,7 @@ var introState = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = this.game.add.sprite(5*gridSize, 16*gridSize, 'player');
-    this.player.anchor.setTo(0.5, 0.5);
+    this.player = this.game.add.sprite(0*gridSize, 16*gridSize, 'player');
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 0;
     this.player.body.collideWorldBounds = true;
@@ -73,30 +72,19 @@ var introState = {
   },
   preRender: function(){
     if(this.player){
-      if(this.player.locked || this.player.wasLocked){
-        this.player.x += this.player.lockedTo.deltaX;
-        this.player.y = this.player.lockedTo.y - this.player.height;
-
-        if (this.player.body.velocity.x !== 0){
-          this.player.body.velocity.y = 0;
-        }
-      }
-
       // Set our position to a solid pixel value if we're on the floor
       if(this.player.body.blocked.down){
         this.player.y = Math.ceil(this.player.y);
       }
-
-      if(this.player.wasLocked){
-          this.wasLocked = false;
-          this.player.lockedTo = null;
+      if(this.player.riding){
+        this.player.y = this.player.riding.top - this.player.height;
       }
     }
   },
   update: function(){
     this.game.physics.arcade.collide(this.player, this.collisionLayer);
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.game.physics.arcade.collide(this.player, this.mobs, this.mobCollision, null, this);
+    this.game.physics.arcade.collide(this.player, this.mobs, null, this.mobContact, this);
     this.updatePlayer();
     this.mobs.forEach(this.updateTruck);
 
@@ -116,12 +104,17 @@ var introState = {
     else if(this.cursors.right.isDown){
       this.player.body.velocity.x = gridSize*this.runSpeed;
     }
+    
+    // Riding?
+    if(this.player.riding){
+      this.checkLock();
+    }
 
     // Jumps
     /// Check if we can jump
     if(this.player.body.blocked.down && this.landed){
       this.landed = true;
-    } else if(this.player.body.onFloor() && this.cursors.up.isUp){
+    } else if(this.player.body.blocked.down && this.cursors.up.isUp){
       this.landed = true;
     } else if(this.player.locked){
       this.landed = true;
@@ -190,22 +183,21 @@ var introState = {
       truck.y = Math.ceil(truck.y);
     }
   },
-  mobCollision: function(player, mob){
-    if(!player.locked && player.body.velocity.y > 0){
-        player.locked = true;
-        player.lockedTo = mob;
-
-        player.body.velocity.y = 0;
+  mobContact: function(player, mob){
+    if(player.right > mob.left && player.left < mob.right && player.bottom < mob.top){
+      player.y = mob.top - player.height;
+      player.riding = mob;
+      return false;
+    } else {
+      return true;
     }
   },
   checkLock: function () {
-    this.player.body.velocity.y = 0;
-    if(this.player.body.right < this.player.lockedTo.body.x || this.player.body.x > this.player.lockedTo.body.right){
+    if(this.player.body.right < this.player.riding.body.left || this.player.body.left > this.player.riding.body.right){
       this.cancelLock();
     }
   },
   cancelLock: function () {
-    this.wasLocked = true;
-    this.locked = false;
+    this.player.riding = null;
   },
 }

@@ -12,7 +12,7 @@
   { "type": "continous",
     "delay": 0,
     "interval": 10,
-    "x": 0,
+    "x": 4,
     "y": 14,
     "unit": {
       "type": "truck",
