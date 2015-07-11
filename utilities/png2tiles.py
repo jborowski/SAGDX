@@ -18,13 +18,13 @@ print "Generating level from "+source+" to "+target
 # put the input png file and tileset image in the same folder as this script
 # provide the input/output data in the form of a list of tuples:
 # (input image filename, tileset filename, tileset scripting name)
-input_data = [("FGLayer.png", "foregroundTileset", "foregroundLayer"), 
-              ("BGLayer.png", "backgroundTileset", "backgroundLayer"),
-              ("CLayer.png", "collisionTileset", "collisionLayer")]
+input_data = [( "foregroundLayer","foregroundTileset"), 
+              ( "backgroundLayer","backgroundTileset"),
+              ("collisionLayer","collisionTileset")]
 
-for infile, tiles, name in input_data:
+for layer, tiles in input_data:
 
-  bitmap = Image.open(source+infile)
+  bitmap = Image.open(source+layer+".png")
 
   level_size_x = bitmap.size[0]
   level_size_y = bitmap.size[1]
@@ -52,7 +52,7 @@ for infile, tiles, name in input_data:
     "layers":[{
       "data": formatted_data,
       "height": level_size_y,
-      "name": name,
+      "name": layer,
       "opacity": 1,
       "type": "tilelayer",
       "visible": "true",
@@ -80,7 +80,7 @@ for infile, tiles, name in input_data:
     "width": level_size_x
   }
 
-  outfile = open(target+"data/"+name+".json", 'w')
+  outfile = open(target+"data/"+layer+".json", 'w')
 
   json_dump = json.dumps(output_data, sort_keys=True, indent=2)
 

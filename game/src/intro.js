@@ -22,6 +22,9 @@ var introState = {
     this.game.load.image('foregroundTileset', 'assets/levels/act1/foregroundTileset.png');
     this.game.load.image('backgroundTileset', 'assets/levels/act1/backgroundTileset.png');
     this.game.load.image('collisionTileset', 'assets/levels/act1/collisionTileset.png');
+
+    this.game.load.text('spawns', 'data/spawns.json');
+
     this.game.load.image('player', 'assets/player1.png');
     this.game.load.image('truck', 'assets/truck.png');
   },
@@ -57,16 +60,43 @@ var introState = {
     this.player.body.collideWorldBounds = true;
     this.game.camera.follow(this.player);
 
-    this.test_truck = this.spawnTruck(7*gridSize, 15*gridSize, -1);
+    var spawnList = JSON.parse(this.game.cache.getText('spawns'));
+    var ii, spawnDef;
+    for(var ii=0; ii < spawnList.length; ii+=1){
+      spawnDef = spawnList[ii];
+      this.spawnMob(spawnDef.unit.type, spawnDef.x*gridSize, spawnDef.y*gridSize, spawnDef.unit.facing);
+    }
 
     if(this.debug){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '8px', fill: '#000' });
     }
   },
+  preRender: function(){
+    if(this.player){
+      if(this.player.locked || this.player.wasLocked){
+        this.player.x += this.player.lockedTo.deltaX;
+        this.player.y = this.player.lockedTo.y - this.player.height;
+
+        if (this.player.body.velocity.x !== 0){
+          this.player.body.velocity.y = 0;
+        }
+      }
+
+      // Set our position to a solid pixel value if we're on the floor
+      if(this.player.body.blocked.down){
+        this.player.y = Math.ceil(this.player.y);
+      }
+
+      if(this.player.wasLocked){
+          this.wasLocked = false;
+          this.player.lockedTo = null;
+      }
+    }
+  },
   update: function(){
     this.game.physics.arcade.collide(this.player, this.collisionLayer);
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.game.physics.arcade.collide(this.player, this.mobs);
+    this.game.physics.arcade.collide(this.player, this.mobs, this.mobCollision, null, this);
     this.updatePlayer();
     this.mobs.forEach(this.updateTruck);
 
@@ -93,6 +123,8 @@ var introState = {
       this.landed = true;
     } else if(this.player.body.onFloor() && this.cursors.up.isUp){
       this.landed = true;
+    } else if(this.player.locked){
+      this.landed = true;
     } else {
       this.landed = false;
     }
@@ -101,6 +133,7 @@ var introState = {
     if(this.landed && this.cursors.up.isDown) {
       this.jumping = true;
       this.jumpStart = this.player.body.y;
+      this.cancelLock();
     }
     
     /// Handle a Jump
@@ -129,19 +162,21 @@ var introState = {
     if(this.player.body.velocity.y > this.fallSpeed){
       this.player.body.velocity.y = this.fallSpeed;
     }
-
-    // Set our position to a solid pixel value if we're on the floor
-    if(this.player.body.blocked.down){
-      this.player.y = Math.ceil(this.player.y);
+    
+    if(this.player.locked){
+      this.checkLock();
     }
   },
-  spawnTruck: function(xCoord, yCoord, direction){
-    truck = this.mobs.create(xCoord, yCoord, 'truck');
-    this.game.physics.arcade.enable(truck);
-    truck.body.immovable = true;
-    truck.outOfBoundsKill = true;
-    truck.facing = 1;
-    return truck;
+  spawnMob: function(type, xCoord, yCoord, direction){
+    var mob;
+    if(type=="truck"){
+      mob = this.mobs.create(xCoord, yCoord, 'truck');
+      this.game.physics.arcade.enable(mob);
+      mob.body.immovable = true;
+      mob.outOfBoundsKill = true;
+      mob.facing = direction;
+      return mob;
+    }
   },
   updateTruck: function(truck){
     truck.body.velocity.x = 5*gridSize*truck.facing;
@@ -154,5 +189,23 @@ var introState = {
     if(truck.body.onFloor()){
       truck.y = Math.ceil(truck.y);
     }
-  }
+  },
+  mobCollision: function(player, mob){
+    if(!player.locked && player.body.velocity.y > 0){
+        player.locked = true;
+        player.lockedTo = mob;
+
+        player.body.velocity.y = 0;
+    }
+  },
+  checkLock: function () {
+    this.player.body.velocity.y = 0;
+    if(this.player.body.right < this.player.lockedTo.body.x || this.player.body.x > this.player.lockedTo.body.right){
+      this.cancelLock();
+    }
+  },
+  cancelLock: function () {
+    this.wasLocked = true;
+    this.locked = false;
+  },
 }

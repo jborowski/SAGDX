@@ -1,8 +1,23 @@
 [
-  { type: "continous",
-    delay: 10,
-    mob: "truck"
-    facing: 1
+  { "type": "continous",
+    "delay": 0,
+    "interval": 10,
+    "x": 44,
+    "y": 21,
+    "unit": {
+      "type": "truck",
+      "facing": 1
+    }
+  },
+  { "type": "continous",
+    "delay": 0,
+    "interval": 10,
+    "x": 0,
+    "y": 14,
+    "unit": {
+      "type": "truck",
+      "facing": 1
+    }
   }
 ]
 
