@@ -16,9 +16,9 @@ target = sys.argv[2]
 # put the input png file and tileset image in the same folder as this script
 # provide the input/output data in the form of a list of tuples:
 # (input image filename, tileset filename, tileset scripting name)
-input_data = [("FGLayer.png", "FGTileset.png", "foregroundLayer"), 
-              ("BGLayer.png", "BGTileset.png", "backgroundLayer"),
-              ("CLayer.png", "CTileset.png", "collisionLayer")]
+input_data = [("FGLayer.png", "foregroundTileset", "foregroundLayer"), 
+              ("BGLayer.png", "backgroundTileset", "backgroundLayer"),
+              ("CLayer.png", "collisionTileset", "collisionLayer")]
 
 for infile, tiles, name in input_data:
 
@@ -39,7 +39,7 @@ for infile, tiles, name in input_data:
       else:
         formatted_data.extend([0])
 
-  tileset = Image.open(source+tiles)
+  tileset = Image.open(source+tiles+".png")
 
   tileset_size_x = tileset.size[0]
   tileset_size_y = tileset.size[1]
@@ -67,7 +67,7 @@ for infile, tiles, name in input_data:
       "imageheight": tileset_size_y,
       "imagewidth": tileset_size_x,
       "margin": 0,
-      "name": name,
+      "name": tiles,
       "properties": {},
       "spacing": 0,
       "tileheight": TILE_SIZE,

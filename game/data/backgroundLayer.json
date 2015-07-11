@@ -20020,11 +20020,11 @@
   "tilesets": [
     {
       "firstgid": 1, 
-      "image": "BGTileset.png", 
+      "image": "backgroundTileset", 
       "imageheight": 16, 
       "imagewidth": 16, 
       "margin": 0, 
-      "name": "backgroundLayer", 
+      "name": "backgroundTileset", 
       "properties": {}, 
       "spacing": 0, 
       "tileheight": 16, 

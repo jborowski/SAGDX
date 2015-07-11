@@ -20020,11 +20020,11 @@
   "tilesets": [
     {
       "firstgid": 1, 
-      "image": "FGTileset.png", 
+      "image": "foregroundTileset", 
       "imageheight": 16, 
       "imagewidth": 16, 
       "margin": 0, 
-      "name": "foregroundLayer", 
+      "name": "foregroundTileset", 
       "properties": {}, 
       "spacing": 0, 
       "tileheight": 16, 

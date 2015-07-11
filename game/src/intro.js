@@ -16,12 +16,12 @@ var introState = {
   landed: false,
   debug:false,
   preload: function(){
-    this.game.load.tilemap('map', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('bg_map', 'data/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('collision_map', 'data/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.image('tiles', 'assets/level_tileset.png');
-    this.game.load.image('bg_tiles', 'assets/bg_tileset.png');
-    this.game.load.image('collision_tiles', 'assets/collision_tileset.png');
+    this.game.load.tilemap('foregroundLayerMap', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('backgroundLayerMap', 'data/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('collisionLayerMap', 'data/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.image('foregroundTileset', 'assets/levels/act1/foregroundTileset.png');
+    this.game.load.image('backgroundTileset', 'assets/levels/act1/backgroundTileset.png');
+    this.game.load.image('collisionTileset', 'assets/levels/act1/collisionTileset.png');
     this.game.load.image('player', 'assets/player1.png');
     this.game.load.image('truck', 'assets/truck.png');
   },
@@ -30,20 +30,20 @@ var introState = {
     this.mobPieces = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.map = this.game.add.tilemap('map');
-    this.fgLayer = this.map.createLayer('tiles_layer');
-    this.map.addTilesetImage('tiles');
-    this.fgLayer.resizeWorld();
-    this.fgLayer.renderSettings.enableScrollDelta = false;
+    this.map = this.game.add.tilemap('foregroundLayerMap');
+    this.map.addTilesetImage('foregroundTileset');
+    this.foregroundLayer = this.map.createLayer('foregroundLayer');
+    this.foregroundLayer.resizeWorld();
+    this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('bg_map');
-    this.bgMap.addTilesetImage('bg_tiles');
-    this.bgLayer = this.bgMap.createLayer('bg_tiles_layer');
-    this.bgLayer.renderSettings.enableScrollDelta = false;
+    this.bgMap = this.game.add.tilemap('backgroundLayerMap');
+    this.bgMap.addTilesetImage('backgroundTileset');
+    this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
+    this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('collision_map');
-    this.collisionLayer = this.collisionMap.createLayer('collision_tiles_layer');
-    this.collisionMap.addTilesetImage('collision_tiles');
+    this.collisionMap = this.game.add.tilemap('collisionLayerMap');
+    this.collisionMap.addTilesetImage('collisionTileset');
+    this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 

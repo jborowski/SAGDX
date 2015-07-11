@@ -20020,11 +20020,11 @@
   "tilesets": [
     {
       "firstgid": 1, 
-      "image": "CTileset.png", 
+      "image": "collisionTileset", 
       "imageheight": 16, 
       "imagewidth": 16, 
       "margin": 0, 
-      "name": "collisionLayer", 
+      "name": "collisionTileset", 
       "properties": {}, 
       "spacing": 0, 
       "tileheight": 16, 
