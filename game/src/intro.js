@@ -6,6 +6,7 @@ var introState = {
   jumpSpeed: 20*gridSize,
   maxJumpReduction: 0.7,
   fallSpeed: 20*gridSize,
+  gravity: 40*gridSize,
 
   // State Variables
   jumping: false,
@@ -22,10 +23,11 @@ var introState = {
     this.game.load.image('bg_tiles', 'assets/bg_tileset.png');
     this.game.load.image('collision_tiles', 'assets/collision_tileset.png');
     this.game.load.image('player', 'assets/player1.png');
-    this.game.load.image('truck_bottom', 'assets/truckbottom.png');
-    this.game.load.image('truck_front', 'assets/truckfront.png');
+    this.game.load.image('truck', 'assets/truck.png');
   },
   create: function(){
+    this.mobs = this.game.add.group();
+    this.mobPieces = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.map = this.game.add.tilemap('map');
@@ -55,7 +57,7 @@ var introState = {
     this.player.body.collideWorldBounds = true;
     this.game.camera.follow(this.player);
 
-    this.test_truck = this.spawnTruck(7*gridSize, 17*gridSize, -1);
+    this.test_truck = this.spawnTruck(7*gridSize, 15*gridSize, -1);
 
     if(this.debug){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '8px', fill: '#000' });
@@ -63,10 +65,10 @@ var introState = {
   },
   update: function(){
     this.game.physics.arcade.collide(this.player, this.collisionLayer);
-    this.game.physics.arcade.collide(this.test_truck, this.collisionLayer);
-    this.game.physics.arcade.collide(this.player, this.test_truck);
+    this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
+    this.game.physics.arcade.collide(this.player, this.mobs);
     this.updatePlayer();
-    this.updateTruck(this.test_truck);
+    this.mobs.forEach(this.updateTruck);
 
     if(this.debug){
       this.debugText.text = "DEBUG INFO - Player Info: [X:"+this.player.x+"] [Y:"+this.player.y+"]\n"+
@@ -87,7 +89,7 @@ var introState = {
 
     // Jumps
     /// Check if we can jump
-    if(this.player.body.onFloor() && this.landed){
+    if(this.player.body.blocked.down && this.landed){
       this.landed = true;
     } else if(this.player.body.onFloor() && this.cursors.up.isUp){
       this.landed = true;
@@ -122,33 +124,35 @@ var introState = {
         this.player.body.velocity.y = - (this.jumpSpeed - (this.jumpSpeed * this.jumpReduction));
       }
     } else {
-      this.player.body.gravity.y = gridSize*40;
+      this.player.body.gravity.y = this.gravity;
     }
     if(this.player.body.velocity.y > this.fallSpeed){
       this.player.body.velocity.y = this.fallSpeed;
     }
 
     // Set our position to a solid pixel value if we're on the floor
-    if(this.player.body.onFloor()){
+    if(this.player.body.blocked.down){
       this.player.y = Math.ceil(this.player.y);
     }
   },
   spawnTruck: function(xCoord, yCoord, direction){
-    truck = this.game.add.sprite(xCoord, yCoord, 'truck_bottom');
-    truck_front = this.game.add.sprite(3*gridSize, -2*gridSize, 'truck_front');
+    truck = this.mobs.create(xCoord, yCoord, 'truck');
     this.game.physics.arcade.enable(truck);
-    this.game.physics.arcade.enable(truck_front);
-    truck.addChild(truck_front);
+    truck.body.immovable = true;
     truck.outOfBoundsKill = true;
-    truck.body.velocity.x = direction*5*gridSize;
-    truck.body.gravity.y = gridSize*40;
+    truck.facing = 1;
     return truck;
   },
   updateTruck: function(truck){
-    if(truck.body.blocked.left){
-      truck.body.velocity.x = 5*gridSize;
-    } else if(truck.body.blocked.right){
-      truck.body.velocity.x = -5*gridSize;
+    truck.body.velocity.x = 5*gridSize*truck.facing;
+
+    truck.body.gravity.y = this.gravity;
+    if(truck.body.velocity.y > this.fallSpeed){
+      truck.body.velocity.y = this.fallSpeed;
+    }
+
+    if(truck.body.onFloor()){
+      truck.y = Math.ceil(truck.y);
     }
   }
 }
