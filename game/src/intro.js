@@ -158,5 +158,5 @@ var introState = {
   },
   cancelLock: function () {
     this.player.riding = null;
-  },
+  }
 }
