@@ -1,19 +1,8 @@
 var introState = {
   // Settings
-  runSpeed: 15,
-  maxJumpHeight: 4*gridSize,
-  minJumpHeight: 1*gridSize,
-  jumpSpeed: 20*gridSize,
-  maxJumpReduction: 0.7,
-  fallSpeed: 20*gridSize,
   gravity: 40*gridSize,
 
   // State Variables
-  jumping: false,
-  jumpStart: 0,
-  jumpHeight: 0,
-  jumpReduction: 0,
-  landed: false,
   debug:false,
   preload: function(){
     this.game.load.tilemap('foregroundLayerMap', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
@@ -32,7 +21,6 @@ var introState = {
     this.mobs = this.game.add.group();
     this.mobPieces = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
-    this.cursors = this.game.input.keyboard.createCursorKeys();
     this.map = this.game.add.tilemap('foregroundLayerMap');
     this.map.addTilesetImage('foregroundTileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
@@ -52,11 +40,8 @@ var introState = {
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
-
-    this.player = this.game.add.sprite(0*gridSize, 16*gridSize, 'player');
-    this.game.physics.arcade.enable(this.player);
-    this.player.body.gravity.y = 0;
-    this.player.body.collideWorldBounds = true;
+  
+    this.player = new Player(this, this.game, 0, 15*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     var spawnList = JSON.parse(this.game.cache.getText('spawns'));
@@ -67,44 +52,19 @@ var introState = {
     }
 
     if(this.debug){
-      this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '8px', fill: '#000' });
-    }
-  },
-  preRender: function(){
-    if(this.player){
-      // Set our position to a solid pixel value if we're on the floor
-      if(this.player.body.blocked.down){
-        this.player.y = Math.ceil(this.player.y);
-      }
-      if(this.player.riding){
-        this.player.y = this.player.riding.top - this.player.height;
-      }
+      this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#000' });
     }
   },
   update: function(){
-    this.game.physics.arcade.collide(this.player, this.collisionLayer);
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
     this.game.physics.arcade.collide(this.player, this.mobs, null, this.mobContact, this);
-    this.updatePlayer();
     this.mobs.forEach(this.updateTruck);
 
     if(this.debug){
-      this.debugText.text = "DEBUG INFO - Player Info: [X:"+this.player.x+"] [Y:"+this.player.y+"]\n"+
-          "[MIN JUMP HEIGHT:"+this.minJumpHeight+"] [MAX JUMP HEIGHT:"+this.maxJumpHeight+"]\n"+
-          "[JUMP HEIGHT:"+this.jumpHeight+"] [JUMPING:"+this.jumping+"] [OKAY TO JUMP:"+this.landed+"] [SPEED REDUCTION:"+this.jumpReduction+"]";
+      this.debugText.text = this.player.debugString();
     }
   },
   updatePlayer: function(){
-    this.player.body.velocity.x = 0;
-
-    // Horizontal Movement
-    if(this.cursors.left.isDown){
-      this.player.body.velocity.x = gridSize*-this.runSpeed;
-    }
-    else if(this.cursors.right.isDown){
-      this.player.body.velocity.x = gridSize*this.runSpeed;
-    }
-    
     // Riding?
     if(this.player.riding){
       this.checkLock();
