@@ -57,7 +57,6 @@ var introState = {
   },
   update: function(){
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.game.physics.arcade.collide(this.player, this.mobs, null, this.mobContact, this);
     this.mobs.forEach(this.updateTruck);
 
     if(this.debug){

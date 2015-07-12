@@ -52,6 +52,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.update = function(){
     this.game.physics.arcade.collide(this, this.conflux.collisionLayer, this.tileContact, null, this);
+    this.game.physics.arcade.collide(this, this.conflux.mobs, this.mobContact, this.checkmobs, this);
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
@@ -82,16 +83,16 @@ var Player = function(conflux, game, x, y, key, group) {
   
   this.tileContact = function(player, tile){
     player.was.below = player.body.prev.y >= tile.bottom;
-    player.was.above = player.body.prev.y+player.body.height <= tile.top;
-    player.was.left = player.body.prev.x+player.body.width <= tile.left;
+    player.was.above = (player.body.prev.y+player.body.height) <= tile.top;
+    player.was.left = (player.body.prev.x+player.body.width) <= tile.left;
     player.was.right = player.body.prev.x >= tile.right;
     var newX=player.body.position.x;
+    var newY=player.body.position.y;
     if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
       if (player.body.overlapX < 0){
         player.body.blocked.left = true;
         player.against.left = tile;
-
-        var newX = tile.right+1;
+        newX = tile.right + 1;
         player.body.position.x = newX;
       } else if (player.body.overlapX > 0){
         player.body.blocked.right = true;
@@ -99,24 +100,56 @@ var Player = function(conflux, game, x, y, key, group) {
         newX = tile.left - player.body.width - 1;
         player.body.position.x = newX;
       }
-    }
-    if(Math.abs(newX-player.body.prev.x) > 6){
-      console.log(player.was);
-      alert("uh oh!");
-    }
-    
-    var newY=player.body.position.y;
-    if(!(player.was.left || player.was.right) ||
-        (player.was.left && player.was.right && player.was.below && player.was.above)){
-      if (player.body.overlapY < 0 && tile.faceBottom){
+    } else if(!(player.was.left || player.was.right)){
+      if (player.body.overlapY < 0){
         player.body.blocked.top = true;
         player.against.top = tile;
-        newY = tile.bottom+1;
+        newY = tile.bottom + 1;
         player.body.position.y = newY;
-      } else if (player.body.overlapY > 0 && tile.faceTop){
+      } else if (player.body.overlapY > 0){
         player.body.blocked.bottom = true;
         player.against.bottom = tile;
-        newY = tile.top-player.body.height-1;
+        newY = tile.top - player.body.height - 1;
+        player.body.position.y = newY;
+      }
+    }
+    if((Math.abs(newX - player.body.prev.x) > 4) || (Math.abs(newY - player.body.prev.y) > 4)){
+      console.log("Uhh...");
+      console.log(player.was);
+      alert("uh oh");
+    }
+    player.resetWasDirections();
+  }
+
+  this.mobContact = function(player, mob){
+    player.was.below = player.body.prev.y >= (mob.body.y + mob.body.height);
+    player.was.above = (player.body.prev.y+player.body.height) <= mob.body.y;
+    player.was.left = (player.body.prev.x+player.body.width) <= mob.body.x;
+    player.was.right = player.body.prev.x >= (mob.body.x + mob.body.width);
+    var newX=player.body.position.x;
+    var newY=player.body.position.y;
+    if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
+      if (player.body.overlapX < 0){
+        player.body.blocked.left = true;
+        player.against.left = mob;
+        newX = mob.body.x + mob.body.width + 1;
+        player.body.position.x = newX;
+      } else if (player.body.overlapX > 0){
+        player.body.blocked.right = true;
+        player.against.right = mob;
+        newX = mob.body.x - player.body.width - 1;
+        player.body.position.x = newX;
+      }
+    } else if(!(player.was.left || player.was.right)){
+      if (player.body.overlapY < 0){
+        player.body.blocked.top = true;
+        player.against.top = mob;
+        newY = mob.body.y + mob.body.height + 1;
+        player.body.position.y = newY;
+      } else if (player.body.overlapY > 0){
+        player.body.blocked.bottom = true;
+        player.against.bottom = mob;
+        newY = mob.body.y - player.body.height - 1;
         player.body.position.y = newY;
       }
     }
