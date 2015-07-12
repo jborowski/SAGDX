@@ -27,7 +27,8 @@ var Player = function(conflux, game, x, y, key, group) {
     jumpHeight: 0,
     jumpReduction: 0,
     landed: false,
-    facing: 1
+    facing: 1,
+    flying: false
   };
 
   this.against = {
@@ -56,10 +57,11 @@ var Player = function(conflux, game, x, y, key, group) {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
-    this.move();
+    this.moveX();
+    this.moveY();
   };
 
-  this.move = function(){
+  this.moveX = function(){
     // If moving left or right, change facing and move forward
     if(this.cursors.left.isDown){
       this.customState.facing = -1;
@@ -70,18 +72,44 @@ var Player = function(conflux, game, x, y, key, group) {
     if(this.cursors.left.isDown || this.cursors.right.isDown){
       this.body.velocity.x = this.customConstants.runSpeed * this.customState.facing;
     }
+  };
 
-    if(this.cursors.up.isDown){
-      this.body.velocity.y = -this.customConstants.runSpeed;
-    } else if(this.cursors.down.isDown){
-      this.body.velocity.y = this.customConstants.runSpeed;
+  this.moveY = function(){
+    if(this.customState.flying){   
+      if(this.cursors.up.isDown){
+        this.body.velocity.y = -this.customConstants.runSpeed;
+      } else if(this.cursors.down.isDown){
+        this.body.velocity.y = this.customConstants.runSpeed;
+      }
+    } else {
+      if(this.customState.jumping){
+        this.processJump();
+      } else {
+        if(this.cursors.up.isDown){
+          this.startJump();
+        } else {
+          this.body.velocity.y = this.customConstants.fallSpeed;
+        }
+      }
     }
+  }
 
-    this.body.velocity.y = this.customConstants.fallSpeed;
-  };
+  this.processJump = function(){
+    this.customState.jumpHeight = this.customState.jumpStart - this.body.y;
+    if(this.customState.jumpHeight < this.customConstants.maxJumpHeight){
+      this.body.velocity.y = -this.customConstants.jumpSpeed;
+    } else {
+      this.customState.jumping = false;
+    }
+  }
 
-  this.fall = function(){
-  };
+  this.startJump = function(){
+    this.customState.jumping = true;
+    this.customState.jumpStart = this.body.y;
+    this.customState.jumpHeight = 0;
+    this.customState.jumpReduction = 0;
+    this.body.velocity.y = -this.customConstants.jumpSpeed;
+  }
   
   this.tileContact = function(player, tile){
     player.was.below = player.body.prev.y >= tile.bottom;
