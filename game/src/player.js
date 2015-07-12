@@ -76,6 +76,8 @@ var Player = function(conflux, game, x, y, key, group) {
     } else if(this.cursors.down.isDown){
       this.body.velocity.y = this.customConstants.runSpeed;
     }
+
+    this.body.velocity.y = this.customConstants.fallSpeed;
   };
 
   this.fall = function(){
@@ -113,19 +115,14 @@ var Player = function(conflux, game, x, y, key, group) {
         player.body.position.y = newY;
       }
     }
-    if((Math.abs(newX - player.body.prev.x) > 4) || (Math.abs(newY - player.body.prev.y) > 4)){
-      console.log("Uhh...");
-      console.log(player.was);
-      alert("uh oh");
-    }
     player.resetWasDirections();
   }
 
   this.mobContact = function(player, mob){
-    player.was.below = player.body.prev.y >= (mob.body.y + mob.body.height);
-    player.was.above = (player.body.prev.y+player.body.height) <= mob.body.y;
-    player.was.left = (player.body.prev.x+player.body.width) <= mob.body.x;
-    player.was.right = player.body.prev.x >= (mob.body.x + mob.body.width);
+    player.was.below = player.body.prev.y >= (mob.body.prev.y + mob.body.height);
+    player.was.above = (player.body.prev.y+player.body.height) <= mob.body.prev.y;
+    player.was.left = (player.body.prev.x+player.body.width) <= mob.body.prev.x;
+    player.was.right = player.body.prev.x >= (mob.body.prev.x + mob.body.width);
     var newX=player.body.position.x;
     var newY=player.body.position.y;
     if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
