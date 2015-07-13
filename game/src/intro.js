@@ -63,62 +63,6 @@ var introState = {
       this.debugText.text = this.player.debugString();
     }
   },
-  updatePlayer: function(){
-    // Riding?
-    if(this.player.riding){
-      this.checkLock();
-    }
-
-    // Jumps
-    /// Check if we can jump
-    if(this.player.body.blocked.down && this.landed){
-      this.landed = true;
-    } else if(this.player.body.blocked.down && this.cursors.up.isUp){
-      this.landed = true;
-    } else if(this.player.locked){
-      this.landed = true;
-    } else {
-      this.landed = false;
-    }
-
-    /// Start a Jump
-    if(this.landed && this.cursors.up.isDown) {
-      this.jumping = true;
-      this.jumpStart = this.player.body.y;
-      this.cancelLock();
-    }
-    
-    /// Handle a Jump
-    if(this.jumping){
-      this.jumpHeight = Math.floor(this.jumpStart - this.player.body.y)
-      if(this.jumpHeight >= this.maxJumpHeight || this.player.body.blocked.up || this.cursors.up.isUp){
-        this.jumping = false;
-        this.player.body.velocity.y = 0;
-        if(this.jumpHeight < this.minJumpHeight){
-          this.jumping = true;
-          this.player.body.velocity.y = -this.jumpSpeed
-        }
-      } else {
-        this.jumpReduction = 0;
-        if(this.jumpHeight >= this.minJumpHeight){
-          this.jumpReduction = (this.jumpHeight - this.minJumpHeight) / (this.maxJumpHeight - this.minJumpHeight);
-          if(this.jumpReduction > this.maxJumpReduction){
-            this.jumpReduction = this.maxJumpReduction;
-          }
-        }
-        this.player.body.velocity.y = - (this.jumpSpeed - (this.jumpSpeed * this.jumpReduction));
-      }
-    } else {
-      this.player.body.gravity.y = this.gravity;
-    }
-    if(this.player.body.velocity.y > this.fallSpeed){
-      this.player.body.velocity.y = this.fallSpeed;
-    }
-    
-    if(this.player.locked){
-      this.checkLock();
-    }
-  },
   spawnMob: function(type, xCoord, yCoord, direction){
     var mob;
     if(type=="truck"){

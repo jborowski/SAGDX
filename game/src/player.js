@@ -12,7 +12,7 @@ var Player = function(conflux, game, x, y, key, group) {
   
   this.conflux = conflux;
 
-  this.customConstants = {
+  this.cConstants = {
     runSpeed: 15*gridSize,
     maxJumpHeight: 4*gridSize,
     minJumpHeight: 1*gridSize,
@@ -21,12 +21,12 @@ var Player = function(conflux, game, x, y, key, group) {
     fallSpeed: 20*gridSize
   };
 
-  this.customState = {
+  this.cState = {
     jumping: false,
     jumpStart: 0,
     jumpHeight: 0,
     jumpReduction: 0,
-    landed: false,
+    jumpReady: false,
     facing: 1,
     flying: false
   };
@@ -36,6 +36,13 @@ var Player = function(conflux, game, x, y, key, group) {
     top: null,
     bottom: null,
     right: null,
+  };
+
+  this.resetAgainst = function(){
+    this.against.left = null;
+    this.against.top = null;
+    this.against.right = null;
+    this.against.bottom = null;
   };
 
   this.resetWasDirections = function(){
@@ -59,56 +66,83 @@ var Player = function(conflux, game, x, y, key, group) {
 
     this.moveX();
     this.moveY();
+    this.resetAgainst();
   };
 
   this.moveX = function(){
     // If moving left or right, change facing and move forward
     if(this.cursors.left.isDown){
-      this.customState.facing = -1;
+      this.cState.facing = -1;
     } else if(this.cursors.right.isDown){
-      this.customState.facing = 1;
+      this.cState.facing = 1;
     }
 
     if(this.cursors.left.isDown || this.cursors.right.isDown){
-      this.body.velocity.x = this.customConstants.runSpeed * this.customState.facing;
+      this.body.velocity.x = this.cConstants.runSpeed * this.cState.facing;
     }
   };
 
   this.moveY = function(){
-    if(this.customState.flying){   
+    // This is a debug only fly around option, not for normal gameplay
+    if(this.cState.flying){   
       if(this.cursors.up.isDown){
-        this.body.velocity.y = -this.customConstants.runSpeed;
+        this.body.velocity.y = -this.cConstants.runSpeed;
       } else if(this.cursors.down.isDown){
-        this.body.velocity.y = this.customConstants.runSpeed;
+        this.body.velocity.y = this.cConstants.runSpeed;
       }
     } else {
-      if(this.customState.jumping){
+    // Normal flow here
+      if(this.cState.jumping){
         this.processJump();
       } else {
-        if(this.cursors.up.isDown){
+        if(this.cursors.up.isDown && this.cState.jumpReady){
           this.startJump();
         } else {
-          this.body.velocity.y = this.customConstants.fallSpeed;
+          this.body.velocity.y = this.cConstants.fallSpeed;
         }
+      }
+      
+      // If we're on the ground with the up arrow unpressed, flag us as able to jump next update.
+      // If we're not on the ground or our up arrow is pressed, we know we can't be in a state where we should allow jumping
+      if(!this.against.bottom || this.cursors.up.isDown){
+        this.cState.jumpReady = false
+      } else if(this.against.bottom && this.cursors.up.isUp){
+        this.cState.jumpReady = true; 
       }
     }
   }
 
   this.processJump = function(){
-    this.customState.jumpHeight = this.customState.jumpStart - this.body.y;
-    if(this.customState.jumpHeight < this.customConstants.maxJumpHeight){
-      this.body.velocity.y = -this.customConstants.jumpSpeed;
+    this.cState.jumpHeight = this.cState.jumpStart - this.body.y;
+    var reachedMax = this.cState.jumpHeight >= this.cConstants.maxJumpHeight
+    var reachedMin = this.cState.jumpHeight >= this.cConstants.minJumpHeight
+    var stopByChoice = this.cursors.up.isUp && reachedMin
+
+    // If we should stop jumping
+    if(reachedMax || this.against.top || stopByChoice){
+      this.cState.jumping = false;
+      this.body.velocity.y = 0;
+    // Otherwise, continue ascent
     } else {
-      this.customState.jumping = false;
+      if(reachedMin){
+        // Reduce jump speed as we climb, but only after a minimum height has been reached
+        this.cState.jumpReduction = (this.cState.jumpHeight - this.cConstants.minJumpHeight) / (this.cConstants.maxJumpHeight - this.cConstants.minJumpHeight);
+        this.cState.jumpReduction = Math.min(this.cState.jumpReduction, this.cConstants.maxJumpReduction);
+      } else {
+        this.cState.jumpReduction = 0;
+      }
+      this.body.velocity.y = -this.cConstants.jumpSpeed;
+
+      this.body.velocity.y = -1 * (this.cConstants.jumpSpeed - (this.cConstants.jumpSpeed * this.cState.jumpReduction));
     }
   }
 
   this.startJump = function(){
-    this.customState.jumping = true;
-    this.customState.jumpStart = this.body.y;
-    this.customState.jumpHeight = 0;
-    this.customState.jumpReduction = 0;
-    this.body.velocity.y = -this.customConstants.jumpSpeed;
+    this.cState.jumping = true;
+    this.cState.jumpStart = this.body.y;
+    this.cState.jumpHeight = 0;
+    this.cState.jumpReduction = 0;
+    this.body.velocity.y = -this.cConstants.jumpSpeed;
   }
   
   this.tileContact = function(player, tile){
