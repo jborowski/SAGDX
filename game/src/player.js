@@ -7,6 +7,8 @@ var Player = function(conflux, game, x, y, key, group) {
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
   this.body.collideWorldBounds = true;
+  this.animations.add('right', [0]);
+  this.animations.add('left', [1]);
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
   
@@ -73,8 +75,10 @@ var Player = function(conflux, game, x, y, key, group) {
     // If moving left or right, change facing and move forward
     if(this.cursors.left.isDown){
       this.cState.facing = -1;
+      this.animations.play('left');
     } else if(this.cursors.right.isDown){
       this.cState.facing = 1;
+      this.animations.play('right');
     }
 
     if(this.cursors.left.isDown || this.cursors.right.isDown){

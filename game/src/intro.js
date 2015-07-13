@@ -14,7 +14,7 @@ var introState = {
 
     this.game.load.text('spawns', 'data/spawns.json');
 
-    this.game.load.image('player', 'assets/player1.png');
+    this.game.load.spritesheet('player', 'assets/player/prototype.png', 16, 64);
     this.game.load.image('truck', 'assets/truck.png');
     this.game.load.image('carrier', 'assets/carrier.png');
   },
@@ -80,7 +80,7 @@ var introState = {
     this.game.physics.arcade.enable(mob);
     mob.body.immovable = true;
     mob.outOfBoundsKill = true;
-    mob.facing = direction;
+    mob.facing = unit.facing;
     mob.groupRef = this;
     return mob;
   },
@@ -93,8 +93,6 @@ var introState = {
   },
   updateCarrier: function(carrier){
     if(!carrier.waypointDirectionX){
-      if(carrier.nextWaypoint[0]
-      carrier.waypointDirectionX = carrier.nextWaypoint
     }
   },
   updateTruck: function(truck){
