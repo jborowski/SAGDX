@@ -16,6 +16,7 @@ var introState = {
 
     this.game.load.image('player', 'assets/player1.png');
     this.game.load.image('truck', 'assets/truck.png');
+    this.game.load.image('carrier', 'assets/carrier.png');
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -48,7 +49,7 @@ var introState = {
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
-      this.spawnMob(spawnDef.unit.type, spawnDef.x*gridSize, spawnDef.y*gridSize, spawnDef.unit.facing);
+      this.spawnMob(spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
     }
 
     if(this.debug){
@@ -57,21 +58,43 @@ var introState = {
   },
   update: function(){
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.mobs.forEach(this.updateTruck);
+    this.mobs.forEach(this.updateMob);
 
     if(this.debug){
       this.debugText.text = this.player.debugString();
     }
   },
-  spawnMob: function(type, xCoord, yCoord, direction){
+  spawnMob: function(unit, xCoord, yCoord){
     var mob;
-    if(type=="truck"){
+    if(unit.type=="truck"){
       mob = this.mobs.create(xCoord, yCoord, 'truck');
-      this.game.physics.arcade.enable(mob);
-      mob.body.immovable = true;
-      mob.outOfBoundsKill = true;
-      mob.facing = direction;
-      return mob;
+      mob.mobType = "truck";
+    } else if(unit.type=="carrier"){
+      mob = this.mobs.create(xCoord, yCoord, 'carrier');
+      mob.mobType = "carrier";
+      mob.waypoints = unit.waypoints;
+      mob.nextWaypointIndex = 0;
+      mob.nextWaypoint = function(){
+      };
+    }
+    this.game.physics.arcade.enable(mob);
+    mob.body.immovable = true;
+    mob.outOfBoundsKill = true;
+    mob.facing = direction;
+    mob.groupRef = this;
+    return mob;
+  },
+  updateMob: function(mob){
+    if(mob.mobType == "truck"){
+      mob.groupRef.updateTruck(mob);
+    } else if(mob.mobType == "carrier"){
+      mob.groupRef.updateCarrier(mob);
+    }
+  },
+  updateCarrier: function(carrier){
+    if(!carrier.waypointDirectionX){
+      if(carrier.nextWaypoint[0]
+      carrier.waypointDirectionX = carrier.nextWaypoint
     }
   },
   updateTruck: function(truck){
