@@ -57,7 +57,7 @@ var Player = function(conflux, game, x, y, key, group) {
   this.resetWasDirections();
   
   this.debugString = function(){
-    return "Position: [x="+this.body.x+"/px="+this.body.prev.x+"] [y="+this.body.y+"/px="+this.body.prev.y+"]"
+    return "Position: [x="+Math.floor(this.body.x)+"/px="+Math.floor(this.body.prev.x)+"] [y="+Math.floor(this.body.y)+"/px="+Math.floor(this.body.prev.y)+"]"
   };
 
   this.update = function(){
