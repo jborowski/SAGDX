@@ -3,12 +3,18 @@ var Player = function(conflux, game, x, y, key, group) {
   Phaser.Sprite.call(this, game, x, y, key);
   game.physics.arcade.enable(this);
   group.add(this);
+  this.body.setSize(16,64,22,0);
   this.body.customSeparateX = true;
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
   this.body.collideWorldBounds = true;
-  this.animations.add('right', [0]);
-  this.animations.add('left', [1]);
+  this.animations.add('standRight', [0]);
+  this.animations.add('standLeft', [16]);
+  this.animations.add('walkRight', [0]);
+  this.animations.add('walkLeft', [16]);
+  this.animations.add('fallRight', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+  this.animations.add('fallLeft', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
   
@@ -68,17 +74,33 @@ var Player = function(conflux, game, x, y, key, group) {
 
     this.moveX();
     this.moveY();
+    this.setAnimation();
     this.resetAgainst();
   };
 
+  this.setAnimation = function(){
+    if(this.against.bottom){
+      if(this.cState.facing > 0){
+        this.animations.play('standRight');
+      } else {
+        this.animations.play('standLeft');
+      }
+    } else {
+      if(this.cState.facing > 0){
+        this.animations.play('fallRight');
+      } else {
+        this.animations.play('fallLeft');
+      }
+    }
+  };
+
   this.moveX = function(){
+    animationToRun = 0;
     // If moving left or right, change facing and move forward
     if(this.cursors.left.isDown){
       this.cState.facing = -1;
-      this.animations.play('left');
     } else if(this.cursors.right.isDown){
       this.cState.facing = 1;
-      this.animations.play('right');
     }
 
     if(this.cursors.left.isDown || this.cursors.right.isDown){
@@ -113,6 +135,7 @@ var Player = function(conflux, game, x, y, key, group) {
       } else if(this.against.bottom && this.cursors.up.isUp){
         this.cState.jumpReady = true; 
       }
+
     }
   }
 
