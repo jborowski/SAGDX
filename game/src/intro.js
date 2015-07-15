@@ -53,6 +53,9 @@ var introState = {
       this.spawnMob(this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
     }
 
+    this.game.world.bringToTop(this.mobs);
+    this.game.world.bringToTop(this.player);
+
     if(this.debug){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
       this.debugText.fixedToCamera = true;
