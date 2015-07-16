@@ -3,7 +3,7 @@ var Lift = function(conflux, game, x, y, group, waypoints){
   Phaser.Sprite.call(this, game, x, y, 'lift');
   game.physics.arcade.enable(this);
   group.add(this);
-  this.body.setSize(64,32,5,0);
+  this.body.setSize(64,32);
   this.mobType = "lift";
   this.body.immovable = true;
   this.waypoints = waypoints;
@@ -70,7 +70,7 @@ var Lift = function(conflux, game, x, y, group, waypoints){
   }
 
   this.setNextWaypoint = function(){
-      
+
     if(this.nextWaypoint.index == 1){
       this.nextWaypoint.index = 0;
     } else {
