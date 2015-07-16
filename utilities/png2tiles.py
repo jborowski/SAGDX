@@ -18,9 +18,9 @@ print "Generating level from "+source+" to "+target
 # put the input png file and tileset image in the same folder as this script
 # provide the input/output data in the form of a list of tuples:
 # (input image filename, tileset filename, tileset scripting name)
-input_data = [( "foregroundLayer","foregroundTileset"), 
-              ( "backgroundLayer","backgroundTileset"),
-              ("collisionLayer","collisionTileset")]
+input_data = [( "foregroundLayer","foregroundTileset")]#,
+             # ( "backgroundLayer","backgroundTileset"),
+             # ("collisionLayer","collisionTileset")]
 
 for layer, tiles in input_data:
 
@@ -36,8 +36,14 @@ for layer, tiles in input_data:
   for i in range(level_size_y):
     for j in range (level_size_x):
       # compare pixel color with reference and output GID represented by that color
-      if data[j, i] != (0, 0, 0, 255):
+      if data[j, i] == (255, 0, 0, 255):
+        formatted_data.extend([3])
+      elif data[j, i] == (0, 255, 0, 255):
         formatted_data.extend([1])
+      elif data[j, i] == (0, 0, 255, 255):
+        formatted_data.extend([4])
+      elif data[j, i] == (167, 118, 24, 255):
+        formatted_data.extend([8])
       else:
         formatted_data.extend([0])
 
