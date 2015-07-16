@@ -18,10 +18,11 @@ var introState = {
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.image('truck', 'assets/truck.png');
     this.game.load.image('carrier', 'assets/carrier.png');
+    this.game.load.image('lift', 'assets/lift.png');
   },
   create: function(){
     this.mobs = this.game.add.group();
-    this.mobPieces = this.game.add.group();
+    this.lifts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
     this.map = this.game.add.tilemap('foregroundLayerMap');
     this.map.addTilesetImage('foregroundTileset');
@@ -54,6 +55,7 @@ var introState = {
     }
 
     this.game.world.bringToTop(this.mobs);
+    this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
 
     if(this.debug){
@@ -67,10 +69,13 @@ var introState = {
     }
 
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.mobs.forEach(this.updateMob);
+    this.game.physics.arcade.collide(this.mobs, this.lifts);
 
     if(this.debug){
       this.debugText.text += "Player: "+this.player.debugString()+"\n";
+      conflux = this;
+      this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
+      this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
     }
   },
   spawnMob: function(group, unit, xCoord, yCoord){
@@ -79,20 +84,10 @@ var introState = {
       mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing);
     } else if(unit.type=="carrier"){
       mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints);
+    } else if(unit.type=="lift"){
+      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints);
     }
     return mob;
-  },
-  updateMob: function(mob){
-    mob.update();
-  },
-  mobContact: function(player, mob){
-    if(player.right > mob.left && player.left < mob.right && player.bottom < mob.top){
-      player.y = mob.top - player.height;
-      player.riding = mob;
-      return false;
-    } else {
-      return true;
-    }
   },
   checkLock: function () {
     if(this.player.body.right < this.player.riding.body.left || this.player.body.left > this.player.riding.body.right){

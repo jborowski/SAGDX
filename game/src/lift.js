@@ -1,13 +1,11 @@
-var Carrier = function(conflux, game, x, y, group, facing, waypoints){
+var Lift = function(conflux, game, x, y, group, waypoints){
   if(typeof group === 'undefined'){ group = game.world; }
-  Phaser.Sprite.call(this, game, x, y, 'carrier');
+  Phaser.Sprite.call(this, game, x, y, 'lift');
   game.physics.arcade.enable(this);
   group.add(this);
   this.body.setSize(64,32,5,0);
-  this.mobType = "carrier";
+  this.mobType = "lift";
   this.body.immovable = true;
-  this.outOfBoundsKill = true;
-  this.facing = facing;
   this.waypoints = waypoints;
   this.conflux = conflux;
 
@@ -68,9 +66,11 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints){
   }
 
   this.setNextWaypoint = function(){
-    this.nextWaypoint.index += 1;
-    if(this.nextWaypoint.index >= this.waypoints.length){
+      
+    if(this.nextWaypoint.index == 1){
       this.nextWaypoint.index = 0;
+    } else {
+      this.nextWaypoint.index = 1;
     }
     this.nextWaypoint.x = this.waypoints[this.nextWaypoint.index].x*gridSize;
     this.nextWaypoint.y = this.waypoints[this.nextWaypoint.index].y*gridSize;
@@ -93,10 +93,10 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints){
   }
 
   this.debugString = function(){
-    return "CARRIER: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
+    return "PLATFORM: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
       "[looking:"+this.nextWaypoint.directionX+"/"+this.nextWaypoint.directionY+"][moving:"+this.body.velocity.x+"/"+this.body.velocity.y+"]";
   }
 }
 
-Carrier.prototype = Object.create(Phaser.Sprite.prototype);
-Carrier.prototype.constructor = Carrier;
+Lift.prototype = Object.create(Phaser.Sprite.prototype);
+Lift.prototype.constructor = Lift;

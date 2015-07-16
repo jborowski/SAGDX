@@ -4,18 +4,16 @@ var Truck = function(conflux, game, x, y, group, facing){
   game.physics.arcade.enable(this);
   group.add(this);
   this.mobType = "truck";
-  this.body.immovable = true;
-  this.outOfBoundsKill = true;
   this.facing = facing;
   this.conflux = conflux;
 
   this.cConstants = {
-    truckSpeed: 1*gridSize,
+    groundSpeed: 3*gridSize,
     fallSpeed: 20*gridSize
   }
 
   this.update = function(){
-    this.body.velocity.x = this.cConstants.truckSpeed*this.facing;
+    this.body.velocity.x = this.cConstants.groundSpeed*this.facing;
     this.body.gravity.y = 40*gridSize;
     if(this.body.velocity.y > this.cConstants.fallSpeed){
       this.body.velocity.y = this.cConstants.fallSpeed;
@@ -24,6 +22,10 @@ var Truck = function(conflux, game, x, y, group, facing){
     if(this.body.onFloor()){
       this.y = Math.ceil(this.y);
     }
+  }
+
+  this.debugString = function(){
+    return "[pos:"+Math.floor(this.x)+"/"+Math.floor(this.y)+"]";
   }
 }
 
