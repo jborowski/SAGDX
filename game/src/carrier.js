@@ -3,6 +3,7 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints){
   Phaser.Sprite.call(this, game, x, y, 'carrier');
   game.physics.arcade.enable(this);
   group.add(this);
+  this.body.setSize(64,32,5,0);
   this.thisType = "carrier";
   this.body.immovable = true;
   this.outOfBoundsKill = true;
@@ -11,7 +12,7 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints){
   this.conflux = conflux;
 
   this.cConstants = {
-    carrierSpeed: 15*gridSize
+    carrierSpeed: 10*gridSize
   }
 
   this.nextWaypoint = {
