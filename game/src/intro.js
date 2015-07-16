@@ -54,7 +54,7 @@ var introState = {
       if(spawnDef.type=="once"){
         this.spawnMob(this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
       } else if(spawnDef.type=="continous"){
-        this.game.time.events.loop(spawnDef.interval*100, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
+        this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
       }
     }
 
@@ -82,7 +82,7 @@ var introState = {
       this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
     }
   },
-  spawnMob: function(group, unit, type, xCoord, yCoord){
+  spawnMob: function(group, unit, xCoord, yCoord){
     var mob;
     if(unit.type=="truck"){
       mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing);

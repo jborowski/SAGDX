@@ -3,16 +3,17 @@
     "delay": 0,
     "interval": 10,
     "x": 44,
-    "y": 55,
+    "y": 75,
     "unit": {
       "type": "truck",
       "facing": 1
     }
   },
-  { "type": "once",
+  { "type": "continous",
     "delay": 0,
+    "interval": 10,
     "x": 112,
-    "y": 22,
+    "y": 0,
     "unit": {
       "type": "carrier",
       "facing": 1,
@@ -20,7 +21,9 @@
         { "x": 112, "y": 37},
         { "x": 125, "y": 37},
         { "x": 125, "y": 22},
-        { "x": 112, "y": 22}
+        { "x": 67, "y": 22},
+        { "x": 67, "y": 3, "destroy": true}, 
+        { "x": 83, "y": 3, "destroy": true}
       ]
     }
   },
@@ -28,16 +31,16 @@
     "delay": 0,
     "interval": 10,
     "x": 44,
-    "y": 60,
+    "y": 80,
     "unit": {
       "type": "lift",
       "waypoints": [
-        { "x": 44, "y": 60},
+        { "x": 44, "y": 80},
         { "x": 44, "y": 40, "destroy": true}
       ]
     }
   },
-  { "type": "continous",
+  { "type": "once",
     "delay": 0,
     "interval": 10,
     "x": 188,
