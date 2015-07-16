@@ -3,17 +3,17 @@ var Player = function(conflux, game, x, y, key, group) {
   Phaser.Sprite.call(this, game, x, y, key);
   game.physics.arcade.enable(this);
   group.add(this);
-  this.body.setSize(16,64,22,0);
+  this.body.setSize(16,64,26,16);
   this.body.customSeparateX = true;
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
   this.body.collideWorldBounds = true;
-  this.animations.add('standRight', [0]);
-  this.animations.add('standLeft', [16]);
-  this.animations.add('walkRight', [0]);
-  this.animations.add('walkLeft', [16]);
-  this.animations.add('fallRight', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
-  this.animations.add('fallLeft', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+  this.animations.add('standRight', [70]);
+  this.animations.add('standLeft', [71]);
+  this.animations.add('runRight', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]);
+  this.animations.add('runLeft', [20,21,22,23,24,25,26,27,28,29,20,21,22,23,24,25,26,27,28,29]);
+  this.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
+  this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -81,9 +81,17 @@ var Player = function(conflux, game, x, y, key, group) {
   this.setAnimation = function(){
     if(this.against.bottom){
       if(this.cState.facing > 0){
-        this.animations.play('standRight');
+        if(this.body.velocity.x > 0){
+          this.animations.play('runRight');
+        } else {
+          this.animations.play('standRight');
+        }
       } else {
-        this.animations.play('standLeft');
+        if(this.body.velocity.x < 0){
+          this.animations.play('runLeft');
+        } else {
+          this.animations.play('standLeft');
+        }
       }
     } else {
       if(this.cState.facing > 0){

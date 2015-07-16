@@ -15,7 +15,7 @@ var introState = {
 
     this.game.load.text('spawns', 'data/spawns.json');
 
-    this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 60, 64);
+    this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.image('truck', 'assets/truck.png');
     this.game.load.image('carrier', 'assets/carrier.png');
   },
