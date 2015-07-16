@@ -69,9 +69,9 @@ var Player = function(conflux, game, x, y, key, group) {
   };
 
   this.update = function(){
-    this.game.physics.arcade.collide(this, this.conflux.collisionLayer, this.tileContact, null, this);
     this.game.physics.arcade.collide(this, this.conflux.mobs, this.mobContact, this.checkmobs, this);
     this.game.physics.arcade.collide(this, this.conflux.lifts, this.mobContact, this.checkmobs, this);
+    this.game.physics.arcade.collide(this, this.conflux.collisionLayer, this.tileContact, null, this);
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
@@ -85,13 +85,13 @@ var Player = function(conflux, game, x, y, key, group) {
   this.setAnimation = function(){
     if(this.against.bottom){
       if(this.cState.facing > 0){
-        if(this.body.velocity.x > 0){
+        if(this.cursors.right.isDown){
           this.animations.play('runRight');
         } else {
           this.animations.play('standRight');
         }
       } else {
-        if(this.body.velocity.x < 0){
+        if(this.cursors.left.isDown){
           this.animations.play('runLeft');
         } else {
           this.animations.play('standLeft');
@@ -108,11 +108,6 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.moveX = function(){
     animationToRun = 0;
-    // If player is riding a mob, change x coordinate according to mob movement
-    if(this.riding != null){
-      this.body.position.x += this.riding.deltaX;
-    }
-
     // If moving left or right, change facing and move forward
     if(this.cursors.left.isDown){
       this.cState.facing = -1;
@@ -122,6 +117,11 @@ var Player = function(conflux, game, x, y, key, group) {
 
     if(this.cursors.left.isDown || this.cursors.right.isDown){
       this.body.velocity.x = this.cConstants.runSpeed * this.cState.facing;
+    }
+
+    // If player is riding a mob, add velocity according to mob movement
+    if(this.riding != null){
+      this.body.velocity.x += this.riding.body.velocity.x;
     }
   };
 
