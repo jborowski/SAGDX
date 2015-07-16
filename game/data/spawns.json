@@ -1,9 +1,9 @@
 [
-  { "type": "continous",
+  { "type": "once",
     "delay": 0,
     "interval": 10,
-    "x": 44,
-    "y": 21,
+    "x": 39,
+    "y": 34,
     "unit": {
       "type": "truck",
       "facing": 1
@@ -19,9 +19,8 @@
       "facing": 1
     }
   },
-  { "type": "continous",
+  { "type": "once",
     "delay": 0,
-    "interval": 10,
     "x": 112,
     "y": 22,
     "unit": {
@@ -34,5 +33,32 @@
         { "x": 112, "y": 22}
       ]
     }
+  },
+  { "type": "continous",
+    "delay": 0,
+    "interval": 10,
+    "x": 44,
+    "y": 41,
+    "unit": {
+      "type": "lift",
+      "waypoints": [
+        { "x": 44, "y": 41},
+        { "x": 44, "y": 50, "destroy": true}
+      ]
+    }
+  },
+  { "type": "continous",
+    "delay": 0,
+    "interval": 10,
+    "x": 188,
+    "y": 41,
+    "unit": {
+      "type": "lift",
+      "waypoints": [
+        { "x": 188, "y": 41},
+        { "x": 188, "y": 47}
+      ]
+    }
   }
+
 ]
