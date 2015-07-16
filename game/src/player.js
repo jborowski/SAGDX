@@ -17,8 +17,10 @@ var Player = function(conflux, game, x, y, key, group) {
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
-  
+
   this.conflux = conflux;
+
+  this.riding = null;
 
   this.cConstants = {
     runSpeed: 15*gridSize,
@@ -61,7 +63,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.was.right = false;
   };
   this.resetWasDirections();
-  
+
   this.debugString = function(){
     return "Position: [x="+Math.floor(this.body.x)+"/px="+Math.floor(this.body.prev.x)+"] [y="+Math.floor(this.body.y)+"/px="+Math.floor(this.body.prev.y)+"]"
   };
@@ -77,6 +79,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.moveY();
     this.setAnimation();
     this.resetAgainst();
+    this.riding = null;
   };
 
   this.setAnimation = function(){
@@ -105,6 +108,11 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.moveX = function(){
     animationToRun = 0;
+    // If player is riding a mob, change x coordinate according to mob movement
+    if(this.riding != null){
+      this.body.position.x += this.riding.deltaX;
+    }
+
     // If moving left or right, change facing and move forward
     if(this.cursors.left.isDown){
       this.cState.facing = -1;
@@ -119,7 +127,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.moveY = function(){
     // This is a debug only fly around option, not for normal gameplay
-    if(this.cState.flying){   
+    if(this.cState.flying){
       if(this.cursors.up.isDown){
         this.body.velocity.y = -this.cConstants.runSpeed;
       } else if(this.cursors.down.isDown){
@@ -136,13 +144,13 @@ var Player = function(conflux, game, x, y, key, group) {
           this.body.velocity.y = this.cConstants.fallSpeed;
         }
       }
-      
+
       // If we're on the ground with the up arrow unpressed, flag us as able to jump next update.
       // If we're not on the ground or our up arrow is pressed, we know we can't be in a state where we should allow jumping
       if(!this.against.bottom || this.cursors.up.isDown){
         this.cState.jumpReady = false
       } else if(this.against.bottom && this.cursors.up.isUp){
-        this.cState.jumpReady = true; 
+        this.cState.jumpReady = true;
       }
 
     }
@@ -180,7 +188,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.cState.jumpReduction = 0;
     this.body.velocity.y = -this.cConstants.jumpSpeed;
   }
-  
+
   this.tileContact = function(player, tile){
     player.was.below = player.body.prev.y >= tile.bottom;
     player.was.above = (player.body.prev.y+player.body.height) <= tile.top;
@@ -244,6 +252,7 @@ var Player = function(conflux, game, x, y, key, group) {
       } else if (player.body.overlapY > 0){
         player.body.blocked.bottom = true;
         player.against.bottom = mob;
+        player.riding = mob;
         newY = mob.body.y - player.body.height - 1;
         player.body.position.y = newY;
       }
