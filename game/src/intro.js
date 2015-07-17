@@ -9,9 +9,7 @@ var introState = {
     this.game.load.tilemap('foregroundLayerMap', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('backgroundLayerMap', 'data/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('collisionLayerMap', 'data/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.image('foregroundTileset', 'assets/levels/act1/foregroundTileset.png');
-    this.game.load.image('backgroundTileset', 'assets/levels/act1/backgroundTileset.png');
-    this.game.load.image('collisionTileset', 'assets/levels/act1/collisionTileset.png');
+    this.game.load.image('tileset', 'assets/levels/act1/tileset.png');
 
     this.game.load.text('spawns', 'data/spawns.json');
 
@@ -25,18 +23,18 @@ var introState = {
     this.lifts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
     this.map = this.game.add.tilemap('foregroundLayerMap');
-    this.map.addTilesetImage('foregroundTileset');
+    this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
     this.bgMap = this.game.add.tilemap('backgroundLayerMap');
-    this.bgMap.addTilesetImage('backgroundTileset');
+    this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
     this.collisionMap = this.game.add.tilemap('collisionLayerMap');
-    this.collisionMap.addTilesetImage('collisionTileset');
+    this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
@@ -51,16 +49,19 @@ var introState = {
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
-      if(spawnDef.type=="once"){
-        this.spawnMob(this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
-      } else if(spawnDef.type=="continous"){
-        this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
+      for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
+        if(spawnDef.type=="once"){
+            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize);
+        } else if(spawnDef.type=="continous"){
+          this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize);
+        }
       }
     }
 
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
+    this.game.world.bringToTop(this.foregroundLayer);
 
     if(this.debug){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
