@@ -40020,11 +40020,11 @@
   "tilesets": [
     {
       "firstgid": 1, 
-      "image": "collisionTileset.png", 
-      "imageheight": 16, 
-      "imagewidth": 16, 
+      "image": "tileset.png", 
+      "imageheight": 48, 
+      "imagewidth": 96, 
       "margin": 0, 
-      "name": "collisionTileset", 
+      "name": "tileset", 
       "properties": {}, 
       "spacing": 0, 
       "tileheight": 16, 
