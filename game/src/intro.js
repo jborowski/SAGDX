@@ -73,8 +73,12 @@ var introState = {
       this.debugText.text = "";
     }
 
-    this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
+    this.game.physics.arcade.collide(this.mobs, this.mobs);
     this.game.physics.arcade.collide(this.mobs, this.lifts);
+    this.game.physics.arcade.collide(this.player, this.mobs);
+    this.game.physics.arcade.collide(this.player, this.collisionLayer);
+    this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
+
 
     if(this.debug){
       this.debugText.text += "Player: "+this.player.debugString()+"\n";
@@ -93,13 +97,5 @@ var introState = {
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints);
     }
     return mob;
-  },
-  checkLock: function () {
-    if(this.player.body.right < this.player.riding.body.left || this.player.body.left > this.player.riding.body.right){
-      this.cancelLock();
-    }
-  },
-  cancelLock: function () {
-    this.player.riding = null;
   }
 }

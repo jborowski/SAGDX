@@ -13,6 +13,17 @@
       ]
     }
   },
+  { "type": "once",
+    "delay": 0,
+    "interval": 10,
+    "spawns": [
+      {"x": 10, "y": 30}
+    ],
+    "unit": {
+      "type": "truck",
+      "facing": "1"
+    }
+  },
   { "type": "continous",
     "delay": 0,
     "interval": 10,

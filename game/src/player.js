@@ -4,9 +4,8 @@ var Player = function(conflux, game, x, y, key, group) {
   game.physics.arcade.enable(this);
   group.add(this);
   this.body.setSize(16,64,26,16);
-  this.body.customSeparateX = true;
-  this.body.customSeparateY = true;
-  this.body.allowGravity = false;
+  this.body.allowGravity = true;
+  this.body.gravity.y = 100*gridSize;
   this.body.collideWorldBounds = true;
   this.animations.add('standRight', [70]);
   this.animations.add('standLeft', [71]);
@@ -15,12 +14,9 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
 
-
   this.cursors = this.game.input.keyboard.createCursorKeys();
 
   this.conflux = conflux;
-
-  this.riding = null;
 
   this.cConstants = {
     runSpeed: 15*gridSize,
@@ -41,49 +37,20 @@ var Player = function(conflux, game, x, y, key, group) {
     flying: false
   };
 
-  this.against = {
-    left: null,
-    top: null,
-    bottom: null,
-    right: null,
-  };
-
-  this.resetAgainst = function(){
-    this.against.left = null;
-    this.against.top = null;
-    this.against.right = null;
-    this.against.bottom = null;
-  };
-
-  this.resetWasDirections = function(){
-    this.was = {};
-    this.was.below = false;
-    this.was.above = false;
-    this.was.left = false;
-    this.was.right = false;
-  };
-  this.resetWasDirections();
-
   this.debugString = function(){
     return "Position: [x="+Math.floor(this.body.x)+"/px="+Math.floor(this.body.prev.x)+"] [y="+Math.floor(this.body.y)+"/px="+Math.floor(this.body.prev.y)+"]"
   };
 
   this.update = function(){
-    this.game.physics.arcade.collide(this, this.conflux.mobs, this.mobContact, this.checkmobs, this);
-    this.game.physics.arcade.collide(this, this.conflux.lifts, this.mobContact, this.checkmobs, this);
-    this.game.physics.arcade.collide(this, this.conflux.collisionLayer, this.tileContact, null, this);
     this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
 
     this.moveX();
     this.moveY();
     this.setAnimation();
-    this.resetAgainst();
-    this.riding = null;
   };
 
   this.setAnimation = function(){
-    if(this.against.bottom){
+    if(this.body.onFloor() || this.body.touching.down){
       if(this.cState.facing > 0){
         if(this.cursors.right.isDown){
           this.animations.play('runRight');
@@ -115,12 +82,11 @@ var Player = function(conflux, game, x, y, key, group) {
       this.cState.facing = 1;
     }
 
-    if(this.cursors.left.isDown || this.cursors.right.isDown){
+    if((!this.body.touching.left && this.cursors.left.isDown) || (!this.body.touching.right && this.cursors.right.isDown)){
       this.body.velocity.x = this.cConstants.runSpeed * this.cState.facing;
     }
 
-    // If player is riding a mob, add velocity according to mob movement
-    if(this.riding != null){
+    if(this.riding){
       this.body.velocity.x += this.riding.body.velocity.x;
     }
   };
@@ -140,17 +106,19 @@ var Player = function(conflux, game, x, y, key, group) {
       } else {
         if(this.cursors.up.isDown && this.cState.jumpReady){
           this.startJump();
-        } else {
-          this.body.velocity.y = this.cConstants.fallSpeed;
         }
       }
 
       // If we're on the ground with the up arrow unpressed, flag us as able to jump next update.
       // If we're not on the ground or our up arrow is pressed, we know we can't be in a state where we should allow jumping
-      if(!this.against.bottom || this.cursors.up.isDown){
+      if( !(this.body.onFloor() || this.body.touching.down) || this.cursors.up.isDown){
         this.cState.jumpReady = false
-      } else if(this.against.bottom && this.cursors.up.isUp){
+      } else if( (this.body.onFloor() || this.body.touching.down) && this.cursors.up.isUp){
         this.cState.jumpReady = true;
+      }
+
+      if (this.body.velocity.y > this.cConstants.fallSpeed){
+        this.body.velocity.y = this.cConstants.fallSpeed;
       }
 
     }
@@ -163,7 +131,7 @@ var Player = function(conflux, game, x, y, key, group) {
     var stopByChoice = this.cursors.up.isUp && reachedMin
 
     // If we should stop jumping
-    if(reachedMax || this.against.top || stopByChoice){
+    if(reachedMax || this.body.touching.up || stopByChoice){
       this.cState.jumping = false;
       this.body.velocity.y = 0;
     // Otherwise, continue ascent
@@ -187,77 +155,6 @@ var Player = function(conflux, game, x, y, key, group) {
     this.cState.jumpHeight = 0;
     this.cState.jumpReduction = 0;
     this.body.velocity.y = -this.cConstants.jumpSpeed;
-  }
-
-  this.tileContact = function(player, tile){
-    player.was.below = player.body.prev.y >= tile.bottom;
-    player.was.above = (player.body.prev.y+player.body.height) <= tile.top;
-    player.was.left = (player.body.prev.x+player.body.width) <= tile.left;
-    player.was.right = player.body.prev.x >= tile.right;
-    var newX=player.body.position.x;
-    var newY=player.body.position.y;
-    if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
-      if (player.body.overlapX < 0){
-        player.body.blocked.left = true;
-        player.against.left = tile;
-        newX = tile.right + 1;
-        player.body.position.x = newX;
-      } else if (player.body.overlapX > 0){
-        player.body.blocked.right = true;
-        player.against.right = tile;
-        newX = tile.left - player.body.width - 1;
-        player.body.position.x = newX;
-      }
-    } else if(!(player.was.left || player.was.right)){
-      if (player.body.overlapY < 0){
-        player.body.blocked.top = true;
-        player.against.top = tile;
-        newY = tile.bottom + 1;
-        player.body.position.y = newY;
-      } else if (player.body.overlapY > 0){
-        player.body.blocked.bottom = true;
-        player.against.bottom = tile;
-        newY = tile.top - player.body.height - 1;
-        player.body.position.y = newY;
-      }
-    }
-    player.resetWasDirections();
-  }
-
-  this.mobContact = function(player, mob){
-    player.was.below = player.body.prev.y >= (mob.body.prev.y + mob.body.height);
-    player.was.above = (player.body.prev.y+player.body.height) <= mob.body.prev.y;
-    player.was.left = (player.body.prev.x+player.body.width) <= mob.body.prev.x;
-    player.was.right = player.body.prev.x >= (mob.body.prev.x + mob.body.width);
-    var newX=player.body.position.x;
-    var newY=player.body.position.y;
-    if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
-      if (player.body.overlapX < 0){
-        player.body.blocked.left = true;
-        player.against.left = mob;
-        newX = mob.body.x + mob.body.width + 1;
-        player.body.position.x = newX;
-      } else if (player.body.overlapX > 0){
-        player.body.blocked.right = true;
-        player.against.right = mob;
-        newX = mob.body.x - player.body.width - 1;
-        player.body.position.x = newX;
-      }
-    } else if(!(player.was.left || player.was.right)){
-      if (player.body.overlapY < 0){
-        player.body.blocked.top = true;
-        player.against.top = mob;
-        newY = mob.body.y + mob.body.height + 1;
-        player.body.position.y = newY;
-      } else if (player.body.overlapY > 0){
-        player.body.blocked.bottom = true;
-        player.against.bottom = mob;
-        player.riding = mob;
-        newY = mob.body.y - player.body.height - 1;
-        player.body.position.y = newY;
-      }
-    }
-    player.resetWasDirections();
   }
 
 };

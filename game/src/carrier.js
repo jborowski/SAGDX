@@ -48,10 +48,10 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints){
 
     // Don't go past our target point
     if(reachedX){
-      this.body.x = this.nextWaypoint.x;
+      this.body.velocity.x = 0;
     }
     if(reachedY){
-      this.body.y = this.nextWaypoint.y;
+      this.body.velocity.y = 0;
     }
 
     // Move, unless we've reached our target, in which case set next target
