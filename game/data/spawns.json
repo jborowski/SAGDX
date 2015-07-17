@@ -2,8 +2,58 @@
   { "type": "continous",
     "delay": 0,
     "interval": 10,
-    "x": 44,
-    "y": 75,
+    "spawns":[
+      {"x": 44, "y": 80}
+    ],
+    "unit": {
+      "type": "lift",
+      "waypoints": [
+        {"x": 44, "y": 40, "destroy": true},
+        {"x": 44, "y": 40, "destroy": true}
+      ]
+    }
+  },
+  { "type": "continous",
+    "delay": 0,
+    "interval": 10,
+    "spawns":[
+      {"x": 44, "y": 75}
+    ],
+    "unit": {
+      "type": "truck",
+      "facing": 1
+    }
+  },
+{ "type": "once",
+    "delay": 0,
+    "spawns": [
+      {"x": 44,"y": 41},
+      {"x": 44,"y": 75}
+    ],
+    "unit": {
+      "type": "lift",
+      "waypoints": [
+        {"x": 44, "y": 40, "destroy": true},
+        {"x": 44, "y": 40, "destroy": true}
+      ]
+    }
+  },
+  { "type": "once",
+    "delay": 0,
+    "spawns": [
+      {"x": 44,"y": 70},
+      {"x": 44,"y": 38},
+      {"x": 56,"y": 38},
+      {"x": 68,"y": 38},
+      {"x": 80,"y": 38},
+      {"x": 92,"y": 38},
+      {"x": 104,"y": 38},
+      {"x": 116,"y": 38},
+      {"x": 128,"y": 38},
+      {"x": 140,"y": 38},
+      {"x": 152,"y": 38},
+      {"x": 168,"y": 38}
+    ],
     "unit": {
       "type": "truck",
       "facing": 1
@@ -12,44 +62,54 @@
   { "type": "continous",
     "delay": 0,
     "interval": 10,
-    "x": 112,
-    "y": 0,
+    "spawns": [
+      {"x": 112, "y": 0}
+    ],
     "unit": {
       "type": "carrier",
       "facing": 1,
       "waypoints": [
-        { "x": 112, "y": 37},
-        { "x": 125, "y": 37},
-        { "x": 125, "y": 22},
-        { "x": 67, "y": 22},
-        { "x": 67, "y": 3, "destroy": true},
-        { "x": 83, "y": 3, "destroy": true}
+        {"x": 112, "y": 37},
+        {"x": 125, "y": 37},
+        {"x": 125, "y": 22},
+        {"x": 67, "y": 22},
+        {"x": 67, "y": 2},
+        {"x": 87, "y": 2, "destroy": true}
       ]
     }
   },
   { "type": "continous",
     "delay": 0,
     "interval": 10,
-    "x": 44,
-    "y": 80,
+    "spawns": [
+      {"x": 253, "y": 77}
+    ],
     "unit": {
-      "type": "lift",
+      "type": "carrier",
+      "facing": 1,
       "waypoints": [
-        { "x": 44, "y": 80},
-        { "x": 44, "y": 40, "destroy": true}
+        {"x": 253, "y": 25},
+        {"x": 217, "y": 25},
+        {"x": 217, "y": 36},
+        {"x": 208, "y": 36},
+        {"x": 208, "y": 9},
+        {"x": 263, "y": 9},
+        {"x": 263, "y": 78},
+        {"x": 253, "y": 78}
       ]
     }
   },
   { "type": "once",
     "delay": 0,
     "interval": 10,
-    "x": 189,
-    "y": 41,
+    "spawns": [
+      {"x": 189, "y": 41}
+    ],
     "unit": {
       "type": "lift",
       "waypoints": [
-        { "x": 189, "y": 41},
-        { "x": 189, "y": 47}
+        {"x": 189, "y": 41},
+        {"x": 189, "y": 47}
       ]
     }
   }

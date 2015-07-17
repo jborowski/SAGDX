@@ -49,10 +49,12 @@ var introState = {
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
-      if(spawnDef.type=="once"){
-        this.spawnMob(this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
-      } else if(spawnDef.type=="continous"){
-        this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.x*gridSize, spawnDef.y*gridSize);
+      for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
+        if(spawnDef.type=="once"){
+            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize);
+        } else if(spawnDef.type=="continous"){
+          this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize);
+        }
       }
     }
 
