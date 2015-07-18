@@ -15,12 +15,14 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
 
-
   this.cursors = this.game.input.keyboard.createCursorKeys();
+  this.desyncKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
 
   this.conflux = conflux;
 
   this.riding = null;
+
+  this.paused = false;
 
   this.cConstants = {
     runSpeed: 15*gridSize,
@@ -71,12 +73,16 @@ var Player = function(conflux, game, x, y, key, group) {
   this.update = function(){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
-
-    this.moveX();
-    this.moveY();
-    this.setAnimation();
-    this.resetAgainst();
-    this.riding = null;
+    if(this.desyncKey.isDown){
+      this.setPause(false);
+    }
+    if(!this.paused){
+      this.moveX();
+      this.moveY();
+      this.setAnimation();
+      this.resetAgainst();
+      this.riding = null;
+    }
   };
 
   this.setAnimation = function(){
@@ -255,6 +261,19 @@ var Player = function(conflux, game, x, y, key, group) {
       }
     }
     player.resetWasDirections();
+  }
+
+  this.setPause = function(pause){
+    this.paused = pause;
+    this.animations.paused = pause;
+  }
+
+  this.detectKeyInput = function(){
+    if(this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 };

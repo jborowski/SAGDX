@@ -45,6 +45,8 @@ var introState = {
     this.player = new Player(this, this.game, 0, 15*gridSize, 'player');
     this.game.camera.follow(this.player);
 
+    this.pauseKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
+
     var spawnList = JSON.parse(this.game.cache.getText('spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
@@ -77,6 +79,11 @@ var introState = {
     this.game.physics.arcade.collide(this.player, this.collisionLayer, this.player.tileContact, null, this);
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
     this.game.physics.arcade.collide(this.player, this.lifts, this.player.mobContact, this.checkmobs, this);
+
+    if(this.pauseKey.isDown){
+      this.player.setPause(true);
+      //this.mobs.forEach(mob.pause);
+    }
 
     if(this.debug){
       this.debugText.text += "Player: "+this.player.debugString()+"\n";
