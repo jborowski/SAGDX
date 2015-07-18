@@ -246,7 +246,10 @@ var Player = function(conflux, game, x, y, key, group) {
       this.body.velocity.y = -1 * (this.cConstants.jumpSpeed - (this.cConstants.jumpSpeed * this.cState.jumpReduction));
     }
   }
-
+  
+  this.reverseHurt = function(){
+    this.cState.facing *= -1;
+  }
 
   this.processHurtX = function(){
     if(this.against.bottom || this.against.left || this.against.right){
@@ -346,6 +349,11 @@ var Player = function(conflux, game, x, y, key, group) {
         this.against.right = tile;
         newX = tile.left - this.body.width - 1;
         this.body.position.x = newX;
+      }
+        
+      // Bounce of the wall if we're hurting
+      if(this.cState.hurt){
+        this.reverseHurt();
       }
     } else if(!(this.was.left || this.was.right)){
       if (this.body.overlapY < 0){
