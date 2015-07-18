@@ -31,7 +31,11 @@ var Player = function(conflux, game, x, y, key, group) {
     minJumpHeight: 1*gridSize,
     jumpSpeed: 20*gridSize,
     maxJumpReduction: 0.7,
-    fallSpeed: 20*gridSize
+    fallSpeed: 20*gridSize,
+    hurtSpeed: 20*gridSize,
+    hurtHeight: 3*gridSize,
+    maxHurtReductionY: 0.7,
+    maxHurtReductionX: 0.9,
   };
 
   this.cState = {
@@ -43,6 +47,14 @@ var Player = function(conflux, game, x, y, key, group) {
     facing: 1,
     flying: false,
     hurt: false,
+    hurtStartX: 0,
+    hurtDeltaX: 0,
+    hurtReductionX: 0,
+    hurtAscending: false,
+    hurtDescending: false,
+    hurtStartY: 0,
+    hurtDeltaY: 0,
+    hurtReductionY: 0,
     justToggled: false
   };
 
@@ -124,7 +136,7 @@ var Player = function(conflux, game, x, y, key, group) {
         if(this.cState.hurt){
           this.cState.hurt = false;
         }else{
-          this.cState.hurt=true;
+          this.hurt();
         }
       } 
       if(this.keyboard.isDown(70)){
@@ -143,6 +155,9 @@ var Player = function(conflux, game, x, y, key, group) {
     
     if(this.cState.hurt){
       // Player cannot control themselves while hurt
+      if(!this.against.bottom){
+        this.body.velocity.x = this.cConstants.hurtSpeed;
+      }
     } else{
       // If moving left or right, change facing and move forward
       if(this.cursors.left.isDown){
@@ -171,7 +186,9 @@ var Player = function(conflux, game, x, y, key, group) {
       }
     } else {
     // Normal flow here
-      if(this.cState.jumping){
+      if(this.cState.hurt){
+        this.processHurtY();
+      } else if(this.cState.jumping){
         this.processJump();
       } else {
         if(this.cursors.up.isDown && this.cState.jumpReady && !this.cState.hurt){
@@ -216,12 +233,59 @@ var Player = function(conflux, game, x, y, key, group) {
     }
   }
 
+  this.processHurtY = function(){
+    this.cState.hurtDeltaY = this.cState.hurtStartY - this.body.y;
+    var reachedMax = this.cState.hurtDeltaY >= this.cConstants.hurtHeight
+
+    // Have we ascended high enough? If so, stop
+    if(this.cState.hurtAscending && (reachedMax || this.against.top)){
+      this.cState.hurtAscending = false;
+      this.cState.hurtDescending = true;
+      this.body.velocity.y = 0;
+    }
+    
+    // Have we fallen far enough? If so, stop smoothing and just use normal fall speed
+    if(this.cState.hurtDescending && (this.cState.hurtStartY < this.body.y || this.against.bottom)){
+      this.cState.hurtDescending = false;
+    }
+
+    if(this.cState.hurtAscending){
+    // If we are still ascending
+      this.cState.hurtReductionY = (this.cState.hurtDeltaY) / (this.cConstants.hurtHeight);
+      this.cState.hurtReductionY = Math.min(this.cState.hurtReductionY, this.cConstants.maxHurtReductionY);
+      this.body.velocity.y = -1 * (this.cConstants.hurtSpeed - (this.cConstants.hurtSpeed * this.cState.hurtReductionY));
+    } else if(this.cState.hurtDescending){
+      this.cState.hurtReductionY = (this.cState.hurtDeltaY) / (this.cConstants.hurtHeight);
+      this.cState.hurtReductionY = Math.min(this.cState.hurtReductionY, this.cConstants.maxHurtReductionY);
+      this.body.velocity.y = (this.cConstants.hurtSpeed - (this.cConstants.hurtSpeed * this.cState.hurtReductionY));
+    } else {
+      this.body.velocity.y = this.cConstants.hurtSpeed;
+    }
+  } 
+
   this.startJump = function(){
     this.cState.jumping = true;
     this.cState.jumpStart = this.body.y;
     this.cState.jumpHeight = 0;
     this.cState.jumpReduction = 0;
     this.body.velocity.y = -this.cConstants.jumpSpeed;
+  }
+
+  this.hurt = function(){
+    this.cState.hurt = true;
+
+    this.cState.hurtStartX =  this.body.x,
+    this.cState.hurtDeltaX =  0,
+    this.cState.hurtReductionX =  0,
+    
+    this.cState.hurtAscending = true;
+    this.cState.hurtDescending = false;
+    this.cState.hurtStartY =  this.body.y,
+    this.cState.hurtDeltaY =  0,
+    this.cState.hurtReductionY =  0,
+
+    // Cancel other states
+    this.cState.jumping = false;
   }
 
   this.tileContact = function(tile){
@@ -294,7 +358,6 @@ var Player = function(conflux, game, x, y, key, group) {
     }
     this.resetWasDirections();
   }
-
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
