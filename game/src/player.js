@@ -35,6 +35,7 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtSpeed: 20*gridSize,
     hurtHeight: 3*gridSize,
     hurtWidth: 6*gridSize,
+    hurtTimeout: 1000,
     maxHurtReductionY: 0.7,
   };
 
@@ -52,6 +53,8 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtReductionX: 0,
     hurtAscending: false,
     hurtDescending: false,
+    hurtTime: 0,
+    hurtTimeoutStarted: false,
     justToggled: false
   };
 
@@ -89,6 +92,9 @@ var Player = function(conflux, game, x, y, key, group) {
     this.checkInput();
     this.moveX();
     this.moveY();
+    if(this.cState.hurt){
+      this.processHurtTimeout();
+    }
     this.setAnimation();
     this.resetAgainst();
     this.riding = null;
@@ -131,7 +137,7 @@ var Player = function(conflux, game, x, y, key, group) {
       if(this.keyboard.isDown(72)){
         this.cState.justToggled = 72;
         if(this.cState.hurt){
-          this.cState.hurt = false;
+          this.cancelHurt();
         }else{
           this.hurt();
         }
@@ -263,7 +269,21 @@ var Player = function(conflux, game, x, y, key, group) {
     } else {
       this.body.velocity.y = this.cConstants.hurtSpeed;
     }
-  } 
+  };
+
+  this.processHurtTimeout = function(){
+    if(this.cState.hurtTimeoutStarted){
+      if(this.game.time.now > this.cState.hurtTime +this.cConstants.hurtTimeout){
+        this.cancelHurt();
+      }
+    } else if(this.against.bottom){
+      this.cState.hurtTimeoutStarted = true;  
+      this.cState.hurtTime = this.game.time.now;
+    }
+    if(!this.against.bottom){
+      this.cState.hurtTimeoutStarted = false;  
+    }
+  }
 
   this.startJump = function(){
     this.cState.jumping = true;
@@ -276,18 +296,21 @@ var Player = function(conflux, game, x, y, key, group) {
   this.hurt = function(){
     this.cState.hurt = true;
 
-    this.cState.hurtStartX =  this.body.x,
-    this.cState.hurtDeltaX =  0,
-    this.cState.hurtReductionX =  0,
-    
     this.cState.hurtAscending = true;
     this.cState.hurtDescending = false;
     this.cState.hurtStartY =  this.body.y,
     this.cState.hurtDeltaY =  0,
     this.cState.hurtReductionY =  0,
 
+    this.cState.hurtTimeoutStarted = false;  
+    this.cState.hurtTime =  0,
+
     // Cancel other states
     this.cState.jumping = false;
+  };
+
+  this.cancelHurt = function(){
+    this.cState.hurt = false;
   }
 
   this.tileContact = function(tile){
