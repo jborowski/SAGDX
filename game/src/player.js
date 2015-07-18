@@ -14,8 +14,8 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('runLeft', [39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20]);
   this.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
-  this.animations.add('hurtLeft', [55,73]);
-  this.animations.add('hurtRight', [40,75]);
+  this.animations.add('hurtLeft', [72,73]);
+  this.animations.add('hurtRight', [74,75]);
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
