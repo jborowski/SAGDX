@@ -1,0 +1,80 @@
+COLLISION AND PHYSICS
+
+Lift
+Lifts move boxes, carriers, trucks, floaters, and players up or down.
+Trucks and players can ride lifts.
+When attempting to move a blocked carrier or truck, the lift will halt.
+If attempting to move a blocked player, it will crouch the player.
+If attempt to move a blocked and crouched player, it will hurt the player.
+It attempt to move a blocked floater, the floater is destroyed.
+Ignores tiles
+When attacked, gets a shortlived decent upward velocity. (2 tiles)
+
+Carrier
+Players can ride Carriers.
+Carriers push players and floaters.
+If attempting to move a blocked player, it will crouch the player.
+If attempt to move a blocked and crouched player, it will halt.
+IF attempt to move a blocked floater, it will halt.
+Carriers are moved up and down by lifts
+Movement blocked by tiles.
+When attacked, gets a decent upward velocity and a decent horizontal velocity. (3/3 tiles)
+Blocked by turret bodies.
+
+Truck
+Players can ride trucks.
+Trucks fall when unsupported.
+Trucks can push players and floaters.
+A truck moving a player up or down hurts them and knocks them back, with direction based on wich side of the truck the player is most towards.
+A truck attempting to move a blocked player horizontally halts.
+A truck moving a blocked floater destroys it.
+Trucks are move up and down by lifts.
+Paused trucks will not crouch players, but will prevent them from standing
+When attacked, gets a decent horizontal velocity. (3 tiles)
+Blocked by turret bodies.
+
+Floater
+Players can ride floaters.
+Pushed by lifts, carriers, and trucks.
+Pushed by players from behind.
+Destroyed by lifts moving in a blocked direction.
+Destroyed by trucks moving in a blocked direction.
+Knocked back very far by attacks (7/7 tiles)
+When touching a player from the front or bottom, it hurts them.
+While being ridden, falls slowly.
+Movement blocked by tiles.
+Blocked by turret bodies.
+
+Turret
+Body blocks players, trucks, carriers, floaters.
+Pushes players, trucks, carriers, floaters up.
+When attacked, spins around and changes facing.
+
+Big Blast
+Destroyed on impact with Player, Lift, Truck, Carrier, Floater, while attacking them
+When destroyed, generates a little blast that travels in the opposite direction
+
+Little Blast
+Destroyed on impact with Player, Lift, Truck, Carrier, Floater, while attacking them
+
+Attack
+
+Player
+
+
+
+
+OPTIONAL
+---------
+Box/Barrel
+Boxs fall when unsupported.
+A box falling on a player hurts them and knocks them back, with direction based on which side of the barrel falls over the player's center.
+Boxes can be pushed left or right by Players (half speed) and Trucks(full speed).
+Boxes falling on a truck or lift will stop falling and ride the object they fell into.
+Boxes block the movement of floaters.
+Boxes falling a floater pushes them down until they are blocked.
+Boxes falling on a blocked floater destroy it.
+Attacked boxes slide back 3 units.
+
+
+
