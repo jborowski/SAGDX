@@ -91,24 +91,16 @@ var Player = function(conflux, game, x, y, key, group) {
     this.body.velocity.y = 0;
 
     this.checkInput();
-<<<<<<< HEAD
-    this.moveX();
-    this.moveY();
-    if(this.cState.hurt){
-      this.processHurtTimeout();
-    }
-    this.setAnimation();
-    this.resetAgainst();
-    this.riding = null;
-=======
     if (!this.cState.paused){
       this.moveX();
       this.moveY();
+      if(this.cState.hurt){
+        this.processHurtTimeout();
+      }
       this.setAnimation();
       this.resetAgainst();
       this.riding = null;
     }
->>>>>>> 87e46b03a8ea6af5bee9c6b24187f9fd10ebdf34
   };
 
   this.setAnimation = function(){
@@ -288,7 +280,6 @@ var Player = function(conflux, game, x, y, key, group) {
     } else {
       this.body.velocity.y = this.cConstants.hurtSpeed;
     }
-<<<<<<< HEAD
   };
 
   this.processHurtTimeout = function(){
@@ -303,8 +294,6 @@ var Player = function(conflux, game, x, y, key, group) {
     if(!this.against.bottom){
       this.cState.hurtTimeoutStarted = false;  
     }
-=======
->>>>>>> 87e46b03a8ea6af5bee9c6b24187f9fd10ebdf34
   }
 
   this.startJump = function(){
@@ -318,13 +307,6 @@ var Player = function(conflux, game, x, y, key, group) {
   this.hurt = function(){
     this.cState.hurt = true;
 
-<<<<<<< HEAD
-=======
-    this.cState.hurtStartX =  this.body.x,
-    this.cState.hurtDeltaX =  0,
-    this.cState.hurtReductionX =  0,
-
->>>>>>> 87e46b03a8ea6af5bee9c6b24187f9fd10ebdf34
     this.cState.hurtAscending = true;
     this.cState.hurtDescending = false;
     this.cState.hurtStartY =  this.body.y,
