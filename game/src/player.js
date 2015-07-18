@@ -105,7 +105,11 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.setAnimation = function(){
     if(this.cState.hurt){
-      this.animations.play('hurtLeft', 10);
+      if(this.cState.facing > 0){
+        this.animations.play('hurtRight', 10);
+      } else {
+        this.animations.play('hurtLeft', 10);
+      }
     }else{
       if(this.against.bottom){
         if(this.cState.facing > 0){
@@ -248,7 +252,7 @@ var Player = function(conflux, game, x, y, key, group) {
     if(this.against.bottom || this.against.left || this.against.right){
       this.body.velocity.x = 0;
     } else {
-      this.body.velocity.x = this.cConstants.hurtSpeed;
+      this.body.velocity.x = -1 * this.cState.facing * this.cConstants.hurtSpeed;
     }
   };
 
@@ -377,6 +381,11 @@ var Player = function(conflux, game, x, y, key, group) {
         newX = mob.body.x - this.body.width - 1;
         this.body.position.x = newX;
       }*/
+      if(this.was.left){
+        this.cState.facing = 1;
+      } else {
+        this.cState.facing = -1;
+      }
       this.hurt();
     } else if(!(this.was.left || this.was.right)){
       if (this.body.overlapY < 0){
