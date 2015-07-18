@@ -1,5 +1,6 @@
-var Lift = function(conflux, game, x, y, group, waypoints){
+var Lift = function(conflux, game, x, y, group, waypoints, speed){
   if(typeof group === 'undefined'){ group = game.world; }
+  if(typeof speed === 'undefined') { speed = 10; }
   Phaser.Sprite.call(this, game, x, y, 'lift');
   game.physics.arcade.enable(this);
   group.add(this);
@@ -10,7 +11,7 @@ var Lift = function(conflux, game, x, y, group, waypoints){
   this.conflux = conflux;
 
   this.cConstants = {
-    speed: 10*gridSize
+    speed: speed*gridSize
   }
 
   this.nextWaypoint = {

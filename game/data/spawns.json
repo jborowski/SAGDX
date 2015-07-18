@@ -10,7 +10,8 @@
       "waypoints": [
         {"x": 44, "y": 40, "destroy": true},
         {"x": 44, "y": 40, "destroy": true}
-      ]
+      ],
+      "speed": 10
     }
   },
   { "type": "continous",
@@ -35,7 +36,8 @@
       "waypoints": [
         {"x": 44, "y": 40, "destroy": true},
         {"x": 44, "y": 40, "destroy": true}
-      ]
+      ],
+      "speed": 10
     }
   },
   { "type": "once",
@@ -110,7 +112,23 @@
       "waypoints": [
         {"x": 189, "y": 41},
         {"x": 189, "y": 47}
-      ]
+      ],
+      "speed": 5
+    }
+  },
+  { "type": "once",
+    "delay": 0,
+    "interval": 10,
+    "spawns": [
+      {"x": 179, "y": 49}
+    ],
+    "unit": {
+      "type": "lift",
+      "waypoints": [
+        {"x": 179, "y": 69},
+        {"x": 179, "y": 49}
+      ],
+      "speed": 5
     }
   }
 

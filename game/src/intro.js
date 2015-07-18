@@ -100,7 +100,7 @@ var introState = {
     } else if(unit.type=="carrier"){
       mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints);
     } else if(unit.type=="lift"){
-      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints);
+      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed);
     }
     return mob;
   },
