@@ -55,7 +55,8 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtDescending: false,
     hurtTime: 0,
     hurtTimeoutStarted: false,
-    justToggled: false
+    justToggled: false,
+    paused: false
   };
 
   this.against = {
@@ -88,8 +89,9 @@ var Player = function(conflux, game, x, y, key, group) {
   this.update = function(){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
-    
+
     this.checkInput();
+<<<<<<< HEAD
     this.moveX();
     this.moveY();
     if(this.cState.hurt){
@@ -98,6 +100,15 @@ var Player = function(conflux, game, x, y, key, group) {
     this.setAnimation();
     this.resetAgainst();
     this.riding = null;
+=======
+    if (!this.cState.paused){
+      this.moveX();
+      this.moveY();
+      this.setAnimation();
+      this.resetAgainst();
+      this.riding = null;
+    }
+>>>>>>> 87e46b03a8ea6af5bee9c6b24187f9fd10ebdf34
   };
 
   this.setAnimation = function(){
@@ -141,7 +152,7 @@ var Player = function(conflux, game, x, y, key, group) {
         }else{
           this.hurt();
         }
-      } 
+      }
       if(this.keyboard.isDown(70)){
         this.cState.justToggled = 70;
         if(this.cState.flying){
@@ -150,12 +161,20 @@ var Player = function(conflux, game, x, y, key, group) {
           this.cState.flying=true;
         }
       }
+      if(this.keyboard.isDown(80)){
+        this.cState.justToggled = 80;
+        this.setPause(true);
+      }
+      if(this.cState.paused && this.keyboard.isDown(90)){
+        this.cState.justToggled = 90;
+        this.setPause(false);
+      }
     }
   };
 
   this.moveX = function(){
     animationToRun = 0;
-    
+
     if(this.cState.hurt){
       // Player cannot control themselves while hurt
       this.processHurtX();
@@ -251,7 +270,7 @@ var Player = function(conflux, game, x, y, key, group) {
       this.cState.hurtDescending = true;
       this.body.velocity.y = 0;
     }
-    
+
     // Have we fallen far enough? If so, stop smoothing and just use normal fall speed
     if(this.cState.hurtDescending && (this.cState.hurtStartY < this.body.y || this.against.bottom)){
       this.cState.hurtDescending = false;
@@ -269,6 +288,7 @@ var Player = function(conflux, game, x, y, key, group) {
     } else {
       this.body.velocity.y = this.cConstants.hurtSpeed;
     }
+<<<<<<< HEAD
   };
 
   this.processHurtTimeout = function(){
@@ -283,6 +303,8 @@ var Player = function(conflux, game, x, y, key, group) {
     if(!this.against.bottom){
       this.cState.hurtTimeoutStarted = false;  
     }
+=======
+>>>>>>> 87e46b03a8ea6af5bee9c6b24187f9fd10ebdf34
   }
 
   this.startJump = function(){
@@ -296,6 +318,13 @@ var Player = function(conflux, game, x, y, key, group) {
   this.hurt = function(){
     this.cState.hurt = true;
 
+<<<<<<< HEAD
+=======
+    this.cState.hurtStartX =  this.body.x,
+    this.cState.hurtDeltaX =  0,
+    this.cState.hurtReductionX =  0,
+
+>>>>>>> 87e46b03a8ea6af5bee9c6b24187f9fd10ebdf34
     this.cState.hurtAscending = true;
     this.cState.hurtDescending = false;
     this.cState.hurtStartY =  this.body.y,
@@ -383,6 +412,12 @@ var Player = function(conflux, game, x, y, key, group) {
       }
     }
     this.resetWasDirections();
+  }
+
+  this.setPause = function(pause){
+    this.cState.paused = pause;
+    this.animations.paused = pause;
+
   }
 };
 
