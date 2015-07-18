@@ -34,8 +34,8 @@ var Player = function(conflux, game, x, y, key, group) {
     fallSpeed: 20*gridSize,
     hurtSpeed: 20*gridSize,
     hurtHeight: 3*gridSize,
+    hurtWidth: 6*gridSize,
     maxHurtReductionY: 0.7,
-    maxHurtReductionX: 0.9,
   };
 
   this.cState = {
@@ -52,9 +52,6 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtReductionX: 0,
     hurtAscending: false,
     hurtDescending: false,
-    hurtStartY: 0,
-    hurtDeltaY: 0,
-    hurtReductionY: 0,
     justToggled: false
   };
 
@@ -155,9 +152,7 @@ var Player = function(conflux, game, x, y, key, group) {
     
     if(this.cState.hurt){
       // Player cannot control themselves while hurt
-      if(!this.against.bottom){
-        this.body.velocity.x = this.cConstants.hurtSpeed;
-      }
+      this.processHurtX();
     } else{
       // If moving left or right, change facing and move forward
       if(this.cursors.left.isDown){
@@ -227,11 +222,18 @@ var Player = function(conflux, game, x, y, key, group) {
       } else {
         this.cState.jumpReduction = 0;
       }
-      this.body.velocity.y = -this.cConstants.jumpSpeed;
-
       this.body.velocity.y = -1 * (this.cConstants.jumpSpeed - (this.cConstants.jumpSpeed * this.cState.jumpReduction));
     }
   }
+
+
+  this.processHurtX = function(){
+    if(this.against.bottom || this.against.left || this.against.right){
+      this.body.velocity.x = 0;
+    } else {
+      this.body.velocity.x = this.cConstants.hurtSpeed;
+    }
+  };
 
   this.processHurtY = function(){
     this.cState.hurtDeltaY = this.cState.hurtStartY - this.body.y;
