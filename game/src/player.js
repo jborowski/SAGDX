@@ -356,23 +356,24 @@ var Player = function(conflux, game, x, y, key, group) {
     var newX=this.body.position.x;
     var newY=this.body.position.y;
     if(!(this.was.above || this.was.below) && (this.was.left || this.was.right)){
+      /* This may be needed again soon
       if (this.body.overlapX < 0){
-        this.body.blocked.left = true;
         this.against.left = mob;
         newX = mob.body.x + mob.body.width + 1;
         this.body.position.x = newX;
       } else if (this.body.overlapX > 0){
-        this.body.blocked.right = true;
         this.against.right = mob;
         newX = mob.body.x - this.body.width - 1;
         this.body.position.x = newX;
-      }
+      }*/
+      this.hurt();
     } else if(!(this.was.left || this.was.right)){
       if (this.body.overlapY < 0){
-        this.body.blocked.top = true;
+        /*this.body.blocked.top = true;
         this.against.top = mob;
         newY = mob.body.y + mob.body.height + 1;
-        this.body.position.y = newY;
+        this.body.position.y = newY;*/
+        this.hurt();
       } else if (this.body.overlapY > 0){
         this.body.blocked.bottom = true;
         this.against.bottom = mob;

@@ -73,7 +73,9 @@ var introState = {
       this.debugText.text = "";
     }
     this.game.physics.arcade.collide(this.mobs, this.lifts);
-    this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, this.checkmobs, this);
+    if(!this.player.cState.hurt){
+      this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, this.checkmobs, this);
+    }
     this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
     this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, this.checkmobs, this);
