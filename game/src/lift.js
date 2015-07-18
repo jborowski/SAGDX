@@ -9,6 +9,7 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed){
   this.body.immovable = true;
   this.waypoints = waypoints;
   this.conflux = conflux;
+  this.paused = false;
 
   this.cConstants = {
     speed: speed*gridSize
@@ -39,33 +40,40 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed){
   this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
 
   this.update = function(){
-    reachedX = this.nextWaypoint.directionX == 0 || (this.nextWaypoint.directionX < 0 && this.body.x < this.nextWaypoint.x)
-    reachedX = reachedX || (this.nextWaypoint.directionX > 0 && this.body.x > this.nextWaypoint.x)
 
-    reachedY = this.nextWaypoint.directionY == 0 || (this.nextWaypoint.directionY < 0 && this.body.y < this.nextWaypoint.y)
-    reachedY = reachedY || (this.nextWaypoint.directionY > 0 && this.body.y > this.nextWaypoint.y)
-
-    // Don't go past our target point
-    if(reachedX){
-      this.body.x = this.nextWaypoint.x;
-    }
-    if(reachedY){
-      this.body.y = this.nextWaypoint.y;
-    }
-
-    // Move, unless we've reached our target, in which case set next target
-    if(reachedX && reachedY){
-      if(this.nextWaypoint.destroy){
-        this.destroy();
-      } else {
-        this.setNextWaypoint();
-      }
+    if(this.paused){
+      this.body.velocity.x = 0;
+      this.body.velocity.y = 0;
     } else {
-      if(!reachedX){
-        this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
+
+      reachedX = this.nextWaypoint.directionX == 0 || (this.nextWaypoint.directionX < 0 && this.body.x < this.nextWaypoint.x)
+      reachedX = reachedX || (this.nextWaypoint.directionX > 0 && this.body.x > this.nextWaypoint.x)
+
+      reachedY = this.nextWaypoint.directionY == 0 || (this.nextWaypoint.directionY < 0 && this.body.y < this.nextWaypoint.y)
+      reachedY = reachedY || (this.nextWaypoint.directionY > 0 && this.body.y > this.nextWaypoint.y)
+
+      // Don't go past our target point
+      if(reachedX){
+        this.body.x = this.nextWaypoint.x;
       }
-      if(!reachedY){
-        this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
+      if(reachedY){
+        this.body.y = this.nextWaypoint.y;
+      }
+
+      // Move, unless we've reached our target, in which case set next target
+      if(reachedX && reachedY){
+        if(this.nextWaypoint.destroy){
+          this.destroy();
+        } else {
+          this.setNextWaypoint();
+        }
+      } else {
+        if(!reachedX){
+          this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
+        }
+        if(!reachedY){
+          this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
+        }
       }
     }
   }
@@ -98,6 +106,10 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed){
     }
     this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
     this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
+  }
+
+  this.setPause = function(pause){
+    this.paused = pause;
   }
 
   this.debugString = function(){

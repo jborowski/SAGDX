@@ -14,8 +14,8 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('runLeft', [39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20]);
   this.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
-  this.animations.add('hurtLeft', [72,73]);
-  this.animations.add('hurtRight', [74,75]);
+  this.animations.add('hurtLeft', [55,73]);
+  this.animations.add('hurtRight', [40,75]);
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -89,8 +89,6 @@ var Player = function(conflux, game, x, y, key, group) {
   this.update = function(){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
-
-    this.checkInput();
     if (!this.cState.paused){
       this.moveX();
       this.moveY();
@@ -135,38 +133,6 @@ var Player = function(conflux, game, x, y, key, group) {
     }
   };
 
-  this.checkInput = function(){
-    if(this.cState.justToggled){
-      if(!this.keyboard.isDown(this.cState.justToggled)){
-        this.cState.justToggled = null;
-      }
-    } else {
-      if(this.keyboard.isDown(72)){
-        this.cState.justToggled = 72;
-        if(this.cState.hurt){
-          this.cancelHurt();
-        }else{
-          this.hurt();
-        }
-      }
-      if(this.keyboard.isDown(70)){
-        this.cState.justToggled = 70;
-        if(this.cState.flying){
-          this.cState.flying=false;
-        }else{
-          this.cState.flying=true;
-        }
-      }
-      if(this.keyboard.isDown(80)){
-        this.cState.justToggled = 80;
-        this.setPause(true);
-      }
-      if(this.cState.paused && this.keyboard.isDown(90)){
-        this.cState.justToggled = 90;
-        this.setPause(false);
-      }
-    }
-  };
 
   this.moveX = function(){
     animationToRun = 0;
@@ -246,7 +212,7 @@ var Player = function(conflux, game, x, y, key, group) {
       this.body.velocity.y = -1 * (this.cConstants.jumpSpeed - (this.cConstants.jumpSpeed * this.cState.jumpReduction));
     }
   }
-  
+
   this.reverseHurt = function(){
     this.cState.facing *= -1;
   }
@@ -295,11 +261,11 @@ var Player = function(conflux, game, x, y, key, group) {
         this.cancelHurt();
       }
     } else if(this.against.bottom){
-      this.cState.hurtTimeoutStarted = true;  
+      this.cState.hurtTimeoutStarted = true;
       this.cState.hurtTime = this.game.time.now;
     }
     if(!this.against.bottom){
-      this.cState.hurtTimeoutStarted = false;  
+      this.cState.hurtTimeoutStarted = false;
     }
   }
 
@@ -320,7 +286,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.cState.hurtDeltaY =  0,
     this.cState.hurtReductionY =  0,
 
-    this.cState.hurtTimeoutStarted = false;  
+    this.cState.hurtTimeoutStarted = false;
     this.cState.hurtTime =  0,
 
     // Cancel other states
@@ -350,7 +316,7 @@ var Player = function(conflux, game, x, y, key, group) {
         newX = tile.left - this.body.width - 1;
         this.body.position.x = newX;
       }
-        
+
       // Bounce of the wall if we're hurting
       if(this.cState.hurt){
         this.reverseHurt();
@@ -416,7 +382,6 @@ var Player = function(conflux, game, x, y, key, group) {
   this.setPause = function(pause){
     this.cState.paused = pause;
     this.animations.paused = pause;
-
   }
 };
 
