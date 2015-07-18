@@ -42,7 +42,8 @@ var Player = function(conflux, game, x, y, key, group) {
     jumpReady: false,
     facing: 1,
     flying: false,
-    hurt: false
+    hurt: false,
+    justToggled: false
   };
 
   this.against = {
@@ -76,7 +77,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     
-    this.checkHurt();
+    this.checkInput();
     this.moveX();
     this.moveY();
     this.setAnimation();
@@ -85,7 +86,7 @@ var Player = function(conflux, game, x, y, key, group) {
   };
 
   this.setAnimation = function(){
-    if(this.hurt){
+    if(this.cState.hurt){
       this.animations.play('hurtLeft', 10);
     }else{
       if(this.against.bottom){
@@ -112,16 +113,35 @@ var Player = function(conflux, game, x, y, key, group) {
     }
   };
 
-  this.checkHurt = function(){
-    if(this.keyboard.isDown(72)){
-      this.hurt=true;
+  this.checkInput = function(){
+    if(this.cState.justToggled){
+      if(!this.keyboard.isDown(this.cState.justToggled)){
+        this.cState.justToggled = null;
+      }
+    } else {
+      if(this.keyboard.isDown(72)){
+        this.cState.justToggled = 72;
+        if(this.cState.hurt){
+          this.cState.hurt = false;
+        }else{
+          this.cState.hurt=true;
+        }
+      } 
+      if(this.keyboard.isDown(70)){
+        this.cState.justToggled = 70;
+        if(this.cState.flying){
+          this.cState.flying=false;
+        }else{
+          this.cState.flying=true;
+        }
+      }
     }
   };
 
   this.moveX = function(){
     animationToRun = 0;
     
-    if(this.hurt){
+    if(this.cState.hurt){
       // Player cannot control themselves while hurt
     } else{
       // If moving left or right, change facing and move forward
@@ -143,7 +163,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.moveY = function(){
     // This is a debug only fly around option, not for normal gameplay
-    if(this.cState.flying){
+    if(this.cState.flying && !this.cState.hurt){
       if(this.cursors.up.isDown){
         this.body.velocity.y = -this.cConstants.runSpeed;
       } else if(this.cursors.down.isDown){
@@ -154,7 +174,7 @@ var Player = function(conflux, game, x, y, key, group) {
       if(this.cState.jumping){
         this.processJump();
       } else {
-        if(this.cursors.up.isDown && this.cState.jumpReady){
+        if(this.cursors.up.isDown && this.cState.jumpReady && !this.cState.hurt){
           this.startJump();
         } else {
           this.body.velocity.y = this.cConstants.fallSpeed;
@@ -168,7 +188,6 @@ var Player = function(conflux, game, x, y, key, group) {
       } else if(this.against.bottom && this.cursors.up.isUp){
         this.cState.jumpReady = true;
       }
-
     }
   }
 
@@ -179,7 +198,7 @@ var Player = function(conflux, game, x, y, key, group) {
     var stopByChoice = this.cursors.up.isUp && reachedMin
 
     // If we should stop jumping
-    if(reachedMax || this.against.top || stopByChoice){
+    if(reachedMax || this.against.top || stopByChoice || this.cState.hurt){
       this.cState.jumping = false;
       this.body.velocity.y = 0;
     // Otherwise, continue ascent
