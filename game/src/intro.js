@@ -17,6 +17,7 @@ var introState = {
     this.game.load.image('truck', 'assets/truck.png');
     this.game.load.image('carrier', 'assets/carrier.png');
     this.game.load.image('lift', 'assets/lift.png');
+    this.game.load.image('flag', 'assets/flag.png');
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -101,6 +102,8 @@ var introState = {
       mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints);
     } else if(unit.type=="lift"){
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed);
+    } else if(unit.type=="flag"){
+      this.add.sprite(xCoord, yCoord, 'flag');
     }
     return mob;
   },

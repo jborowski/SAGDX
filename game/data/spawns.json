@@ -149,6 +149,13 @@
       ],
       "speed": 5
     }
+  },
+  { "type": "once",
+    "spawns": [
+      {"x": 238, "y": 29}
+    ],
+    "unit": {
+      "type": "flag"
+    }
   }
-
 ]
