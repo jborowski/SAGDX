@@ -14,9 +14,12 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('runLeft', [39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20]);
   this.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
+  this.animations.add('hurtLeft', [72,73]);
+  this.animations.add('hurtRight', [74,75]);
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
+  this.keyboard = this.game.input.keyboard;
 
   this.conflux = conflux;
 
@@ -38,7 +41,8 @@ var Player = function(conflux, game, x, y, key, group) {
     jumpReduction: 0,
     jumpReady: false,
     facing: 1,
-    flying: false
+    flying: false,
+    hurt: false
   };
 
   this.against = {
@@ -71,7 +75,8 @@ var Player = function(conflux, game, x, y, key, group) {
   this.update = function(){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
-
+    
+    this.checkHurt();
     this.moveX();
     this.moveY();
     this.setAnimation();
@@ -80,45 +85,59 @@ var Player = function(conflux, game, x, y, key, group) {
   };
 
   this.setAnimation = function(){
-    if(this.against.bottom){
-      if(this.cState.facing > 0){
-        if(this.cursors.right.isDown){
-          this.animations.play('runRight');
+    if(this.hurt){
+      this.animations.play('hurtLeft', 10);
+    }else{
+      if(this.against.bottom){
+        if(this.cState.facing > 0){
+          if(this.cursors.right.isDown){
+            this.animations.play('runRight');
+          } else {
+            this.animations.play('standRight');
+          }
         } else {
-          this.animations.play('standRight');
+          if(this.cursors.left.isDown){
+            this.animations.play('runLeft');
+          } else {
+            this.animations.play('standLeft');
+          }
         }
       } else {
-        if(this.cursors.left.isDown){
-          this.animations.play('runLeft');
+        if(this.cState.facing > 0){
+          this.animations.play('fallRight');
         } else {
-          this.animations.play('standLeft');
+          this.animations.play('fallLeft');
         }
       }
-    } else {
-      if(this.cState.facing > 0){
-        this.animations.play('fallRight');
-      } else {
-        this.animations.play('fallLeft');
-      }
+    }
+  };
+
+  this.checkHurt = function(){
+    if(this.keyboard.isDown(72)){
+      this.hurt=true;
     }
   };
 
   this.moveX = function(){
     animationToRun = 0;
+    
+    if(this.hurt){
+      // Player cannot control themselves while hurt
+    } else{
+      // If moving left or right, change facing and move forward
+      if(this.cursors.left.isDown){
+        this.cState.facing = -1;
+      } else if(this.cursors.right.isDown){
+        this.cState.facing = 1;
+      }
 
-    // If moving left or right, change facing and move forward
-    if(this.cursors.left.isDown){
-      this.cState.facing = -1;
-    } else if(this.cursors.right.isDown){
-      this.cState.facing = 1;
-    }
+      if(this.cursors.left.isDown || this.cursors.right.isDown){
+        this.body.velocity.x = this.cConstants.runSpeed * this.cState.facing;
+      }
 
-    if(this.cursors.left.isDown || this.cursors.right.isDown){
-      this.body.velocity.x = this.cConstants.runSpeed * this.cState.facing;
-    }
-
-    if(this.riding != null){
-      this.body.velocity.x += this.riding.body.velocity.x;
+      if(this.riding != null){
+        this.body.velocity.x += this.riding.body.velocity.x;
+      }
     }
   };
 
