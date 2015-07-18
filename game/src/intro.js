@@ -73,10 +73,10 @@ var introState = {
       this.debugText.text = "";
     }
     this.game.physics.arcade.collide(this.mobs, this.lifts);
-    this.game.physics.arcade.collide(this.player, this.mobs, this.player.mobContact, this.checkmobs, this);
-    this.game.physics.arcade.collide(this.player, this.collisionLayer, this.player.tileContact, null, this);
+    this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, this.checkmobs, this);
+    this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
     this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.game.physics.arcade.collide(this.player, this.lifts, this.player.mobContact, this.checkmobs, this);
+    this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, this.checkmobs, this);
 
     if(this.debug){
       this.debugText.text += "Player: "+this.player.debugString()+"\n";
@@ -84,6 +84,12 @@ var introState = {
       this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
       this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
     }
+  },
+  customMobContact: function(firstObject, secondObject){
+    firstObject.mobContact(secondObject);
+  },
+  customTileContact: function(firstObject, secondObject){
+    firstObject.tileContact(secondObject);
   },
   spawnMob: function(group, unit, xCoord, yCoord){
     var mob;

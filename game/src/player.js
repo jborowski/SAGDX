@@ -186,75 +186,75 @@ var Player = function(conflux, game, x, y, key, group) {
     this.body.velocity.y = -this.cConstants.jumpSpeed;
   }
 
-  this.tileContact = function(player, tile){
-    player.was.below = player.body.prev.y >= tile.bottom;
-    player.was.above = (player.body.prev.y+player.body.height) <= tile.top;
-    player.was.left = (player.body.prev.x+player.body.width) <= tile.left;
-    player.was.right = player.body.prev.x >= tile.right;
-    var newX=player.body.position.x;
-    var newY=player.body.position.y;
-    if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
-      if (player.body.overlapX < 0){
-        player.body.blocked.left = true;
-        player.against.left = tile;
+  this.tileContact = function(tile){
+    this.was.below = this.body.prev.y >= tile.bottom;
+    this.was.above = (this.body.prev.y+this.body.height) <= tile.top;
+    this.was.left = (this.body.prev.x+this.body.width) <= tile.left;
+    this.was.right = this.body.prev.x >= tile.right;
+    var newX=this.body.position.x;
+    var newY=this.body.position.y;
+    if(!(this.was.above || this.was.below) && (this.was.left || this.was.right)){
+      if (this.body.overlapX < 0){
+        this.body.blocked.left = true;
+        this.against.left = tile;
         newX = tile.right + 1;
-        player.body.position.x = newX;
-      } else if (player.body.overlapX > 0){
-        player.body.blocked.right = true;
-        player.against.right = tile;
-        newX = tile.left - player.body.width - 1;
-        player.body.position.x = newX;
+        this.body.position.x = newX;
+      } else if (this.body.overlapX > 0){
+        this.body.blocked.right = true;
+        this.against.right = tile;
+        newX = tile.left - this.body.width - 1;
+        this.body.position.x = newX;
       }
-    } else if(!(player.was.left || player.was.right)){
-      if (player.body.overlapY < 0){
-        player.body.blocked.top = true;
-        player.against.top = tile;
+    } else if(!(this.was.left || this.was.right)){
+      if (this.body.overlapY < 0){
+        this.body.blocked.top = true;
+        this.against.top = tile;
         newY = tile.bottom + 1;
-        player.body.position.y = newY;
-      } else if (player.body.overlapY > 0){
-        player.body.blocked.bottom = true;
-        player.against.bottom = tile;
-        newY = tile.top - player.body.height - 1;
-        player.body.position.y = newY;
+        this.body.position.y = newY;
+      } else if (this.body.overlapY > 0){
+        this.body.blocked.bottom = true;
+        this.against.bottom = tile;
+        newY = tile.top - this.body.height - 1;
+        this.body.position.y = newY;
       }
     }
-    player.resetWasDirections();
+    this.resetWasDirections();
   }
 
-  this.mobContact = function(player, mob){
-    player.was.below = player.body.prev.y >= (mob.body.prev.y + mob.body.height);
-    player.was.above = (player.body.prev.y+player.body.height) <= mob.body.prev.y;
-    player.was.left = (player.body.prev.x+player.body.width) <= mob.body.prev.x;
-    player.was.right = player.body.prev.x >= (mob.body.prev.x + mob.body.width);
-    var newX=player.body.position.x;
-    var newY=player.body.position.y;
-    if(!(player.was.above || player.was.below) && (player.was.left || player.was.right)){
-      if (player.body.overlapX < 0){
-        player.body.blocked.left = true;
-        player.against.left = mob;
+  this.mobContact = function(mob){
+    this.was.below = this.body.prev.y >= (mob.body.prev.y + mob.body.height);
+    this.was.above = (this.body.prev.y+this.body.height) <= mob.body.prev.y;
+    this.was.left = (this.body.prev.x+this.body.width) <= mob.body.prev.x;
+    this.was.right = this.body.prev.x >= (mob.body.prev.x + mob.body.width);
+    var newX=this.body.position.x;
+    var newY=this.body.position.y;
+    if(!(this.was.above || this.was.below) && (this.was.left || this.was.right)){
+      if (this.body.overlapX < 0){
+        this.body.blocked.left = true;
+        this.against.left = mob;
         newX = mob.body.x + mob.body.width + 1;
-        player.body.position.x = newX;
-      } else if (player.body.overlapX > 0){
-        player.body.blocked.right = true;
-        player.against.right = mob;
-        newX = mob.body.x - player.body.width - 1;
-        player.body.position.x = newX;
+        this.body.position.x = newX;
+      } else if (this.body.overlapX > 0){
+        this.body.blocked.right = true;
+        this.against.right = mob;
+        newX = mob.body.x - this.body.width - 1;
+        this.body.position.x = newX;
       }
-    } else if(!(player.was.left || player.was.right)){
-      if (player.body.overlapY < 0){
-        player.body.blocked.top = true;
-        player.against.top = mob;
+    } else if(!(this.was.left || this.was.right)){
+      if (this.body.overlapY < 0){
+        this.body.blocked.top = true;
+        this.against.top = mob;
         newY = mob.body.y + mob.body.height + 1;
-        player.body.position.y = newY;
-      } else if (player.body.overlapY > 0){
-        player.body.blocked.bottom = true;
-        player.against.bottom = mob;
-        player.riding = mob;
-        newY = mob.body.y - player.body.height - 1;
-        player.body.position.y = newY;
+        this.body.position.y = newY;
+      } else if (this.body.overlapY > 0){
+        this.body.blocked.bottom = true;
+        this.against.bottom = mob;
+        this.riding = mob;
+        newY = mob.body.y - this.body.height - 1;
+        this.body.position.y = newY;
       }
     }
-    player.resetWasDirections();
+    this.resetWasDirections();
   }
 
 };
