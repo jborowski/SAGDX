@@ -27,7 +27,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.cConstants = {
     runSpeed: 15*gridSize,
-    maxJumpHeight: 4*gridSize,
+    maxJumpHeight: 5*gridSize,
     minJumpHeight: 1*gridSize,
     jumpSpeed: 20*gridSize,
     maxJumpReduction: 0.7,
