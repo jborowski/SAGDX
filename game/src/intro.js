@@ -190,14 +190,5 @@ SAGDX.introState.prototype = {
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
     fadeOut.onComplete.add(function(){this.state.start("Act1");}, this);
     fadeOut.start();
-  },
-
-  checkLock: function () {
-    if(this.player.body.right < this.player.riding.body.left || this.player.body.left > this.player.riding.body.right){
-      this.cancelLock();
-    }
-  },
-  cancelLock: function () {
-    this.player.riding = null;
   }
 }

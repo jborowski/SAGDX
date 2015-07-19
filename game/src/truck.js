@@ -16,7 +16,8 @@ var Truck = function(conflux, game, x, y, group, facing){
   this.update = function(){
     if(this.paused){
       this.body.velocity.x = 0;
-      this.body.gravity.x = 0;
+      this.body.velocity.y = 0;
+      this.body.gravity.y = 0;
     } else {
       this.body.velocity.x = this.cConstants.groundSpeed*this.facing;
       this.body.gravity.y = 40*gridSize;
