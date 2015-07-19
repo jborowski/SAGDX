@@ -7,6 +7,20 @@ var introState = {
   debug:false,
   justToggled:null,
   paused:false,
+  events: [
+    { id: "FirstDialogue",
+      triggers: {type: "passed", x: 10*gridSize}, //x: 184},
+      resultCallbackName: "sendDialogue",
+      triggered: false
+    },
+    { id: "FirstDialogue",
+      triggers: {type: "passed", x: 30*gridSize}, //x: 184},
+      resultCallbackName: "sendDialogue",
+      triggered: false
+    }
+  ],
+  dialogue: null,
+
   preload: function(){
     this.game.load.tilemap('foregroundLayerMap', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('backgroundLayerMap', 'data/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
@@ -14,6 +28,7 @@ var introState = {
     this.game.load.image('tileset', 'assets/levels/act1/tileset.png');
 
     this.game.load.text('spawns', 'data/spawns.json');
+    this.game.load.text('dialogue', 'data/dialogue.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.image('truck', 'assets/truck.png');
@@ -77,22 +92,28 @@ var introState = {
     if(this.debug){
       this.debugText.text = "";
     }
+    
+    if(this.dialogue){
+      this.processDialogue();
+    } else {
+      this.checkInput();
 
-    this.checkInput();
+      this.game.physics.arcade.collide(this.mobs, this.lifts);
+      if(!this.player.cState.hurt){
+        this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, this.checkmobs, this);
+      }
+      this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
+      this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
+      this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, this.checkmobs, this);
 
-    this.game.physics.arcade.collide(this.mobs, this.lifts);
-    if(!this.player.cState.hurt){
-      this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, this.checkmobs, this);
-    }
-    this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
-    this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-    this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, this.checkmobs, this);
+      if(this.debug){
+        this.debugText.text += "Player: "+this.player.debugString()+"\n";
+        conflux = this;
+        this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
+        this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
+      }
 
-    if(this.debug){
-      this.debugText.text += "Player: "+this.player.debugString()+"\n";
-      conflux = this;
-      this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
-      this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
+      this.checkEvents();
     }
   },
   customMobContact: function(firstObject, secondObject){
@@ -113,19 +134,6 @@ var introState = {
       this.add.sprite(xCoord, yCoord, 'flag');
     }
     return mob;
-  },
-
-  checkInput: function(){
-    if(this.justToggled){
-      if(!this.keyboard.isDown(this.justToggled)){
-        this.justToggled = null;
-      }
-    } else {
-      if(this.keyboard.isDown(80)){
-        this.justToggled = 80;
-        this.enablePause();
-        }
-      }
   },
 
   checkInput: function(){
@@ -174,13 +182,45 @@ var introState = {
       this.game.time.events.remove(this.timerEvents[i]);
     }
   },
-
-  checkLock: function () {
-    if(this.player.body.right < this.player.riding.body.left || this.player.body.left > this.player.riding.body.right){
-      this.cancelLock();
+  checkEvents: function(){
+    var nextEvent;
+    for(var ii = 0; ii < this.events.length; ii += 1){
+      nextEvent = this.events[ii];
+      if(!nextEvent.triggered){
+        if(nextEvent.triggers.type == "passed" && nextEvent.triggers.x < this.player.body.x){
+          this.triggerEvent(nextEvent);
+        }
+      }
     }
   },
-  cancelLock: function () {
-    this.player.riding = null;
+  triggerEvent: function(newEvent){
+    newEvent.triggered = true;
+    this[newEvent.resultCallbackName](newEvent.id);
+
+  },
+  sendDialogue: function(id){
+    this.enablePause();
+    this.dialogueText = this.game.add.text(300, 250, 'BEHOLD! DIALOGUE!', { fontSize: '10px', fill: '#FFF' });
+    this.dialogueText.fixedToCamera = true;
+    this.dialogue = {
+      id: id,
+      index: 0
+    };
+  },
+  processDialogue: function(){
+    if(this.justToggled){
+      if(!this.keyboard.isDown(this.justToggled)){
+        this.justToggled = null;
+      }
+    } else {
+      if(this.keyboard.isDown(32)){
+        this.justToggled = 32;
+        this.advanceDialogue();
+      }
+    }
+  },
+  advanceDialogue: function(){
+    this.dialogueText.text = "";
+    this.dialogue = null;
   }
 }
