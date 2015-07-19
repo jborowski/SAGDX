@@ -1,8 +1,8 @@
 var SAGDX = {};
 
-SAGDX.introState = function(game){};
+SAGDX.act1State = function(game){};
 
-SAGDX.introState.prototype = {
+SAGDX.act1State.prototype = {
   // Settings
   gravity: 40*gridSize,
   carrierSpeed: 10*gridSize,
@@ -167,7 +167,7 @@ SAGDX.introState.prototype = {
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
-        this.resetLevel();
+        this.goToState("Act1");
       }
     }
   },
@@ -186,9 +186,10 @@ SAGDX.introState.prototype = {
     }
   },
 
-  resetLevel: function(){
+  goToState: function(state){
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){this.state.start("Act1");}, this);
+    fadeOut.onComplete.add(function(){this.state.start(state);}, this);
     fadeOut.start();
   }
+
 }
