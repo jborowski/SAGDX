@@ -1,4 +1,8 @@
-var introState = {
+var SAGDX = {};
+
+SAGDX.act1State = function(game){};
+
+SAGDX.act1State.prototype = {
   // Settings
   gravity: 40*gridSize,
   carrierSpeed: 10*gridSize,
@@ -17,6 +21,8 @@ var introState = {
   dialogue: null,
 
   preload: function(){
+    this.game.world.alpha = 0;
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
     this.game.load.tilemap('foregroundLayerMap', 'data/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('backgroundLayerMap', 'data/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('collisionLayerMap', 'data/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
@@ -161,6 +167,10 @@ var introState = {
         this.justToggled = 90;
         this.player.setPause(false);
       }
+      if(this.keyboard.isDown(82)){
+        this.justToggled = 82;
+        this.goToState("Act1");
+      }
     }
   },
 
@@ -225,5 +235,11 @@ var introState = {
       this.dialogueText.text = "";
       this.dialogue = null;
     }
+  },
+  goToState: function(state){
+    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
+    fadeOut.onComplete.add(function(){this.state.start(state);}, this);
+    fadeOut.start();
   }
+
 }
