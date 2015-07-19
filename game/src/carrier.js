@@ -18,6 +18,11 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     speed: speed*gridSize
   }
 
+  this.cState = {
+    waiting: false,
+    waitUntil: 0
+  }
+
   this.nextWaypoint = {
     index: firstWaypointIndex,
     x: this.waypoints[firstWaypointIndex].x*gridSize,

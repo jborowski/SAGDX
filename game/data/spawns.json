@@ -9,8 +9,9 @@
     "unit": {
       "type": "lift",
       "waypoints": [
-        {"x": 44, "y": 40, "destroy": true},
-        {"x": 44, "y": 40, "destroy": true}
+        {"x": 44, "y": 41},
+        {"wait": 8},
+        {"destroy": true}
       ],
       "speed": 10
     }
@@ -24,8 +25,9 @@
     "unit": {
       "type": "lift",
       "waypoints": [
-        {"x": 44, "y": 40, "destroy": true},
-        {"x": 44, "y": 40, "destroy": true}
+        {"x": 44, "y": 41},
+        {"wait": 10},
+        {"destroy": true}
       ],
       "speed": 10
     }

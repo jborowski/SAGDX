@@ -4,7 +4,7 @@ SAGDX.act1State = function(game){};
 
 SAGDX.act1State.prototype = {
   // Settings
-  gravity: 40*gridSize,
+  timeMultiplier: 400,
 
   // State Variables
   debug:false,
@@ -74,7 +74,7 @@ SAGDX.act1State.prototype = {
             this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
         } else if(spawnDef.type=="continous"){
             this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-          this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
+          this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
         }
       }
     }
