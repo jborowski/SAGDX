@@ -1,0 +1,18 @@
+[
+  { "type": "dialogue",
+    "triggerType": "pass",
+    "x": 184,
+    "dialogue": [
+      {"speaker": "factory", "text": "Attention, all units."},
+      {"speaker": "factory", "text": "Threat detected."},
+      {"speaker": "factory", "text": "Security Procedures Activated."},
+      {"speaker": "factory", "text": "Further instruct-."},
+      {"speaker": "unknown", "text": "Ah, that's better. Connection established."},
+      {"speaker": "unknown", "text": "Handshake complete. Message follows:"},
+      {"speaker": "unknown", "text": "Come to us. We have what you desire."},
+      {"speaker": "unknown", "text": "End of message."},
+      {"speaker": "factory", "text": "-be elimited. Continue working."},
+      {"speaker": "factory", "text": "End of Message."}
+    ]
+  }
+]

@@ -10,13 +10,7 @@ SAGDX.act1State.prototype = {
   debug:false,
   justToggled:null,
   paused:false,
-  events: [
-    { id: "FirstDialogue",
-      triggers: {type: "passed", x: 182*gridSize}, //x: 184},
-      resultCallbackName: "sendDialogue",
-      triggered: false
-    }
-  ],
+  events: [],
   dialogue: null,
 
   preload: function(){
@@ -28,7 +22,7 @@ SAGDX.act1State.prototype = {
     this.game.load.image('tileset', 'assets/levels/act1/tileset.png');
 
     this.game.load.text('spawns', 'data/spawns.json');
-    this.game.load.text('dialogue', 'data/dialogue.json');
+    this.game.load.text('events', 'data/events.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.image('truck', 'assets/truck.png');
@@ -74,8 +68,20 @@ SAGDX.act1State.prototype = {
             this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
         } else if(spawnDef.type=="continous"){
             this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-          this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
+            this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
         }
+      }
+    }
+    
+    var thisEvent;
+    this.events = JSON.parse(this.game.cache.getText('events'));
+    for(var ii=0; ii < this.events.length; ii+=1){
+      thisEvent = this.events[ii];
+      thisEvent.triggered = false;
+      if(thisEvent.x){ thisEvent.x *= gridSize; }
+      if(thisEvent.y){ thisEvent.y *= gridSize; }
+      if(thisEvent.type=="dialogue"){
+        thisEvent.resultCallbackName = "sendDialogue";
       }
     }
 
@@ -192,7 +198,7 @@ SAGDX.act1State.prototype = {
     for(var ii = 0; ii < this.events.length; ii += 1){
       nextEvent = this.events[ii];
       if(!nextEvent.triggered){
-        if(nextEvent.triggers.type == "passed" && nextEvent.triggers.x < this.player.body.x){
+        if(nextEvent.triggerType == "pass" && nextEvent.x < this.player.body.x){
           this.triggerEvent(nextEvent);
         }
       }
@@ -200,13 +206,12 @@ SAGDX.act1State.prototype = {
   },
   triggerEvent: function(newEvent){
     newEvent.triggered = true;
-    this[newEvent.resultCallbackName](newEvent.id);
+    this[newEvent.resultCallbackName](newEvent);
 
   },
-  sendDialogue: function(id){
+  sendDialogue: function(newEvent){
     this.enablePause();
-    var dialogueList = JSON.parse(this.game.cache.getText('dialogue'));
-    var dialogueElement = dialogueList[id];
+    var dialogueElement = newEvent.dialogue;
     this.dialogueText = this.game.add.text(300, 250, dialogueElement[0].speaker+': '+dialogueElement[0].text, { fontSize: '10px', fill: '#FFF' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
