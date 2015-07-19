@@ -52,34 +52,43 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
     } else {
-      reachedX = this.nextWaypoint.directionX == 0 || (this.nextWaypoint.directionX < 0 && this.body.x < this.nextWaypoint.x)
-      reachedX = reachedX || (this.nextWaypoint.directionX > 0 && this.body.x > this.nextWaypoint.x)
-
-      reachedY = this.nextWaypoint.directionY == 0 || (this.nextWaypoint.directionY < 0 && this.body.y < this.nextWaypoint.y)
-      reachedY = reachedY || (this.nextWaypoint.directionY > 0 && this.body.y > this.nextWaypoint.y)
-
-      // Don't go past our target point
-      if(reachedX){
-        this.body.x = this.nextWaypoint.x;
-      }
-      if(reachedY){
-        this.body.y = this.nextWaypoint.y;
-      }
-
-      // Move, unless we've reached our target, in which case set next target
-      if(reachedX && reachedY){
-        if(this.nextWaypoint.destroy){
-          this.destroy();
-        } else {
+      if(this.cState.waiting){
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+        if(this.game.time.now > this.cState.waitUntil){
+          this.cState.waiting = false;
           this.setNextWaypoint();
         }
       } else {
-        if(!reachedX){
-          this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
-        }
-        if(!reachedY){
-          this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
-        }
+        this.moveToWaypoint();
+      }
+    }
+  }
+  
+  this.moveToWaypoint = function(){
+    reachedX = this.nextWaypoint.directionX == 0 || (this.nextWaypoint.directionX < 0 && this.body.x < this.nextWaypoint.x)
+    reachedX = reachedX || (this.nextWaypoint.directionX > 0 && this.body.x > this.nextWaypoint.x)
+
+    reachedY = this.nextWaypoint.directionY == 0 || (this.nextWaypoint.directionY < 0 && this.body.y < this.nextWaypoint.y)
+    reachedY = reachedY || (this.nextWaypoint.directionY > 0 && this.body.y > this.nextWaypoint.y)
+
+    // Don't go past our target point
+    if(reachedX){
+      this.body.x = this.nextWaypoint.x;
+    }
+    if(reachedY){
+      this.body.y = this.nextWaypoint.y;
+    }
+
+    // Move, unless we've reached our target, in which case set next target
+    if(reachedX && reachedY){
+      this.setNextWaypoint();
+    } else {
+      if(!reachedX){
+        this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
+      }
+      if(!reachedY){
+        this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
       }
     }
   }
@@ -89,27 +98,32 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     if(this.nextWaypoint.index >= this.waypoints.length){
       this.nextWaypoint.index = 0;
     }
-    this.nextWaypoint.x = this.waypoints[this.nextWaypoint.index].x*gridSize;
-    this.nextWaypoint.y = this.waypoints[this.nextWaypoint.index].y*gridSize;
-    if(this.waypoints[this.nextWaypoint.index].destroy){
-      this.nextWaypoint.destroy = true;
-    }
-    if(this.nextWaypoint.x < this.body.x){
-      this.nextWaypoint.directionX = -1;
-    } else if(this.nextWaypoint.x > this.body.x) {
-      this.nextWaypoint.directionX = 1;
+    var next = this.waypoints[this.nextWaypoint.index];
+    if(next.wait){
+      this.cState.waiting = true;
+      this.cState.waitUntil = this.game.time.now + next.wait*conflux.timeMultiplier;
+    } else if(next.destroy){
+      this.destroy();
     } else {
-      this.nextWaypoint.directionX = 0;
+      this.nextWaypoint.x = next.x*gridSize;
+      this.nextWaypoint.y = next.y*gridSize;
+      if(this.nextWaypoint.x < this.body.x){
+        this.nextWaypoint.directionX = -1;
+      } else if(this.nextWaypoint.x > this.body.x) {
+        this.nextWaypoint.directionX = 1;
+      } else {
+        this.nextWaypoint.directionX = 0;
+      }
+      if(this.nextWaypoint.y < this.body.y){
+        this.nextWaypoint.directionY = -1;
+      } else if(this.nextWaypoint.y > this.body.y) {
+        this.nextWaypoint.directionY = 1;
+      } else {
+        this.nextWaypoint.directionY = 0;
+      }
+      this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
+      this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
     }
-    if(this.nextWaypoint.y < this.body.y){
-      this.nextWaypoint.directionY = -1;
-    } else if(this.nextWaypoint.y > this.body.y) {
-      this.nextWaypoint.directionY = 1;
-    } else {
-      this.nextWaypoint.directionY = 0;
-    }
-    this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
-    this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
   }
 
   this.debugString = function(){

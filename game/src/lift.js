@@ -53,6 +53,7 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed){
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         if(this.game.time.now > this.cState.waitUntil){
+          this.cState.waiting = false;
           this.setNextWaypoint();
         }
       } else {
@@ -98,7 +99,6 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed){
     if(next.wait){
       this.cState.waiting = true;
       this.cState.waitUntil = this.game.time.now + next.wait*conflux.timeMultiplier;
-      console.log(this.game.time.now + "/" + this.cState.waitUntil);
     } else if(next.destroy){
       this.destroy();
     } else {
