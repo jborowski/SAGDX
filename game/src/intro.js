@@ -13,7 +13,7 @@ SAGDX.act1State.prototype = {
   paused:false,
   events: [
     { id: "FirstDialogue",
-      triggers: {type: "passed", x: 10*gridSize}, //x: 184},
+      triggers: {type: "passed", x: 182*gridSize}, //x: 184},
       resultCallbackName: "sendDialogue",
       triggered: false
     }
