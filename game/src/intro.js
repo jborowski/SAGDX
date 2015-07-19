@@ -5,7 +5,6 @@ SAGDX.act1State = function(game){};
 SAGDX.act1State.prototype = {
   // Settings
   gravity: 40*gridSize,
-  carrierSpeed: 10*gridSize,
 
   // State Variables
   debug:false,
@@ -72,8 +71,9 @@ SAGDX.act1State.prototype = {
       spawnDef = spawnList[ii];
       for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
         if(spawnDef.type=="once"){
-            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize);
+            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
         } else if(spawnDef.type=="continous"){
+            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
           this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*400, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
         }
       }
@@ -123,12 +123,12 @@ SAGDX.act1State.prototype = {
   customTileContact: function(firstObject, secondObject){
     firstObject.tileContact(secondObject);
   },
-  spawnMob: function(group, unit, xCoord, yCoord){
+  spawnMob: function(group, unit, xCoord, yCoord, firstWaypoint){
     var mob;
     if(unit.type=="truck"){
-      mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing);
+      mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing, unit.speed);
     } else if(unit.type=="carrier"){
-      mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints);
+      mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints, firstWaypoint, unit.speed);
     } else if(unit.type=="lift"){
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed);
     } else if(unit.type=="flag"){

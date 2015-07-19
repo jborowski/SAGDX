@@ -1,5 +1,6 @@
-var Truck = function(conflux, game, x, y, group, facing){
+var Truck = function(conflux, game, x, y, group, facing, speed){
   if(typeof group === 'undefined'){ group = game.world; }
+  if(typeof speed === 'undefined') { speed = 3; }
   Phaser.Sprite.call(this, game, x, y, 'truck');
   game.physics.arcade.enable(this);
   group.add(this);
@@ -9,7 +10,7 @@ var Truck = function(conflux, game, x, y, group, facing){
   this.paused = false;
 
   this.cConstants = {
-    groundSpeed: 3*gridSize,
+    groundSpeed: speed*gridSize,
     fallSpeed: 20*gridSize
   };
 

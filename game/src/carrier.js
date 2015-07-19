@@ -1,5 +1,7 @@
-var Carrier = function(conflux, game, x, y, group, facing, waypoints){
+var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypointIndex, speed){
   if(typeof group === 'undefined'){ group = game.world; }
+  if(typeof firstWaypointIndex === 'undefined') { firstWaypointIndex = 0; }
+  if(typeof speed === 'undefined') { speed = 10; }
   Phaser.Sprite.call(this, game, x, y, 'carrier');
   game.physics.arcade.enable(this);
   group.add(this);
@@ -13,13 +15,13 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints){
   this.paused = false;
 
   this.cConstants = {
-    speed: 10*gridSize
+    speed: speed*gridSize
   }
 
   this.nextWaypoint = {
-    index: 0,
-    x: this.waypoints[0].x*gridSize,
-    y: this.waypoints[0].y*gridSize
+    index: firstWaypointIndex,
+    x: this.waypoints[firstWaypointIndex].x*gridSize,
+    y: this.waypoints[firstWaypointIndex].y*gridSize
   }
 
   if(this.nextWaypoint.x < this.body.x){
