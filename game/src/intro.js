@@ -12,11 +12,6 @@ var introState = {
       triggers: {type: "passed", x: 10*gridSize}, //x: 184},
       resultCallbackName: "sendDialogue",
       triggered: false
-    },
-    { id: "FirstDialogue",
-      triggers: {type: "passed", x: 30*gridSize}, //x: 184},
-      resultCallbackName: "sendDialogue",
-      triggered: false
     }
   ],
   dialogue: null,
@@ -200,11 +195,13 @@ var introState = {
   },
   sendDialogue: function(id){
     this.enablePause();
-    this.dialogueText = this.game.add.text(300, 250, 'BEHOLD! DIALOGUE!', { fontSize: '10px', fill: '#FFF' });
+    var dialogueList = JSON.parse(this.game.cache.getText('dialogue'));
+    var dialogueElement = dialogueList[id];
+    this.dialogueText = this.game.add.text(300, 250, dialogueElement[0].speaker+': '+dialogueElement[0].text, { fontSize: '10px', fill: '#FFF' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
-      id: id,
-      index: 0
+      index: 0,
+      element: dialogueElement
     };
   },
   processDialogue: function(){
@@ -220,7 +217,13 @@ var introState = {
     }
   },
   advanceDialogue: function(){
-    this.dialogueText.text = "";
-    this.dialogue = null;
+    if(this.dialogue.element[this.dialogue.index]){
+      var line = this.dialogue.element[this.dialogue.index];
+      this.dialogueText.text = line.speaker+": "+line.text;
+      this.dialogue.index += 1;
+    }else{
+      this.dialogueText.text = "";
+      this.dialogue = null;
+    }
   }
 }

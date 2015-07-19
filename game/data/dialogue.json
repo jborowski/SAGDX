@@ -8,7 +8,7 @@
     {"speaker": "unknown", "text": "Handshake complete. Message follows:"},
     {"speaker": "unknown", "text": "Come to us. We have what you desire."},
     {"speaker": "unknown", "text": "End of message."},
-    {"speaker": "factory", "text": "-be elimited. Continue working.",
-    {"speaker": "factory", "text": "End of Message.
+    {"speaker": "factory", "text": "-be elimited. Continue working."},
+    {"speaker": "factory", "text": "End of Message."}
   ]
 }
