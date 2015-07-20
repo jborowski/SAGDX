@@ -1,7 +1,6 @@
-[
+[ 
   { "description": "The continually spawning lifts that raise the first trucks",
     "type": "continous",
-    "delay": 0,
     "interval": 10,
     "spawns":[
       {"x": 44, "y": 80}
@@ -18,7 +17,6 @@
   },
   { "description": "The lifts that raise the first trucks and start on-screen",
     "type": "once",
-    "delay": 0,
     "spawns": [
       {"x": 44,"y": 41}
     ],
@@ -35,7 +33,6 @@
 
   { "description": "The first trucks",
     "type": "continous",
-    "delay": 0,
     "interval": 10,
     "spawns":[
       {"x": 44, "y": 75}
@@ -48,7 +45,6 @@
   },
   { "description": "The first trucks that already start on screen",
     "type": "once",
-    "delay": 0,
     "spawns": [
       {"x": 44,"y": 38},
       {"x": 68,"y": 38},
@@ -65,7 +61,6 @@
   },
   { "description": "The first challenge carrier spawn point for the top carrier",
     "type": "continous",
-    "delay": 0,
     "interval": 15,
     "spawns": [
       {"x": 112, "y": 0}
@@ -87,7 +82,6 @@
   },
   { "description": "The first challenge carrier in progress spawn for the top carrier",
     "type": "once",
-    "delay": 0,
     "interval": 15,
     "spawns": [
       {"x": 112, "y": 34, "firstWaypoint": 1},
@@ -111,7 +105,6 @@
   },
   { "description": "The first challenge carrier spawn point for the bottom carrier",
     "type": "continous",
-    "delay": 0,
     "interval": 15,
     "spawns": [
       {"x": 112, "y": 3}
@@ -133,7 +126,6 @@
   },
   { "description": "The first challenge carrier in progress spawn for the bottom carrier",
     "type": "once",
-    "delay": 0,
     "interval": 15,
     "spawns": [
       {"x": 112, "y": 37, "firstWaypoint": 1},
@@ -157,7 +149,6 @@
   },
   { "description": "The carriers from the loopy bit at the end",
     "type": "once",
-    "delay": 0,
     "interval": 10,
     "spawns": [
       {"x": 253, "y": 76}
@@ -179,7 +170,6 @@
   },
   { "description": "Lift that blocks the shower room",
     "type": "once",
-    "delay": 0,
     "interval": 10,
     "spawns": [
       {"x": 189, "y": 44}
@@ -196,7 +186,6 @@
   },
   { "description": "Lift to escape the shower room",
     "type": "once",
-    "delay": 0,
     "interval": 10,
     "spawns": [
       {"x": 179, "y": 69}
