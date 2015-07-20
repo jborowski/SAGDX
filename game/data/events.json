@@ -14,5 +14,13 @@
       {"speaker": "factory", "text": "-be elimited. Continue working."},
       {"speaker": "factory", "text": "End of Message."}
     ]
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":266,
+    "y":73,
+    "x2":269,
+    "y2":78,
+    "target": "Act1"
   }
 ]

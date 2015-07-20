@@ -80,8 +80,12 @@ SAGDX.act1State.prototype = {
       thisEvent.triggered = false;
       if(thisEvent.x){ thisEvent.x *= gridSize; }
       if(thisEvent.y){ thisEvent.y *= gridSize; }
+      if(thisEvent.x2){ thisEvent.x2 *= gridSize; }
+      if(thisEvent.y2){ thisEvent.y2 *= gridSize; }
       if(thisEvent.type=="dialogue"){
         thisEvent.resultCallbackName = "sendDialogue";
+      } else if(thisEvent.type=="transition"){
+        thisEvent.resultCallbackName = "touchDoor";
       }
     }
 
@@ -198,8 +202,16 @@ SAGDX.act1State.prototype = {
     for(var ii = 0; ii < this.events.length; ii += 1){
       nextEvent = this.events[ii];
       if(!nextEvent.triggered){
-        if(nextEvent.triggerType == "pass" && nextEvent.x < this.player.body.x){
-          this.triggerEvent(nextEvent);
+        if(nextEvent.triggerType == "pass"){
+          if(nextEvent.x < this.player.body.x){
+            this.triggerEvent(nextEvent);
+          }
+        } else if(nextEvent.triggerType == "inside"){
+          var betweenSides = (this.player.body.x > nextEvent.x) && (this.player.body.right < nextEvent.x2);
+          var underAndOver = (this.player.body.y > nextEvent.y) && (this.player.body.bottom < nextEvent.y2);
+          if(betweenSides && underAndOver){
+            this.triggerEvent(nextEvent);
+          }
         }
       }
     }
@@ -207,7 +219,6 @@ SAGDX.act1State.prototype = {
   triggerEvent: function(newEvent){
     newEvent.triggered = true;
     this[newEvent.resultCallbackName](newEvent);
-
   },
   sendDialogue: function(newEvent){
     this.enablePause();
@@ -240,6 +251,9 @@ SAGDX.act1State.prototype = {
       this.dialogueText.text = "";
       this.dialogue = null;
     }
+  },
+  touchDoor: function(event){
+    this.goToState(event.target);
   },
   goToState: function(state){
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
