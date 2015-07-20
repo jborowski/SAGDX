@@ -160,29 +160,31 @@
     "delay": 0,
     "interval": 10,
     "spawns": [
-      {"x": 253, "y": 77}
+      {"x": 253, "y": 76}
     ],
     "unit": {
       "type": "carrier",
       "facing": 1,
-      "speed": 25,
+      "speed": 15,
       "waypoints": [
-        {"x": 253, "y": 25},
-        {"x": 217, "y": 25},
+        {"x": 253, "y": 28},
+        {"x": 217, "y": 28},
         {"x": 217, "y": 36},
         {"x": 208, "y": 36},
         {"x": 208, "y": 9},
         {"x": 263, "y": 9},
-        {"x": 263, "y": 78},
-        {"x": 253, "y": 78}
-      ]
+        {"x": 263, "y": 76},
+        {"x": 253, "y": 76}
+      ],
+      "paused": true
     }
   },
-  { "type": "once",
+  { "description": "Lift that blocks the shower room",
+    "type": "once",
     "delay": 0,
     "interval": 10,
     "spawns": [
-      {"x": 189, "y": 41}
+      {"x": 189, "y": 44}
     ],
     "unit": {
       "type": "lift",
@@ -190,27 +192,31 @@
         {"x": 189, "y": 41},
         {"x": 189, "y": 47}
       ],
-      "speed": 5
+      "speed": 5,
+      "paused": true
     }
   },
-  { "type": "once",
+  { "description": "Lift to escape the shower room",
+    "type": "once",
     "delay": 0,
     "interval": 10,
     "spawns": [
-      {"x": 179, "y": 49}
+      {"x": 179, "y": 69}
     ],
     "unit": {
       "type": "lift",
       "waypoints": [
-        {"x": 179, "y": 69},
-        {"x": 179, "y": 49}
+        {"x": 179, "y": 49},
+        {"x": 179, "y": 69}
       ],
-      "speed": 5
+      "speed": 5,
+      "paused": true
     }
   },
-  { "type": "once",
+  { "description": "Marks a small victory for mankind, but a big leap for us.",
+    "type": "once",
     "spawns": [
-      {"x": 238, "y": 29}
+      {"x": 270, "y": 75}
     ],
     "unit": {
       "type": "flag"

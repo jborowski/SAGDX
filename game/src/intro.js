@@ -136,11 +136,11 @@ SAGDX.act1State.prototype = {
   spawnMob: function(group, unit, xCoord, yCoord, firstWaypoint){
     var mob;
     if(unit.type=="truck"){
-      mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing, unit.speed);
+      mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="carrier"){
-      mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints, firstWaypoint, unit.speed);
+      mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="lift"){
-      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed);
+      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed, unit.paused);
     } else if(unit.type=="flag"){
       this.add.sprite(xCoord, yCoord, 'flag');
     }

@@ -1,4 +1,4 @@
-var Truck = function(conflux, game, x, y, group, facing, speed){
+var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
   if(typeof group === 'undefined'){ group = game.world; }
   if(typeof speed === 'undefined') { speed = 3; }
   Phaser.Sprite.call(this, game, x, y, 'truck');
@@ -40,6 +40,7 @@ var Truck = function(conflux, game, x, y, group, facing, speed){
   this.setPause = function(pause){
     this.paused = pause;
   };
+  this.setPause(!!startPaused);
 }
 
 Truck.prototype = Object.create(Phaser.Sprite.prototype);

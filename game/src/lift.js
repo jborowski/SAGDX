@@ -1,4 +1,4 @@
-var Lift = function(conflux, game, x, y, group, waypoints, speed){
+var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
   if(typeof group === 'undefined'){ group = game.world; }
   if(typeof speed === 'undefined') { speed = 10; }
   Phaser.Sprite.call(this, game, x, y, 'lift');
@@ -121,16 +121,17 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed){
       this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
       this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
     }
-  }
+  };
 
   this.setPause = function(pause){
     this.paused = pause;
-  }
+  };
 
   this.debugString = function(){
     return "PLATFORM: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
       "[looking:"+this.nextWaypoint.directionX+"/"+this.nextWaypoint.directionY+"][moving:"+this.body.velocity.x+"/"+this.body.velocity.y+"]";
-  }
+  };
+  this.setPause(!!startPaused);
 }
 
 Lift.prototype = Object.create(Phaser.Sprite.prototype);

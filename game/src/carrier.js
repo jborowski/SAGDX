@@ -1,4 +1,4 @@
-var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypointIndex, speed){
+var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypointIndex, speed, startPaused){
   if(typeof group === 'undefined'){ group = game.world; }
   if(typeof firstWaypointIndex === 'undefined') { firstWaypointIndex = 0; }
   if(typeof speed === 'undefined') { speed = 10; }
@@ -124,16 +124,17 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
       this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
     }
-  }
+  };
 
   this.debugString = function(){
     return "CARRIER: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
       "[looking:"+this.nextWaypoint.directionX+"/"+this.nextWaypoint.directionY+"][moving:"+this.body.velocity.x+"/"+this.body.velocity.y+"]";
-  }
+  };
 
   this.setPause = function(pause){
     this.paused = pause;
-  }
+  };
+  this.setPause(!!startPaused);
 }
 
 Carrier.prototype = Object.create(Phaser.Sprite.prototype);
