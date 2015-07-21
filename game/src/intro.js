@@ -80,7 +80,7 @@ SAGDX.act1State.prototype = {
         }
       }
     }
-    
+
     var thisEvent;
     this.events = JSON.parse(this.game.cache.getText('events'));
     for(var ii=0; ii < this.events.length; ii+=1){
@@ -113,7 +113,7 @@ SAGDX.act1State.prototype = {
     if(this.debug){
       this.debugText.text = "";
     }
-    
+
     if(this.dialogue){
       this.processDialogue();
     } else {
@@ -150,6 +150,10 @@ SAGDX.act1State.prototype = {
       this.game.world.bringToTop(this.player);
       this.game.world.bringToTop(this.blasts);
       this.game.world.bringToTop(this.foregroundLayer);
+    }
+
+    if(this.player.cState.outOfBounds){
+      this.goToState("Act1");
     }
   },
   customMobContact: function(firstObject, secondObject){

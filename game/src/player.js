@@ -8,7 +8,6 @@ var Player = function(conflux, game, x, y, key, group) {
   this.body.customSeparateX = true;
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
-  this.body.collideWorldBounds = true;
   this.animations.add('standRight', [70]);
   this.animations.add('standLeft', [71]);
   this.animations.add('runRight', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]);
@@ -58,6 +57,7 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtTime: 0,
     hurtTimeoutStarted: false,
     justToggled: false,
+    outOfBounds: false,
     paused: false
   };
 
@@ -101,6 +101,7 @@ var Player = function(conflux, game, x, y, key, group) {
       this.resetAgainst();
       this.riding = null;
     }
+    if(this.body.y > this.game.world.height) this.cState.outOfBounds = true;
   };
 
   this.setAnimation = function(){
@@ -278,7 +279,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.cState.jumpReduction = 0;
     this.body.velocity.y = -this.cConstants.jumpSpeed;
   };
-  
+
   this.hit = function(){
     this.hurt();
   };
