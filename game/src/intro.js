@@ -153,6 +153,8 @@ SAGDX.act1State.prototype = {
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed, unit.paused);
     } else if(unit.type=="bigblast"){
       mob = new BigBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
+    } else if(unit.type=="littleblast"){
+      mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="flag"){
       mob = this.add.sprite(xCoord, yCoord, 'flag');
     }
