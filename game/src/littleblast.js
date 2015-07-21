@@ -33,10 +33,10 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
   };
 
   this.update = function(){
-    if(this.paused){
+    if(this.cState.paused){
       this.body.velocity.x = 0;
     } else {
-      this.body.velocity.x = this.cConstants.speed*this.facing;
+      this.body.velocity.x = this.cConstants.speed*this.cState.facing;
     }
     if(this.cState.markDestroyed){
       this.destroy();

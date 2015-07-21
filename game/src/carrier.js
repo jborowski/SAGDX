@@ -9,7 +9,6 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.mobType = "carrier";
   this.body.immovable = true;
   this.outOfBoundsKill = true;
-  this.facing = facing;
   this.waypoints = waypoints;
   this.conflux = conflux;
   this.animations.add('plain', [0]);
@@ -23,7 +22,8 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.cState = {
     waiting: false,
     waitUntil: 0,
-    paused: false
+    paused: false,
+    facing: facing
   }
 
   this.nextWaypoint = {
