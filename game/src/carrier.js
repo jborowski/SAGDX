@@ -12,15 +12,18 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.facing = facing;
   this.waypoints = waypoints;
   this.conflux = conflux;
-  this.paused = false;
+  this.animations.add('plain', [0]);
+  this.animations.play('plain');
 
   this.cConstants = {
-    speed: speed*gridSize
+    speed: speed*gridSize,
+    animationPausedOffset: 1
   }
 
   this.cState = {
     waiting: false,
-    waitUntil: 0
+    waitUntil: 0,
+    paused: false
   }
 
   this.nextWaypoint = {
@@ -48,7 +51,7 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
 
   this.update = function(){
-    if(this.paused){
+    if(this.cState.paused){
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
     } else {
@@ -132,7 +135,15 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   };
 
   this.setPause = function(pause){
-    this.paused = pause;
+    if(this.cState.paused != pause){
+      if(pause){
+        this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
+      } else {
+        this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
+      }
+      this.animations.paused = pause;
+      this.cState.paused = pause;
+    }
   };
   this.setPause(!!startPaused);
 }

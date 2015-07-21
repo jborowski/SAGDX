@@ -12,16 +12,24 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
     this.addChild(hitbox);
   }
   this.mobType = "littleblast";
-  this.facing = facing;
   this.conflux = conflux;
-  this.paused = false;
+
+  this.body.customSeparateX = true;
+  this.body.customSeparateY = true;
+  this.body.allowGravity = false;
+
+  this.animations.add('plain', [0]);
+  this.animations.play('plain');
 
   this.cConstants = {
-    speed: speed*gridSize
+    speed: speed*gridSize,
+    animationPausedOffset: 1
   };
 
   this.cState = {
-    markDestroyed: false
+    markDestroyed: false,
+    paused: false,
+    facing: facing
   };
 
   this.update = function(){
@@ -49,7 +57,15 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
   };
 
   this.setPause = function(pause){
-    this.paused = pause;
+    if(this.cState.paused != pause){
+      if(pause){
+        this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
+      } else {
+        this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
+      }
+      this.animations.paused = pause;
+      this.cState.paused = pause;
+    }
   };
   this.setPause(!!startPaused);
 }

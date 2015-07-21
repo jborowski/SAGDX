@@ -17,7 +17,6 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
   this.animations.add('hurtLeft', [72,73]);
   this.animations.add('hurtRight', [74,75]);
-  this.animationPausedOffset = 80;
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -39,6 +38,7 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtWidth: 6*gridSize,
     hurtTimeout: 1000,
     maxHurtReductionY: 0.7,
+    animationPausedOffset: 80
   };
 
   this.cState = {
@@ -367,7 +367,7 @@ var Player = function(conflux, game, x, y, key, group) {
         this.cState.facing = -1;
       }
       this.hurt();
-      if(mob.paused){
+      if(mob.cState.paused){
         mob.setPause(false);
       }
     } else if(!(this.was.left || this.was.right)){
@@ -397,9 +397,9 @@ var Player = function(conflux, game, x, y, key, group) {
   this.setPause = function(pause){
     if(this.cState.paused != pause){
       if(pause){
-        this.animations.frame = this.animations.frame + this.animationPausedOffset;
+        this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
       } else {
-        this.animations.frame = this.animations.frame - this.animationPausedOffset;
+        this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
       }
       this.animations.paused = pause;
       this.cState.paused = pause;

@@ -8,15 +8,18 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
   this.body.immovable = true;
   this.waypoints = waypoints;
   this.conflux = conflux;
-  this.paused = false;
+  this.animations.add('plain', [0]);
+  this.animations.play('plain');
 
   this.cConstants = {
-    speed: speed*gridSize
+    speed: speed*gridSize,
+    animationPausedOffset: 1
   }
 
   this.cState = {
     waiting: false,
-    waitUntil: 0
+    waitUntil: 0,
+    paused: false
   }
 
   this.nextWaypoint = {
@@ -45,7 +48,7 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
 
   this.update = function(){
 
-    if(this.paused){
+    if(this.cState.paused){
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
     } else {
@@ -124,7 +127,15 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
   };
 
   this.setPause = function(pause){
-    this.paused = pause;
+    if(this.cState.paused != pause){
+      if(pause){
+        this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
+      } else {
+        this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
+      }
+      this.animations.paused = pause;
+      this.cState.paused = pause;
+    }
   };
 
   this.debugString = function(){

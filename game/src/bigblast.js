@@ -12,27 +12,31 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
     this.addChild(hitbox);
   }
   this.mobType = "bigblast";
-  this.facing = facing;
   this.conflux = conflux;
-  this.paused = false;
 
   this.body.customSeparateX = true;
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
 
+  this.animations.add('plain', [0]);
+  this.animations.play('plain');
+
   this.cConstants = {
-    speed: speed*gridSize
+    speed: speed*gridSize,
+    animationPausedOffset: 1
   };
 
   this.cState = {
-    markDestroyed: false
+    markDestroyed: false,
+    paused: false,
+    facing: facing
   };
 
   this.update = function(){
-    if(this.paused){
+    if(this.cState.paused){
       this.body.velocity.x = 0;
     } else {
-      this.body.velocity.x = this.cConstants.speed*this.facing;
+      this.body.velocity.x = this.cConstants.speed*this.cState.facing;
     }
     if(this.cState.markDestroyed){
       this.destroy();
@@ -53,7 +57,15 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   };
 
   this.setPause = function(pause){
-    this.paused = pause;
+    if(this.cState.paused != pause){
+      if(pause){
+        this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
+      } else {
+        this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
+      }
+      this.animations.paused = pause;
+      this.cState.paused = pause;
+    }
   };
   this.setPause(!!startPaused);
 }

@@ -25,12 +25,12 @@ SAGDX.act1State.prototype = {
     this.game.load.text('events', 'data/events.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
-    this.game.load.image('truck', 'assets/truck.png');
-    this.game.load.image('carrier', 'assets/carrier.png');
-    this.game.load.image('lift', 'assets/lift.png');
+    this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
+    this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 32);
+    this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
     this.game.load.image('flag', 'assets/flag.png');
-    this.game.load.image('bigblast', 'assets/bigblast.png');
-    this.game.load.image('littleblast', 'assets/littleblast.png');
+    this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 80, 80);
+    this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -223,6 +223,9 @@ SAGDX.act1State.prototype = {
     });
     this.lifts.forEach(function(lift){
       lift.setPause(true);
+    });
+    this.blasts.forEach(function(blast){
+      blast.setPause(true);
     });
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){

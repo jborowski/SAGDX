@@ -5,22 +5,28 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
   game.physics.arcade.enable(this);
   group.add(this);
   this.mobType = "truck";
-  this.facing = facing;
   this.conflux = conflux;
-  this.paused = false;
+  this.animations.add('plain', [0]);
+  this.animations.play('plain');
 
   this.cConstants = {
     groundSpeed: speed*gridSize,
-    fallSpeed: 20*gridSize
+    fallSpeed: 20*gridSize,
+    animationPausedOffset: 1
   };
 
+  this.cState = {
+    paused: false,
+    facing: facing
+  }
+
   this.update = function(){
-    if(this.paused){
+    if(this.cState.paused){
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
       this.body.gravity.y = 0;
     } else {
-      this.body.velocity.x = this.cConstants.groundSpeed*this.facing;
+      this.body.velocity.x = this.cConstants.groundSpeed*this.cState.facing;
       this.body.gravity.y = 40*gridSize;
 
       if(this.body.velocity.y > this.cConstants.fallSpeed){
@@ -38,7 +44,15 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
   };
 
   this.setPause = function(pause){
-    this.paused = pause;
+    if(this.cState.paused != pause){
+      if(pause){
+        this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
+      } else {
+        this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
+      }
+      this.animations.paused = pause;
+      this.cState.paused = pause;
+    }
   };
   this.setPause(!!startPaused);
 }
