@@ -386,7 +386,7 @@ var Player = function(conflux, game, x, y, key, group) {
         this.riding = mob;
         newY = mob.body.y - this.body.height - 1;
         this.body.position.y = newY;
-        if(mob.paused){
+        if(mob.cState.paused){
           mob.setPause(false);
         }
       }
