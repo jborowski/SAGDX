@@ -3,6 +3,7 @@ var Player = function(conflux, game, x, y, key, group) {
   Phaser.Sprite.call(this, game, x, y, key);
   game.physics.arcade.enable(this);
   group.add(this);
+  this.mobType = "player";
   this.body.setSize(16,64,26,16);
   this.body.customSeparateX = true;
   this.body.customSeparateY = true;
@@ -275,7 +276,11 @@ var Player = function(conflux, game, x, y, key, group) {
     this.cState.jumpHeight = 0;
     this.cState.jumpReduction = 0;
     this.body.velocity.y = -this.cConstants.jumpSpeed;
-  }
+  };
+  
+  this.hit = function(){
+    this.hurt();
+  };
 
   this.hurt = function(){
     this.cState.hurt = true;

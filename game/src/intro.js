@@ -29,10 +29,13 @@ SAGDX.act1State.prototype = {
     this.game.load.image('carrier', 'assets/carrier.png');
     this.game.load.image('lift', 'assets/lift.png');
     this.game.load.image('flag', 'assets/flag.png');
+    this.game.load.image('bigblast', 'assets/bigblast.png');
+    this.game.load.image('littleblast', 'assets/littleblast.png');
   },
   create: function(){
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
+    this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
     this.map = this.game.add.tilemap('foregroundLayerMap');
     this.map.addTilesetImage('tileset');
@@ -65,9 +68,9 @@ SAGDX.act1State.prototype = {
       spawnDef = spawnList[ii];
       for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
         if(spawnDef.type=="once"){
-            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
+            this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
         } else if(spawnDef.type=="continous"){
-            this.spawnMob(this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
+            this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
             this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, this.mobs, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
         }
       }
@@ -92,6 +95,7 @@ SAGDX.act1State.prototype = {
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
+    this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
 
     if(this.debug){
@@ -111,11 +115,14 @@ SAGDX.act1State.prototype = {
 
       this.game.physics.arcade.collide(this.mobs, this.lifts);
       if(!this.player.cState.hurt){
-        this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, this.checkmobs, this);
+        this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, null, this);
       }
       this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
       this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-      this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, this.checkmobs, this);
+      this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, null, this);
+
+      this.game.physics.arcade.collide(this.player, this.blasts, this.customMobContactedBy, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.collisionLayer, this.customTileContact, null, this);
 
       if(this.debug){
         this.debugText.text += "Player: "+this.player.debugString()+"\n";
@@ -130,19 +137,24 @@ SAGDX.act1State.prototype = {
   customMobContact: function(firstObject, secondObject){
     firstObject.mobContact(secondObject);
   },
+  customMobContactedBy: function(firstObject, secondObject){
+    secondObject.mobContact(firstObject);
+  },
   customTileContact: function(firstObject, secondObject){
     firstObject.tileContact(secondObject);
   },
-  spawnMob: function(group, unit, xCoord, yCoord, firstWaypoint){
+  spawnMob: function(unit, xCoord, yCoord, firstWaypoint){
     var mob;
     if(unit.type=="truck"){
-      mob = new Truck(this, this.game, xCoord, yCoord, group, unit.facing, unit.speed, unit.paused);
+      mob = new Truck(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="carrier"){
-      mob = new Carrier(this, this.game, xCoord, yCoord, group, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
+      mob = new Carrier(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="lift"){
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed, unit.paused);
+    } else if(unit.type=="bigblast"){
+      mob = new BigBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="flag"){
-      this.add.sprite(xCoord, yCoord, 'flag');
+      mob = this.add.sprite(xCoord, yCoord, 'flag');
     }
     return mob;
   },
@@ -173,7 +185,7 @@ SAGDX.act1State.prototype = {
         this.justToggled = 80;
         this.enablePause();
       }
-      if(this.player.cState.paused && this.keyboard.isDown(90)){
+      if(this.player.cState.paused && this.keyboard.isDown(32)){
         this.justToggled = 90;
         this.player.setPause(false);
       }

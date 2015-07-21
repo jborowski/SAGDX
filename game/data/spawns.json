@@ -1,4 +1,15 @@
 [ 
+  { "description": "Test blast",
+    "type": "once",
+    "spawns":[
+      {"x": 12, "y": 28}
+    ],
+    "unit": {
+      "type": "bigblast",
+      "facing": -1
+    },
+    "speed": 5
+  },
   { "description": "The continually spawning lifts that raise the first trucks",
     "type": "continous",
     "interval": 10,
