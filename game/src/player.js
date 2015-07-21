@@ -368,7 +368,7 @@ var Player = function(conflux, game, x, y, key, group) {
         this.cState.facing = -1;
       }
       this.hurt();
-      if(mob.cState.paused){
+      if(mob.cState.paused && !this.cState.paused){
         mob.setPause(false);
       }
     } else if(!(this.was.left || this.was.right)){
@@ -378,7 +378,7 @@ var Player = function(conflux, game, x, y, key, group) {
         newY = mob.body.y + mob.body.height + 1;
         this.body.position.y = newY;*/
         this.hurt();
-        if(mob.paused){
+        if(mob.cState.paused && !this.cState.paused){
           mob.setPause(false);
         }
       } else if (this.body.overlapY > 0){
@@ -387,7 +387,7 @@ var Player = function(conflux, game, x, y, key, group) {
         this.riding = mob;
         newY = mob.body.y - this.body.height - 1;
         this.body.position.y = newY;
-        if(mob.cState.paused){
+        if(mob.cState.paused && !this.cState.paused){
           mob.setPause(false);
         }
       }
