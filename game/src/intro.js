@@ -54,6 +54,11 @@ SAGDX.act1State.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
+    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0x898989).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
+    this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
+    this.pauseFilter.alpha = 0.5;
+
+
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
@@ -92,6 +97,7 @@ SAGDX.act1State.prototype = {
       }
     }
 
+    this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
@@ -132,6 +138,18 @@ SAGDX.act1State.prototype = {
       }
 
       this.checkEvents();
+
+    }
+
+    if(this.paused && false){
+      // Add pause layer over background
+      this.game.world.bringToTop(this.backgroundLayer);
+      this.game.world.bringToTop(this.pauseFilter);
+      this.game.world.bringToTop(this.mobs);
+      this.game.world.bringToTop(this.lifts);
+      this.game.world.bringToTop(this.player);
+      this.game.world.bringToTop(this.blasts);
+      this.game.world.bringToTop(this.foregroundLayer);
     }
   },
   customMobContact: function(firstObject, secondObject){

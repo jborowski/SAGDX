@@ -17,6 +17,7 @@ var Player = function(conflux, game, x, y, key, group) {
   this.animations.add('fallLeft', [55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]);
   this.animations.add('hurtLeft', [72,73]);
   this.animations.add('hurtRight', [74,75]);
+  this.animationPausedOffset = 80;
 
 
   this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -394,8 +395,15 @@ var Player = function(conflux, game, x, y, key, group) {
   }
 
   this.setPause = function(pause){
-    this.cState.paused = pause;
-    this.animations.paused = pause;
+    if(this.cState.paused != pause){
+      if(pause){
+        this.animations.frame = this.animations.frame + this.animationPausedOffset;
+      } else {
+        this.animations.frame = this.animations.frame - this.animationPausedOffset;
+      }
+      this.animations.paused = pause;
+      this.cState.paused = pause;
+    }
   }
 };
 
