@@ -17,7 +17,11 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
   this.paused = false;
 
   this.cConstants = {
-    speed: speed*gridSize,
+    speed: speed*gridSize
+  };
+
+  this.cState = {
+    markDestroyed: false
   };
 
   this.update = function(){
@@ -26,15 +30,18 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
     } else {
       this.body.velocity.x = this.cConstants.speed*this.facing;
     }
+    if(this.cState.markDestroyed){
+      this.destroy();
+    }
   };
 
   this.mobContact = function(mob){
     mob.hit();
-    this.destroy();
+    this.cState.markDestroyed = true;
   };
 
   this.tileContact = function(tile){
-    this.destroy();
+    this.cState.markDestroyed = true;
   };
 
   this.debugString = function(){

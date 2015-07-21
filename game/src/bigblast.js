@@ -16,8 +16,16 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   this.conflux = conflux;
   this.paused = false;
 
+  this.body.customSeparateX = true;
+  this.body.customSeparateY = true;
+  this.body.allowGravity = false;
+
   this.cConstants = {
-    speed: speed*gridSize,
+    speed: speed*gridSize
+  };
+
+  this.cState = {
+    markDestroyed: false
   };
 
   this.update = function(){
@@ -26,15 +34,18 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
     } else {
       this.body.velocity.x = this.cConstants.speed*this.facing;
     }
+    if(this.cState.markDestroyed){
+      this.destroy();
+    }
   };
 
   this.mobContact = function(mob){
     mob.hit();
-    this.destroy();
+    this.cState.markDestroyed = true;
   };
 
   this.tileContact = function(tile){
-    this.destroy();
+    this.cState.markDestroyed = true;
   };
 
   this.debugString = function(){
