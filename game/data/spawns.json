@@ -2,7 +2,7 @@
   { "description": "Test turret",
     "type": "once",
     "spawns":[
-      {"x": 22, "y": 33}
+      {"x": 25, "y": 33}
     ],
     "unit": {
       "type": "turret",

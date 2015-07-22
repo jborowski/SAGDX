@@ -206,18 +206,16 @@ SAGDX.act1State.prototype = {
           this.player.cState.flying=true;
         }
       }
-      if(this.keyboard.isDown(80)){
-        this.justToggled = 80;
+      if(this.keyboard.isDown(13)){
+        this.justToggled = 13;
         this.enablePause();
       }
       if(this.player.cState.paused){
-        if(this.keyboard.isDown(32)){
-          this.justToggled = 32;
-          this.player.setPause(false);
-        } else if(this.player.cursors.left.isDown ||
-                  this.player.cursors.right.isDown ||
-                  this.player.cursors.up.isDown ||
-                  this.player.cursors.down.isDown){
+        if( this.keyboard.isDown(32) ||
+            this.player.cursors.left.isDown ||
+            this.player.cursors.right.isDown ||
+            this.player.cursors.up.isDown ||
+            this.player.cursors.down.isDown){
           this.player.setPause(false);
         }
       }
@@ -276,7 +274,7 @@ SAGDX.act1State.prototype = {
   sendDialogue: function(newEvent){
     this.enablePause();
     var dialogueElement = newEvent.dialogue;
-    this.dialogueText = this.game.add.text(300, 250, dialogueElement[0].speaker+': '+dialogueElement[0].text, { fontSize: '10px', fill: '#FFF' });
+    this.dialogueText = this.game.add.text(300, 280, dialogueElement[0].speaker+': '+dialogueElement[0].text, { fontSize: '16px', fill: '#FFF' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
       index: 0,
