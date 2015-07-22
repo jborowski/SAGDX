@@ -27,6 +27,7 @@ SAGDX.act1State.prototype = {
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
     this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 32);
+    this.game.load.spritesheet('floater', 'assets/floater.png', 32, 32);
     this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
     this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 80, 80);
@@ -177,6 +178,8 @@ SAGDX.act1State.prototype = {
       mob = new BigBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="littleblast"){
       mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
+    } else if(unit.type=="floater"){
+      mob = new Floater(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="flag"){
       mob = this.add.sprite(xCoord, yCoord, 'flag');
     }

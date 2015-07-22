@@ -15,6 +15,24 @@
       "speed": 50
     }
   },
+  { "description": "A test floater",
+    "type": "once",
+    "interval": 15,
+    "spawns": [
+      {"x": 20, "y": 20}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 5,
+      "waypoints": [
+        {"x": 20, "y": 20},
+        {"x": 30, "y": 20},
+        {"x": 30, "y": 30},
+        {"x": 20, "y": 30}
+      ]
+    }
+  },
   { "description": "The continually spawning lifts that raise the first trucks",
     "type": "continous",
     "interval": 10,
