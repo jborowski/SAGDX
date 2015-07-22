@@ -27,6 +27,7 @@ SAGDX.act1State.prototype = {
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
     this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 32);
+    this.game.load.spritesheet('floater', 'assets/floater.png', 32, 32);
     this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
     this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
     this.game.load.image('flag', 'assets/flag.png');
@@ -83,7 +84,7 @@ SAGDX.act1State.prototype = {
         }
       }
     }
-    
+
     var thisEvent;
     this.events = JSON.parse(this.game.cache.getText('events'));
     for(var ii=0; ii < this.events.length; ii+=1){
@@ -118,7 +119,7 @@ SAGDX.act1State.prototype = {
     if(this.debug){
       this.debugText.text = "";
     }
-    
+
     if(this.dialogue){
       this.processDialogue();
     } else {
@@ -146,6 +147,10 @@ SAGDX.act1State.prototype = {
       this.checkEvents();
 
     }
+
+    if(this.player.cState.outOfBounds){
+      this.goToState("Act1");
+    }
   },
   customMobContact: function(firstObject, secondObject){
     firstObject.mobContact(secondObject);
@@ -170,6 +175,8 @@ SAGDX.act1State.prototype = {
       mob = new BigBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="littleblast"){
       mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
+    } else if(unit.type=="floater"){
+      mob = new Floater(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="flag"){
       mob = this.add.sprite(xCoord, yCoord, 'flag');
     }

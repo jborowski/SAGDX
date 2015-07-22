@@ -10,6 +10,40 @@
       "raiseTo": 30
     }
   },
+  { "description": "Test blast 2",
+    "type": "once",
+    "spawns":[
+      {"x": 122, "y": 26},
+      {"x": 125, "y": 24},
+      {"x": 128, "y": 26},
+      {"x": 138, "y": 26},
+      {"x": 141, "y": 24},
+      {"x": 144, "y": 26}
+    ],
+    "unit": {
+      "type": "littleblast",
+      "facing": -1,
+      "speed": 50
+    }
+  },
+  { "description": "A test floater",
+    "type": "once",
+    "interval": 15,
+    "spawns": [
+      {"x": 20, "y": 20}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 5,
+      "waypoints": [
+        {"x": 20, "y": 20},
+        {"x": 30, "y": 20},
+        {"x": 30, "y": 30},
+        {"x": 20, "y": 30}
+      ]
+    }
+  },
   { "description": "The continually spawning lifts that raise the first trucks",
     "type": "continous",
     "interval": 10,
@@ -86,7 +120,7 @@
         {"x": 125, "y": 32},
         {"x": 67, "y": 32},
         {"x": 67, "y": 2},
-        {"x": 87, "y": 2}, 
+        {"x": 87, "y": 2},
         {"destroy": true}
       ]
     }
