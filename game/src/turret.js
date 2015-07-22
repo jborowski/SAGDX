@@ -4,7 +4,7 @@ var Turret = function(conflux, game, x, y, group, facing, raiseTo, startPaused){
   game.physics.arcade.enable(this);
   group.add(this);
   this.body.setSize(48, 74, 2, 0);
-  if(this.game.debug){
+  if(this.game.debugMode){
     var hitboxG = new Phaser.Graphics().beginFill(0x898989).drawRect(0,0,48,74);
     var hitbox = game.add.sprite(2,0,hitboxG.generateTexture());
     hitbox.alpha = 0.5;

@@ -5,7 +5,7 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   game.physics.arcade.enable(this);
   group.add(this);
   this.body.setSize(48,48,16,16);
-  if(this.game.debug){
+  if(this.game.debugMode){
     var hitboxG = new Phaser.Graphics().beginFill(0x898989).drawRect(0,0,48,48);
     var hitbox = game.add.sprite(16,16,hitboxG.generateTexture());
     hitbox.alpha = 0.5;

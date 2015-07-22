@@ -7,7 +7,7 @@ SAGDX.act1State.prototype = {
   timeMultiplier: 400,
 
   // State Variables
-  debug:false,
+  debugMode:false,
   justToggled:null,
   paused:false,
   events: [],
@@ -111,13 +111,13 @@ SAGDX.act1State.prototype = {
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
 
-    if(this.debug){
+    if(this.debugMode){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
       this.debugText.fixedToCamera = true;
     }
   },
   update: function(){
-    if(this.debug){
+    if(this.debugMode){
       this.debugText.text = "";
     }
 
@@ -138,7 +138,7 @@ SAGDX.act1State.prototype = {
       this.game.physics.arcade.collide(this.player, this.blasts, this.customMobContactedBy, null, this);
       this.game.physics.arcade.collide(this.blasts, this.collisionLayer, this.customTileContact, null, this);
 
-      if(this.debug){
+      if(this.debugMode){
         this.debugText.text += "Player: "+this.player.debugString()+"\n";
         conflux = this;
         this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});

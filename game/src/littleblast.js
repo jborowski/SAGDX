@@ -5,7 +5,7 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
   game.physics.arcade.enable(this);
   group.add(this);
   this.body.setSize(48,16,16,32);
-  if(this.game.debug){
+  if(this.game.debugMode){
     var hitboxG = new Phaser.Graphics().beginFill(0x898989).drawRect(0,0,48,16);
     var hitbox = game.add.sprite(16,32,hitboxG.generateTexture());
     hitbox.alpha = 0.5;
