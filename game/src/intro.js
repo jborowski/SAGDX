@@ -28,6 +28,7 @@ SAGDX.act1State.prototype = {
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
     this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 32);
     this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
+    this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
     this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 80, 80);
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
@@ -35,6 +36,7 @@ SAGDX.act1State.prototype = {
   create: function(){
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
+    this.turrets = this.game.add.group();
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
     this.map = this.game.add.tilemap('foregroundLayerMap');
@@ -98,6 +100,7 @@ SAGDX.act1State.prototype = {
       }
     }
 
+    this.game.world.bringToTop(this.turrets);
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.pauseFilter);
     this.game.world.bringToTop(this.mobs);
@@ -125,6 +128,7 @@ SAGDX.act1State.prototype = {
       if(!this.player.cState.hurt){
         this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, null, this);
       }
+      this.game.physics.arcade.collide(this.player, this.turrets, this.customMobContact, null, this);
       this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
       this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
       this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, null, this);
@@ -160,6 +164,8 @@ SAGDX.act1State.prototype = {
       mob = new Carrier(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="lift"){
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed, unit.paused);
+    } else if(unit.type=="turret"){
+      mob = new Turret(this, this.game, xCoord, yCoord, this.turrets, unit.facing, unit.raiseTo, unit.paused);
     } else if(unit.type=="bigblast"){
       mob = new BigBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="littleblast"){

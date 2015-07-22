@@ -1,31 +1,13 @@
 [ 
-  { "description": "Test blast",
+  { "description": "Test turret",
     "type": "once",
     "spawns":[
-      {"x": 32, "y": 28},
-      {"x": 62, "y": 28},
-      {"x": 102, "y": 28}
+      {"x": 22, "y": 33}
     ],
     "unit": {
-      "type": "bigblast",
+      "type": "turret",
       "facing": -1,
-      "speed": 50
-    }
-  },
-  { "description": "Test blast 2",
-    "type": "once",
-    "spawns":[
-      {"x": 122, "y": 26},
-      {"x": 125, "y": 24},
-      {"x": 128, "y": 26},
-      {"x": 138, "y": 26},
-      {"x": 141, "y": 24},
-      {"x": 144, "y": 26}
-    ],
-    "unit": {
-      "type": "littleblast",
-      "facing": -1,
-      "speed": 50
+      "raiseTo": 30
     }
   },
   { "description": "The continually spawning lifts that raise the first trucks",
