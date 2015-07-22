@@ -164,7 +164,7 @@ var Player = function(conflux, game, x, y, key, group) {
   this.moveY = function(){
     // This is a debug only fly around option, not for normal gameplay
     if(this.cState.flying && !this.cState.hurt){
-      if(this.keyboard.isDown(32)){
+      if(this.cursors.up.isDown){
         this.body.velocity.y = -this.cConstants.runSpeed;
       } else if(this.cursors.down.isDown){
         this.body.velocity.y = this.cConstants.runSpeed;

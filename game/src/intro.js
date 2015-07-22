@@ -210,9 +210,16 @@ SAGDX.act1State.prototype = {
         this.justToggled = 80;
         this.enablePause();
       }
-      if(this.player.cState.paused && this.keyboard.isDown(32)){
-        this.justToggled = 32;
-        this.player.setPause(false);
+      if(this.player.cState.paused){
+        if(this.keyboard.isDown(32)){
+          this.justToggled = 32;
+          this.player.setPause(false);
+        } else if(this.player.cursors.left.isDown ||
+                  this.player.cursors.right.isDown ||
+                  this.player.cursors.up.isDown ||
+                  this.player.cursors.down.isDown){
+          this.player.setPause(false);
+        }
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
