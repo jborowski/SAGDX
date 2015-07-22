@@ -8,7 +8,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.body.setSize(32,32);
   this.mobType = "floater";
   this.body.immovable = true;
-  this.outOfBoundsKill = true;
+  this.outOfBoundsKill = false;
   this.waypoints = waypoints;
   this.conflux = conflux;
   this.animations.add('plain', [0]);
@@ -16,6 +16,8 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
 
   this.cConstants = {
     speed: speed*gridSize,
+    chaseAccel: 20*gridSize,
+    maxChaseVelocity: 40*gridSize,
     animationPausedOffset: 1
   }
 
@@ -23,8 +25,6 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     waiting: false,
     waitUntil: 0,
     paused: false,
-    chasing: false,
-    boosting: false,
     facing: facing
   }
 
@@ -58,7 +58,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       this.body.velocity.y = 0;
     } else {
       if(Phaser.Math.distance(this.body.x, this.body.y, conflux.player.body.x, conflux.player.body.y) <= 10*gridSize){
-        this.game.physics.arcade.accelerateToXY(this, conflux.player.body.x, conflux.player.body.y, 20*gridSize, 40*gridSize, 40*gridSize);
+        this.game.physics.arcade.accelerateToXY(this, conflux.player.body.x, conflux.player.body.y, this.cConstants.chaseAccel, this.cConstants.maxChaseVelocity, this.cConstants.maxChaseVelocity);
       } else if(this.cState.waiting){
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
@@ -81,10 +81,10 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
 
     // Don't go past our target point
     if(reachedX){
-      this.body.x = this.nextWaypoint.x;
+      this.body.velocity.x = 0;
     }
     if(reachedY){
-      this.body.y = this.nextWaypoint.y;
+      this.body.velocity.y = 0;
     }
 
     // Move, unless we've reached our target, in which case set next target
@@ -134,7 +134,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   };
 
   this.debugString = function(){
-    return "CARRIER: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
+    return "FLOATER: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
       "[looking:"+this.nextWaypoint.directionX+"/"+this.nextWaypoint.directionY+"][moving:"+this.body.velocity.x+"/"+this.body.velocity.y+"]";
   };
 
@@ -153,4 +153,4 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
 }
 
 Floater.prototype = Object.create(Phaser.Sprite.prototype);
-Floater.prototype.constructor = Carrier;
+Floater.prototype.constructor = Floater;
