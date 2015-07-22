@@ -61,7 +61,8 @@ SAGDX.act1State.prototype = {
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
     this.pauseFilter.alpha = 0.5;
     this.pauseFilter.visible = false;
-
+  
+    this.pauseTexts = [];
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
@@ -219,10 +220,15 @@ SAGDX.act1State.prototype = {
       }
     }
   },
-
+  newPauseText: function(){
+    var x = this.game.camera.x + this.game.camera.width/2;
+    var y = this.game.camera.y + this.game.camera.height/2;
+    return this.game.add.text(x, y-10, 'GAME PAUSED', { fontSize: '10px', fill: '#FFF' });
+  },
   enablePause: function(){
     this.paused = true;
     this.pauseFilter.visible = true;
+    this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
       mob.setPause(true);
     });
