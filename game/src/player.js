@@ -164,7 +164,7 @@ var Player = function(conflux, game, x, y, key, group) {
   this.moveY = function(){
     // This is a debug only fly around option, not for normal gameplay
     if(this.cState.flying && !this.cState.hurt){
-      if(this.cursors.up.isDown){
+      if(this.keyboard.isDown(32)){
         this.body.velocity.y = -this.cConstants.runSpeed;
       } else if(this.cursors.down.isDown){
         this.body.velocity.y = this.cConstants.runSpeed;
@@ -176,7 +176,7 @@ var Player = function(conflux, game, x, y, key, group) {
       } else if(this.cState.jumping){
         this.processJump();
       } else {
-        if(this.cursors.up.isDown && this.cState.jumpReady && !this.cState.hurt){
+        if(this.keyboard.isDown(32) && this.cState.jumpReady && !this.cState.hurt){
           this.startJump();
         } else {
           this.body.velocity.y = this.cConstants.fallSpeed;
@@ -185,9 +185,9 @@ var Player = function(conflux, game, x, y, key, group) {
 
       // If we're on the ground with the up arrow unpressed, flag us as able to jump next update.
       // If we're not on the ground or our up arrow is pressed, we know we can't be in a state where we should allow jumping
-      if(!this.against.bottom || this.cursors.up.isDown){
+      if(!this.against.bottom || this.keyboard.isDown(32)){
         this.cState.jumpReady = false
-      } else if(this.against.bottom && this.cursors.up.isUp){
+      } else if(this.against.bottom && !this.keyboard.isDown(32)){
         this.cState.jumpReady = true;
       }
     }
@@ -197,7 +197,7 @@ var Player = function(conflux, game, x, y, key, group) {
     this.cState.jumpHeight = this.cState.jumpStart - this.body.y;
     var reachedMax = this.cState.jumpHeight >= this.cConstants.maxJumpHeight
     var reachedMin = this.cState.jumpHeight >= this.cConstants.minJumpHeight
-    var stopByChoice = this.cursors.up.isUp && reachedMin
+    var stopByChoice = !this.keyboard.isDown(32) && reachedMin
 
     // If we should stop jumping
     if(reachedMax || this.against.top || stopByChoice || this.cState.hurt){

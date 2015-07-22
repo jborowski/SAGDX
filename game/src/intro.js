@@ -211,7 +211,7 @@ SAGDX.act1State.prototype = {
         this.enablePause();
       }
       if(this.player.cState.paused && this.keyboard.isDown(32)){
-        this.justToggled = 90;
+        this.justToggled = 32;
         this.player.setPause(false);
       }
       if(this.keyboard.isDown(82)){
