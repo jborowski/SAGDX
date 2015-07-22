@@ -16,6 +16,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
 
   this.cConstants = {
     speed: speed*gridSize,
+    chaseDistance: 10*gridSize,
     chaseAccel: 20*gridSize,
     maxChaseVelocity: 40*gridSize,
     animationPausedOffset: 1
@@ -57,7 +58,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
     } else {
-      if(Phaser.Math.distance(this.body.x, this.body.y, conflux.player.body.x, conflux.player.body.y) <= 10*gridSize){
+      if(Phaser.Math.distance(this.body.x, this.body.y, conflux.player.body.x, conflux.player.body.y) <= this.cConstants.chaseDistance){
         this.game.physics.arcade.accelerateToXY(this, conflux.player.body.x, conflux.player.body.y, this.cConstants.chaseAccel, this.cConstants.maxChaseVelocity, this.cConstants.maxChaseVelocity);
       } else if(this.cState.waiting){
         this.body.velocity.x = 0;
