@@ -64,8 +64,8 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     if(this.cState.paused){
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
-      console.log(this.body.x);
-      console.log(this.body.y);
+      this.body.x = this.pauseCoords[0];
+      this.body.y = this.pauseCoords[1];
     } else if(this.cState.playerOnTop){
       var direction = (this.body.velocity.x > 0) ? 1 : -1;
       this.body.velocity.x = direction * this.cConstants.speed;
@@ -171,29 +171,10 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       } else {
         this.animations.frame = this.animations.frame - this.cConstants.animationPausedOffset;
       }
+      this.pauseCoords = [this.body.x, this.body.y];
       this.animations.paused = pause;
       this.cState.paused = pause;
     }
-  };
-
-  this.reachedBoostX = function(){
-    var ret = false;
-    if(this.body.velocity.x > 0){
-      if(this.body.x > this.cState.boostStop[0]) ret = true;
-    } else if(this.body.velocity.x < 0) {
-      if(this.body.x < this.cState.boostStop[0]) ret = true;
-    }
-    return ret;
-  };
-
-  this.reachedBoostY = function(){
-    var ret = false;
-    if(this.body.velocity.y > 0){
-      if(this.body.y > this.cState.boostStop[1]) ret = true;
-    } else if(this.body.velocity.y < 0) {
-      if(this.body.y < this.cState.boostStop[1]) ret = true;
-    }
-    return ret;
   };
 
   this.setPause(!!startPaused);
