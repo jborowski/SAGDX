@@ -7,16 +7,17 @@
     "unit": {
       "type": "turret",
       "facing": -1,
-      "loopTo": 1,
+      "loopTo": 0,
       "actions": [
-        { "type": "moveTo", "y": 30, "speed": 2 },
-        { "type": "wait", "duration": 10 },
-        { "type": "moveTo", "y": 33, "speed": 2 },
-        { "type": "moveTo", "y": 30, "speed": 2 },
-        { "type": "fire" },
-        { "type": "wait", "duration": 10 },
-        { "type": "fire" },
-        { "type": "turn" }
+        { "type": "moveTo", "y": 31, "speed": 2 },
+        { "type": "fire", "speed": 4 },
+        { "type": "wait", "duration": 3 },
+        { "type": "fire", "speed": 4 },
+        { "type": "turn"},
+        { "type": "moveTo", "y": 29, "speed": 2 },
+        { "type": "fire", "speed": 4 },
+        { "type": "wait", "duration": 3 },
+        { "type": "fire", "speed": 4 }
       ]
     }
   },

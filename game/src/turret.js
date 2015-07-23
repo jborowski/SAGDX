@@ -61,11 +61,12 @@ var Turret = function(conflux, game, x, y, group, unit){
       nextIndex=0;
     } else {
       var nextIndex = lastAction.index+1;
-      if(nextIndex > this.cConstants.actions.length){
-        nextIndex = 0;
+      if(nextIndex >= this.cConstants.actions.length){
+        nextIndex = this.cConstants.actionLoopIndex;
       }
     }
     var nextAction = this.cConstants.actions[nextIndex];
+    console.log(nextAction+"/"+nextIndex);
     nextAction.index = nextIndex;
 
     // Start the next action
@@ -77,10 +78,17 @@ var Turret = function(conflux, game, x, y, group, unit){
       }
     } else if(nextAction.type == "wait"){
       nextAction.timeout = this.game.time.now + nextAction.duration;
+    } else if(nextAction.type == "turn"){
+      this.turn();
+    } else if(nextAction.type == "fire"){
+      this.fire(nextAction.speed);
     }
 
     // Make this official and finish
     this.cState.currentAction = nextAction;
+    
+    // Once we've set the next action, begin processing it
+    this.processAction();
   }
 
   this.processAction = function(){
@@ -96,11 +104,34 @@ var Turret = function(conflux, game, x, y, group, unit){
         if(action.timeout < this.game.time.now){
           this.nextAction();
         }
+      } else if(action.type == "turn" || action.type == "fire"){
+        // For all instaneous actions, immediately move to the next item in the list
+        this.nextAction();
       }
     } else {
       this.nextAction();
     }
-  }
+  };
+
+  this.turn = function(){
+    this.cState.facing *= -1;
+    if(this.cState.facing == -1){
+      this.animations.play('left');
+    } else {
+      this.animations.play('right');
+    }
+  };
+
+  this.fire = function(speed){
+    var x, y;
+    y = this.body.y - 32;
+    if(this.cState.facing == -1){
+      x = this.body.x - 61;
+    } else {
+      x = this.body.right - 19;
+    }
+    new BigBlast(this.conflux, this.game, x, y, this.conflux.blasts, this.cState.facing, speed/gridSize, false);
+  };
     
   this.debugString = function(){
     return "[pos:"+Math.floor(this.x)+"/"+Math.floor(this.y)+"]";
