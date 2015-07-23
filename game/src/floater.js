@@ -68,6 +68,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       this.body.y = this.pauseCoords[1];
     } else if(this.cState.playerOnTop){
       var direction = (this.body.velocity.x > 0) ? 1 : -1;
+      if(this.body.velocity.x == 0) direction = 0;
       this.body.velocity.x = direction * this.cConstants.speed;
       this.body.velocity.y = this.cConstants.dropSpeed;
     } else if(this.cState.boosting){
