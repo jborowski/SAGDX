@@ -44,7 +44,9 @@ var Turret = function(conflux, game, x, y, group, unit){
   }
 
   this.update = function(){
-    if(!this.cState.paused){
+    if(this.cState.paused){
+      this.body.velocity.y = 0;
+    } else {
       this.processAction();
     }
   }

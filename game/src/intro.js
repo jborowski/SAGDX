@@ -237,6 +237,9 @@ SAGDX.act1State.prototype = {
     this.mobs.forEach(function(mob){
       mob.setPause(true);
     });
+    this.turrets.forEach(function(mob){
+      mob.setPause(true);
+    });
     this.lifts.forEach(function(lift){
       lift.setPause(true);
     });
