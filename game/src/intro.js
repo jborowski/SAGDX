@@ -171,7 +171,7 @@ SAGDX.act1State.prototype = {
     } else if(unit.type=="lift"){
       mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed, unit.paused);
     } else if(unit.type=="turret"){
-      mob = new Turret(this, this.game, xCoord, yCoord, this.turrets, unit.facing, unit.raiseTo, unit.paused);
+      mob = new Turret(this, this.game, xCoord, yCoord, this.turrets, unit);
     } else if(unit.type=="bigblast"){
       mob = new BigBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="littleblast"){

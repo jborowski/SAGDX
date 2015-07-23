@@ -7,7 +7,15 @@
     "unit": {
       "type": "turret",
       "facing": -1,
-      "raiseTo": 30
+      "loop-to": 1,
+      "actions": [
+        { "type": "moveTo", "y": 30, "speed": 2 },
+        { "type": "wait", "duration": 10 },
+        { "type": "fire" },
+        { "type": "wait", "duration": 10 },
+        { "type": "fire" },
+        { "type": "turn" }
+      ]
     }
   },
   { "description": "Test blast 2",
