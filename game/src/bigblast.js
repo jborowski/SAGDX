@@ -39,6 +39,8 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
       this.body.velocity.x = this.cConstants.speed*this.cState.facing;
     }
     if(this.cState.markDestroyed){
+      new LittleBlast(this.conflux, this.game, this.x, this.y, this.conflux.blasts, this.cState.facing * -1, this.cConstants.speed/gridSize, false);
+
       this.destroy();
     }
   };
