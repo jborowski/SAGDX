@@ -9,14 +9,14 @@
       "facing": -1,
       "loopTo": 0,
       "actions": [
-        { "type": "moveTo", "y": 31, "speed": 2 },
-        { "type": "fire", "speed": 4 },
-        { "type": "wait", "duration": 3 },
-        { "type": "fire", "speed": 4 },
-        { "type": "turn"},
         { "type": "moveTo", "y": 29, "speed": 2 },
         { "type": "fire", "speed": 4 },
-        { "type": "wait", "duration": 3 },
+        { "type": "wait", "duration": 6 },
+        { "type": "fire", "speed": 4 },
+        { "type": "turn"},
+        { "type": "moveTo", "y": 31, "speed": 2 },
+        { "type": "fire", "speed": 4 },
+        { "type": "wait", "duration": 6 },
         { "type": "fire", "speed": 4 }
       ]
     }

@@ -47,11 +47,9 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
   this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
 
   this.update = function(){
-
-    if(this.cState.paused){
-      this.body.velocity.x = 0;
-      this.body.velocity.y = 0;
-    } else {
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+    if(!this.cState.paused){
       if(this.cState.waiting){
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
