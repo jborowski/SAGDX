@@ -29,12 +29,13 @@ var Turret = function(conflux, game, x, y, group, unit){
     action = unit.actions[ii];
     if(action.y){ action.y *= gridSize; }
     if(action.speed){ action.speed *= gridSize; }
-    if(action.duration){ action.y *= conflux.timeMultiplier; }
+    if(action.duration){ action.duration *= conflux.timeMultiplier; }
   }
 
   this.cConstants = {
     animationPausedOffset: 2,
-    actions: unit.actions
+    actions: unit.actions,
+    actionLoopIndex: unit.loopTo
   };
 
   this.cState = {
@@ -49,7 +50,9 @@ var Turret = function(conflux, game, x, y, group, unit){
   }
 
   this.nextAction = function(){
+    // Halt previous movement
     this.body.velocity.y = 0;
+
     var lastAction = this.cState.currentAction;
 
     // Load the first or next action
@@ -72,6 +75,8 @@ var Turret = function(conflux, game, x, y, group, unit){
       } else {
         nextAction.direction = 1
       }
+    } else if(nextAction.type == "wait"){
+      nextAction.timeout = this.game.time.now + nextAction.duration;
     }
 
     // Make this official and finish
@@ -82,11 +87,14 @@ var Turret = function(conflux, game, x, y, group, unit){
     var action = this.cState.currentAction;
     if(action){
       if(action.type == "moveTo"){
-        console.log("moving... "+this.body.y+"/"+action.y+" : "+action.direction);
         if((action.direction == 1 && this.body.y > action.y) || (action.direction == -1 && this.body.y < action.y)){
           this.nextAction();
         } else {
           this.body.velocity.y = action.speed * action.direction;
+        }
+      } else if(action.type == "wait"){
+        if(action.timeout < this.game.time.now){
+          this.nextAction();
         }
       }
     } else {
@@ -94,14 +102,6 @@ var Turret = function(conflux, game, x, y, group, unit){
     }
   }
     
-  this.checkTarget = function(){
-    if(this.body.y > this.cConstants.raiseTo){
-      this.cState.moving = -1;
-    } else {
-      this.cState.moving = 0;
-    }
-  };
-
   this.debugString = function(){
     return "[pos:"+Math.floor(this.x)+"/"+Math.floor(this.y)+"]";
   };

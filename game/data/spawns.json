@@ -7,10 +7,12 @@
     "unit": {
       "type": "turret",
       "facing": -1,
-      "loop-to": 1,
+      "loopTo": 1,
       "actions": [
         { "type": "moveTo", "y": 30, "speed": 2 },
         { "type": "wait", "duration": 10 },
+        { "type": "moveTo", "y": 33, "speed": 2 },
+        { "type": "moveTo", "y": 30, "speed": 2 },
         { "type": "fire" },
         { "type": "wait", "duration": 10 },
         { "type": "fire" },
