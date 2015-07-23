@@ -123,7 +123,7 @@ var Turret = function(conflux, game, x, y, group, unit){
 
   this.fire = function(speed){
     var x, y;
-    y = this.body.y - 32;
+    y = this.body.y - 33;
     if(this.cState.facing == -1){
       x = this.body.x - 61;
     } else {
