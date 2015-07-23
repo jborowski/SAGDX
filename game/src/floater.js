@@ -16,12 +16,13 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
 
   this.cConstants = {
     speed: speed*gridSize,
-    chaseDistance: 10*gridSize,
-    boostDistance: 5*gridSize,
-    chaseAccel: 20*gridSize,
+    chaseDistance: 15*gridSize,
+    boostDistance: 8*gridSize,
+    chaseAccel: 10*gridSize,
     maxChaseVelocity: 15*gridSize,
     maxBoostVelocity: 30*gridSize,
     dropSpeed: 2*gridSize,
+    boostTime: 60,
     animationPausedOffset: 1
   }
 
@@ -30,8 +31,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     waitUntil: 0,
     paused: false,
     boosting: false,
-    boostStart: [],
-    boostStop: [],
+    boostTimer: 0,
     playerOnTop: false,
     facing: facing
   }
@@ -64,22 +64,24 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     if(this.cState.paused){
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
+      console.log(this.body.x);
+      console.log(this.body.y);
     } else if(this.cState.playerOnTop){
-      this.body.velocity.x = 0;
+      var direction = (this.body.velocity.x > 0) ? 1 : -1;
+      this.body.velocity.x = direction * this.cConstants.speed;
       this.body.velocity.y = this.cConstants.dropSpeed;
     } else if(this.cState.boosting){
-      if( (this.reachedBoostX() || (this.body.blocked.left || this.body.blocked.right) ) &&
-          (this.reachedBoostY() || (this.body.blocked.down || this.body.blocked.up) ) ){
-        this.cState.boosting = false;
-      }
+        this.cState.boostTimer++;
+        if(this.cState.boostTimer > this.cConstants.boostTime){
+          this.cState.boosting = false;
+        }
     } else {
       if(Phaser.Math.distance(this.body.x, this.body.y, conflux.player.body.x, conflux.player.body.y+16) <= this.cConstants.boostDistance){
         this.cState.boosting = true;
-        this.cState.distanceBoosted = 0;
-        this.game.physics.arcade.accelerateToXY(this, conflux.player.body.x, conflux.player.body.y+16, this.cConstants.chaseAccel, this.cConstants.maxBoostVelocity, this.cConstants.maxBoostVelocity);
-        this.cState.boostStart = [this.body.x, this.body.y];
-        this.cState.boostStop = [(2 * conflux.player.body.x) - this.body.x,
-                                 (2 * conflux.player.body.y+16) - this.body.y]
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+        this.game.physics.arcade.accelerateToXY(this, conflux.player.body.x, conflux.player.body.y+16, 2*this.cConstants.chaseAccel, this.cConstants.maxBoostVelocity, this.cConstants.maxBoostVelocity);
+        this.cState.boostTimer = 0;
       } else if(Phaser.Math.distance(this.body.x, this.body.y, conflux.player.body.x, conflux.player.body.y+16) <= this.cConstants.chaseDistance){
         this.game.physics.arcade.accelerateToXY(this, conflux.player.body.x, conflux.player.body.y+16, this.cConstants.chaseAccel, this.cConstants.maxChaseVelocity, this.cConstants.maxChaseVelocity);
       } else if(this.cState.waiting){
@@ -187,9 +189,9 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.reachedBoostY = function(){
     var ret = false;
     if(this.body.velocity.y > 0){
-      if(this.body.y > this.cState.boostStop[0]) ret = true;
+      if(this.body.y > this.cState.boostStop[1]) ret = true;
     } else if(this.body.velocity.y < 0) {
-      if(this.body.y < this.cState.boostStop[0]) ret = true;
+      if(this.body.y < this.cState.boostStop[1]) ret = true;
     }
     return ret;
   };
