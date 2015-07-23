@@ -66,7 +66,6 @@ var Turret = function(conflux, game, x, y, group, unit){
       }
     }
     var nextAction = this.cConstants.actions[nextIndex];
-    console.log(nextAction+"/"+nextIndex);
     nextAction.index = nextIndex;
 
     // Start the next action
