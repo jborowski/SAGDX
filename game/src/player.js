@@ -385,6 +385,7 @@ var Player = function(conflux, game, x, y, key, group) {
         this.body.blocked.bottom = true;
         this.against.bottom = mob;
         this.riding = mob;
+        mob.cState.playerOnTop = true;
         newY = mob.body.y - this.body.height - 1;
         this.body.position.y = newY;
         if(mob.cState.paused && !this.cState.paused){
