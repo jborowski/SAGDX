@@ -63,6 +63,46 @@
       ]
     }
   },
+  { "description": "A pit floater",
+    "type": "once",
+    "trigger": "ambush",
+    "spawns": [
+      {"x": 196, "y": 39},
+      {"x": 201, "y": 39},
+      {"x": 206, "y": 39},
+      {"x": 219, "y": 39},
+      {"x": 229, "y": 39}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 5,
+      "waypoints": [
+        {"x": 196, "y": 18},
+        {"x": 170, "y": 18}
+      ]
+    }
+  },
+  { "description": "A pit floater",
+    "type": "once",
+    "trigger": "ambush",
+    "spawns": [
+      {"x": 195, "y": 41},
+      {"x": 200, "y": 41},
+      {"x": 205, "y": 41},
+      {"x": 211, "y": 41},
+      {"x": 214, "y": 41}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 5,
+      "waypoints": [
+        {"x": 192, "y": 18},
+        {"x": 170, "y": 18}
+      ]
+    }
+  },
   { "description": "The continually spawning lifts that raise the first trucks",
     "type": "continous",
     "interval": 10,
@@ -113,9 +153,18 @@
       {"x": 44,"y": 38},
       {"x": 68,"y": 38},
       {"x": 92,"y": 38},
-      {"x": 104,"y": 38},
-      {"x": 128,"y": 38},
-      {"x": 152,"y": 38}
+      {"x": 100,"y": 38},
+      {"x": 110,"y": 38},
+      {"x": 120,"y": 38},
+      {"x": 130,"y": 38},
+      {"x": 140,"y": 38},
+      {"x": 150,"y": 38},
+      {"x": 160,"y": 38},
+      {"x": 170,"y": 38},
+      {"x": 180,"y": 38},
+      {"x": 190,"y": 38},
+      {"x": 200,"y": 38},
+      {"x": 210,"y": 38}
     ],
     "unit": {
       "type": "truck",
