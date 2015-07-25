@@ -35,6 +35,8 @@ SAGDX.act1State.prototype = {
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
 
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
+
+    this.game.load.spritesheet('parabackground1', 'assets/levels/act1/background1.png', 768, 512);
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -42,6 +44,7 @@ SAGDX.act1State.prototype = {
     this.turrets = this.game.add.group();
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
+
     this.map = this.game.add.tilemap('foregroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
@@ -58,6 +61,11 @@ SAGDX.act1State.prototype = {
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
+    
+    this.parabgs = this.game.add.group();
+    this.parabg = this.game.add.tileSprite(0,0, this.game.width, this.game.height, 'parabackground1', 0, this.parabgs);
+    this.parabg.animations.add('full');
+    this.parabg.fixedToCamera = true;
 
     var pauseFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
@@ -74,16 +82,22 @@ SAGDX.act1State.prototype = {
 
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
+
+    this.eventSpawns = [];
     var spawnList = JSON.parse(this.game.cache.getText('spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
-      for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
-        if(spawnDef.type=="once"){
-            this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-        } else if(spawnDef.type=="continous"){
-            this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-            this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
+      if(spawnDef.trigger){
+        this.eventSpawns.push(spawnDef);
+      } else {
+        for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
+          if(spawnDef.type=="once"){
+              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
+          } else if(spawnDef.type=="continous"){
+              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
+              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
+          }
         }
       }
     }
@@ -101,6 +115,8 @@ SAGDX.act1State.prototype = {
         thisEvent.resultCallbackName = "sendDialogue";
       } else if(thisEvent.type=="transition"){
         thisEvent.resultCallbackName = "touchDoor";
+      } else if(thisEvent.type=="spawn"){
+        thisEvent.resultCallbackName = "spawnEvent";
       }
     }
 
@@ -119,6 +135,8 @@ SAGDX.act1State.prototype = {
     }
   },
   update: function(){
+    this.parabg.play('full');
+
     if( this.cache.isSoundDecoded('music') && !this.music){
       this.music = this.sound.play('music', true);
     }
@@ -289,6 +307,22 @@ SAGDX.act1State.prototype = {
       index: 0,
       element: dialogueElement
     };
+  },
+  spawnEvent: function(newEvent){
+    var ii, spawnDef;
+    for(ii = 0; ii < this.eventSpawns.length; ii += 1){
+      spawnDef = this.eventSpawns[ii];
+      if(spawnDef.trigger == newEvent.name){
+        for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
+          if(spawnDef.type=="once"){
+              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
+          } else if(spawnDef.type=="continous"){
+              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
+              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
+          }
+        }
+      }
+    }
   },
   processDialogue: function(){
     if(this.justToggled){

@@ -1,57 +1,65 @@
 [ 
-  { "description": "Test turret",
+  { "description": "An ambush floater",
     "type": "once",
-    "spawns":[
-      {"x": 25, "y": 33}
-    ],
-    "unit": {
-      "type": "turret",
-      "facing": -1,
-      "loopTo": 0,
-      "actions": [
-        { "type": "moveTo", "y": 29, "speed": 2 },
-        { "type": "fire", "speed": 4 },
-        { "type": "wait", "duration": 6 },
-        { "type": "fire", "speed": 4 },
-        { "type": "turn"},
-        { "type": "moveTo", "y": 31, "speed": 2 },
-        { "type": "fire", "speed": 4 },
-        { "type": "wait", "duration": 6 },
-        { "type": "fire", "speed": 4 }
-      ]
-    }
-  },
-  { "description": "Test blast 2",
-    "type": "once",
-    "spawns":[
-      {"x": 122, "y": 26},
-      {"x": 125, "y": 24},
-      {"x": 128, "y": 26},
-      {"x": 138, "y": 26},
-      {"x": 141, "y": 24},
-      {"x": 144, "y": 26}
-    ],
-    "unit": {
-      "type": "littleblast",
-      "facing": -1,
-      "speed": 50
-    }
-  },
-  { "description": "A test floater",
-    "type": "once",
-    "interval": 15,
+    "trigger": "ambush",
     "spawns": [
-      {"x": 20, "y": 20}
+      {"x": 163, "y": 0}
     ],
     "unit": {
       "type": "floater",
       "facing": 1,
-      "speed": 5,
+      "speed": 15,
       "waypoints": [
-        {"x": 20, "y": 20},
-        {"x": 30, "y": 20},
-        {"x": 30, "y": 30},
-        {"x": 20, "y": 30}
+        {"x": 163, "y": 24},
+        {"x": 200, "y": 24}
+      ]
+    }
+  },
+  { "description": "An ambush floater",
+    "type": "once",
+    "trigger": "ambush",
+    "spawns": [
+      {"x": 165, "y": 0}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 15,
+      "waypoints": [
+        {"x": 165, "y": 22},
+        {"x": 200, "y": 22}
+      ]
+    }
+  },
+  { "description": "An ambush floater",
+    "type": "once",
+    "trigger": "ambush",
+    "spawns": [
+      {"x": 167, "y": 0}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 15,
+      "waypoints": [
+        {"x": 167, "y": 20},
+        {"x": 200, "y": 20}
+      ]
+    }
+  },
+  { "description": "An ambush floater",
+    "type": "once",
+    "trigger": "ambush",
+    "spawns": [
+      {"x": 169, "y": 0}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 15,
+      "waypoints": [
+        {"x": 169, "y": 18},
+        {"x": 200, "y": 18}
       ]
     }
   },
