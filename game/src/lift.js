@@ -28,24 +28,6 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
     y: this.waypoints[0].y*gridSize
   }
 
-  if(this.nextWaypoint.x < this.body.x){
-    this.nextWaypoint.directionX = -1;
-  } else if(this.nextWaypoint.x > this.body.x) {
-    this.nextWaypoint.directionX = 1;
-  } else {
-    this.nextWaypoint.directionX = 0;
-  }
-  if(this.nextWaypoint.y < this.body.y){
-    this.nextWaypoint.directionY = -1;
-  } else if(this.nextWaypoint.y > this.body.y) {
-    this.nextWaypoint.directionY = 1;
-  } else {
-    this.nextWaypoint.directionY = 0;
-  }
-
-  this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
-  this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
-
   this.update = function(){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
@@ -80,6 +62,8 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
 
     // Move, unless we've reached our target, in which case set next target
     if(reachedX && reachedY){
+      this.body.velocity.x = 0;
+      this.body.velocity.y = 0;
       this.setNextWaypoint();
     } else {
       if(!reachedX){
@@ -105,24 +89,29 @@ var Lift = function(conflux, game, x, y, group, waypoints, speed, startPaused){
     } else {
       this.nextWaypoint.x = next.x*gridSize;
       this.nextWaypoint.y = next.y*gridSize;
-      if(this.nextWaypoint.x < this.body.x){
-        this.nextWaypoint.directionX = -1;
-      } else if(this.nextWaypoint.x > this.body.x) {
-        this.nextWaypoint.directionX = 1;
-      } else {
-        this.nextWaypoint.directionX = 0;
-      }
-      if(this.nextWaypoint.y < this.body.y){
-        this.nextWaypoint.directionY = -1;
-      } else if(this.nextWaypoint.y > this.body.y) {
-        this.nextWaypoint.directionY = 1;
-      } else {
-        this.nextWaypoint.directionY = 0;
-      }
+      this.setWaypointDirection();
       this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
       this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
     }
   };
+
+  this.setWaypointDirection = function(){
+    if(this.nextWaypoint.x < this.body.x){
+      this.nextWaypoint.directionX = -1;
+    } else if(this.nextWaypoint.x > this.body.x) {
+      this.nextWaypoint.directionX = 1;
+    } else {
+      this.nextWaypoint.directionX = 0;
+    }
+    if(this.nextWaypoint.y < this.body.y){
+      this.nextWaypoint.directionY = -1;
+    } else if(this.nextWaypoint.y > this.body.y) {
+      this.nextWaypoint.directionY = 1;
+    } else {
+      this.nextWaypoint.directionY = 0;
+    }
+  };
+  this.setWaypointDirection();
 
   this.setPause = function(pause){
     if(this.cState.paused != pause){
