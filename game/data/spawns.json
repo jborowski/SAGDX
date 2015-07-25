@@ -69,9 +69,9 @@
     "spawns": [
       {"x": 196, "y": 39},
       {"x": 201, "y": 39},
-      {"x": 206, "y": 39},
-      {"x": 219, "y": 39},
-      {"x": 229, "y": 39}
+      {"x": 206, "y": 35},
+      {"x": 219, "y": 37},
+      {"x": 229, "y": 36}
     ],
     "unit": {
       "type": "floater",
@@ -88,9 +88,9 @@
     "trigger": "ambush",
     "spawns": [
       {"x": 195, "y": 41},
-      {"x": 200, "y": 41},
+      {"x": 200, "y": 40},
       {"x": 205, "y": 41},
-      {"x": 211, "y": 41},
+      {"x": 211, "y": 39},
       {"x": 214, "y": 41}
     ],
     "unit": {
@@ -264,21 +264,44 @@
     "type": "once",
     "interval": 10,
     "spawns": [
-      {"x": 253, "y": 76}
+      {"x": 253, "y": 77},
+      {"x": 241, "y": 29, "firstWaypoint": 1},
+      {"x": 227, "y": 29, "firstWaypoint": 1},
+      {"x": 212, "y": 29, "firstWaypoint": 2}
     ],
     "unit": {
       "type": "carrier",
       "facing": 1,
-      "speed": 15,
+      "speed": 6,
       "waypoints": [
-        {"x": 253, "y": 28},
-        {"x": 241, "y": 28},
-        {"x": 241, "y": 15},
+        {"x": 253, "y": 29},
+        {"x": 212, "y": 29},
+        {"x": 212, "y": 15},
         {"x": 263, "y": 15},
         {"x": 263, "y": 76},
         {"x": 254, "y": 76}
       ],
       "paused": true
+    }
+  },
+  { "description": "Frozen pit floaters for blocking the path",
+    "type": "once",
+    "trigger": "ambush",
+    "spawns": [
+      {"x": 241, "y": 29},
+      {"x": 227, "y": 29},
+      {"x": 212, "y": 29},
+      {"x": 212, "y": 15},
+      {"x": 227, "y": 15}
+    ],
+    "unit": {
+      "type": "floater",
+      "facing": 1,
+      "speed": 5,
+      "waypoints": [
+        {"x": 200, "y": 21},
+        {"x": 228, "y": 21}
+      ]
     }
   },
   { "description": "Lift that blocks the shower room",
