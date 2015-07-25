@@ -33,6 +33,8 @@ SAGDX.act1State.prototype = {
     this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 80, 80);
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
+
+    this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -117,6 +119,9 @@ SAGDX.act1State.prototype = {
     }
   },
   update: function(){
+    if( this.cache.isSoundDecoded('music') && !this.music){
+      this.music = this.sound.play('music', true);
+    }
     if(this.debugMode){
       this.debugText.text = "";
     }
@@ -233,6 +238,7 @@ SAGDX.act1State.prototype = {
   enablePause: function(){
     this.paused = true;
     this.pauseFilter.visible = true;
+    this.music.volume = 0.3;
     this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
       mob.setPause(true);
