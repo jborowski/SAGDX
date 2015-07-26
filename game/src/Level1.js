@@ -1,6 +1,6 @@
-SAGDX.introState = function(game){};
+SAGDX.level1State = function(game){};
 
-SAGDX.introState.prototype = {
+SAGDX.level1State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -23,18 +23,18 @@ SAGDX.introState.prototype = {
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
 
-    this.map = this.game.add.tilemap('introForegroundLayerMap');
+    this.map = this.game.add.tilemap('level1ForegroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('introBackgroundLayerMap');
+    this.bgMap = this.game.add.tilemap('level1BackgroundLayerMap');
     this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('introCollisionLayerMap');
+    this.collisionMap = this.game.add.tilemap('level1CollisionLayerMap');
     this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
@@ -62,7 +62,7 @@ SAGDX.introState.prototype = {
     this.timerEvents = [];
 
     this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('introSpawns'));
+    var spawnList = JSON.parse(this.game.cache.getText('level1Spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
@@ -81,7 +81,7 @@ SAGDX.introState.prototype = {
     }
 
     var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('introEvents'));
+    this.events = JSON.parse(this.game.cache.getText('level1Events'));
     for(var ii=0; ii < this.events.length; ii+=1){
       thisEvent = this.events[ii];
       thisEvent.triggered = false;
@@ -113,7 +113,6 @@ SAGDX.introState.prototype = {
     }
 
     this.parabg.play('full');
-
     this.music = this.sound.play('music', true);
 
   },
@@ -152,7 +151,7 @@ SAGDX.introState.prototype = {
     }
 
     if(this.player.cState.outOfBounds){
-      this.goToState("Act1");
+      this.goToState("Level1");
     }
   },
   customMobContact: function(firstObject, secondObject){
@@ -223,7 +222,7 @@ SAGDX.introState.prototype = {
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
-        this.goToState("Act1");
+        this.goToState("Level1");
       }
     }
   },

@@ -1,6 +1,6 @@
-SAGDX.introState = function(game){};
+SAGDX.level2State = function(game){};
 
-SAGDX.introState.prototype = {
+SAGDX.level2State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -14,7 +14,6 @@ SAGDX.introState.prototype = {
   preload: function(){
     this.game.world.alpha = 0;
     this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -23,18 +22,18 @@ SAGDX.introState.prototype = {
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
 
-    this.map = this.game.add.tilemap('introForegroundLayerMap');
+    this.map = this.game.add.tilemap('level2ForegroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('introBackgroundLayerMap');
+    this.bgMap = this.game.add.tilemap('level2BackgroundLayerMap');
     this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('introCollisionLayerMap');
+    this.collisionMap = this.game.add.tilemap('level2CollisionLayerMap');
     this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
@@ -62,7 +61,7 @@ SAGDX.introState.prototype = {
     this.timerEvents = [];
 
     this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('introSpawns'));
+    var spawnList = JSON.parse(this.game.cache.getText('level2Spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
@@ -81,7 +80,7 @@ SAGDX.introState.prototype = {
     }
 
     var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('introEvents'));
+    this.events = JSON.parse(this.game.cache.getText('level2Events'));
     for(var ii=0; ii < this.events.length; ii+=1){
       thisEvent = this.events[ii];
       thisEvent.triggered = false;
@@ -111,11 +110,8 @@ SAGDX.introState.prototype = {
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
       this.debugText.fixedToCamera = true;
     }
-
     this.parabg.play('full');
-
     this.music = this.sound.play('music', true);
-
   },
   update: function(){
 
@@ -152,7 +148,7 @@ SAGDX.introState.prototype = {
     }
 
     if(this.player.cState.outOfBounds){
-      this.goToState("Act1");
+      this.goToState("level2State");
     }
   },
   customMobContact: function(firstObject, secondObject){
