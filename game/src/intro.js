@@ -17,10 +17,7 @@ SAGDX.introState.prototype = {
 
   },
   create: function(){
-    this.mobs = this.game.add.group();
-    this.lifts = this.game.add.group();
-    this.turrets = this.game.add.group();
-    this.blasts = this.game.add.group();
+
     this.game.renderer.renderSession.roundPixels = true;
 
     this.map = this.game.add.tilemap('introForegroundLayerMap');
@@ -40,121 +37,38 @@ SAGDX.introState.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    this.parabgsFront = this.game.add.group();
-    this.parabg1 = this.game.add.sprite(0, this.game.height/3, 'parabackground1', this.parabgsFront);
-    this.parabg1.animations.add("full");
-    this.parabg1.animations.play('full', 30, true);
-    this.parabg2 = this.game.add.sprite(768, this.game.height/3, 'parabackground1', this.parabgsFront);
-    this.parabg2.animations.add("full");
-    this.parabg2.animations.play('full', 30, true);
+    this.parabgs = this.game.add.group();
+    this.parabg = this.game.add.tileSprite(0,0, this.game.width, this.game.height, 'parabackground1', 0, this.parabgs);
+    this.parabg.animations.add('full');
+    this.parabg.fixedToCamera = true;
 
-    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
-    this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
-    this.pauseFilter.alpha = 0.5;
-    this.pauseFilter.visible = false;
-
-    this.pauseTexts = [];
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
     this.player = new Player(this, this.game, 3*gridSize, 15*gridSize, 'player');
-    this.game.camera.follow(this.player);
 
     this.keyboard = this.game.input.keyboard;
-    this.timerEvents = [];
 
-    this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('introSpawns'));
-    var ii, spawnDef;
-    for(var ii=0; ii < spawnList.length; ii+=1){
-      spawnDef = spawnList[ii];
-      if(spawnDef.trigger){
-        this.eventSpawns.push(spawnDef);
-      } else {
-        for(var jj=0; jj < spawnDef.spawns.length; jj+=1){
-          if(spawnDef.type=="once"){
-              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-          } else if(spawnDef.type=="continous"){
-              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
-          }
-        }
-      }
-    }
 
-    var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('introEvents'));
-    for(var ii=0; ii < this.events.length; ii+=1){
-      thisEvent = this.events[ii];
-      thisEvent.triggered = false;
-      if(thisEvent.x){ thisEvent.x *= gridSize; }
-      if(thisEvent.y){ thisEvent.y *= gridSize; }
-      if(thisEvent.x2){ thisEvent.x2 *= gridSize; }
-      if(thisEvent.y2){ thisEvent.y2 *= gridSize; }
-      if(thisEvent.type=="dialogue"){
-        thisEvent.resultCallbackName = "sendDialogue";
-      } else if(thisEvent.type=="transition"){
-        thisEvent.resultCallbackName = "touchDoor";
-      } else if(thisEvent.type=="spawn"){
-        thisEvent.resultCallbackName = "spawnEvent";
-      }
-    }
-
-    this.game.world.bringToTop(this.turrets);
     this.game.world.bringToTop(this.backgroundLayer);
-    this.game.world.bringToTop(this.pauseFilter);
-    this.game.world.bringToTop(this.mobs);
-    this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
-    this.game.world.bringToTop(this.blasts);
-    this.game.world.bringToTop(this.foregroundLayer);
-
-    if(this.debugMode){
-      this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
-      this.debugText.fixedToCamera = true;
-    }
 
     this.parabg.play('full');
 
-    this.music = this.sound.play('music', true);
+    //this.music = this.sound.play('music', true);
 
   },
   update: function(){
-    this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
-    this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
 
-    if(this.debugMode){
-      this.debugText.text = "";
+
+    this.checkInput();
+
+    this.game.physics.arcade.collide(this.mobs, this.lifts);
+    if(!this.player.cState.hurt){
+      this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, null, this);
     }
-
-    if(this.dialogue){
-      this.processDialogue();
-    } else {
-      this.checkInput();
-
-      this.game.physics.arcade.collide(this.mobs, this.lifts);
-      if(!this.player.cState.hurt){
-        this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, null, this);
-      }
-      this.game.physics.arcade.collide(this.player, this.turrets, this.customMobContact, null, this);
-      this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
-      this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
-      this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, null, this);
-
-      this.game.physics.arcade.collide(this.player, this.blasts, this.customMobContactedBy, null, this);
-      this.game.physics.arcade.collide(this.blasts, this.collisionLayer, this.customTileContact, null, this);
-
-      if(this.debugMode){
-        this.debugText.text += "Player: "+this.player.debugString()+"\n";
-        conflux = this;
-        this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
-        this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
-      }
-
-      this.checkEvents();
-
-    }
+    this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
 
     if(this.player.cState.outOfBounds){
       this.goToState("Act1");
