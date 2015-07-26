@@ -1,6 +1,6 @@
-SAGDX.level1State = function(game){};
+SAGDX.level2State = function(game){};
 
-SAGDX.level1State.prototype = {
+SAGDX.level2State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -119,7 +119,7 @@ SAGDX.level1State.prototype = {
     this.music = this.sound.play('music', true);
 
   },
-  update: function(){ 
+  update: function(){
     this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
     this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
 

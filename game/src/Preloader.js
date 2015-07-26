@@ -33,9 +33,6 @@ SAGDX.Preloader.prototype = {
     this.game.load.image('title', 'assets/title.png');
     this.game.load.image('pausetext', 'assets/paused.png');
 
-    this.game.load.text('introSpawns', 'data/intro/spawns.json');
-    this.game.load.text('introEvents', 'data/intro/events.json');
-
     this.game.load.text('level1Spawns', 'data/level1/spawns.json');
     this.game.load.text('level1Events', 'data/level1/events.json');
 
@@ -67,7 +64,7 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      this.state.start('Level1');
+      this.state.start('Intro');
     }
   }
 };
