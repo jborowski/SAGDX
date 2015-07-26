@@ -1,4 +1,4 @@
-[ 
+[
   { "description": "An ambush floater",
     "type": "once",
     "trigger": "ambush",

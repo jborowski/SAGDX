@@ -18,12 +18,12 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
 
-  this.animations.add('plain', [0]);
-  this.animations.play('plain');
+  this.animations.add('plain', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]);
+  this.animations.play('plain', 20, true);
 
   this.cConstants = {
     speed: speed*gridSize,
-    animationPausedOffset: 1
+    animationPausedOffset: 30
   };
 
   this.cState = {

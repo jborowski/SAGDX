@@ -1,20 +1,20 @@
 SAGDX.Preloader = function (game) {
-	this.loadBackground = null;
-	this.preloadBar = null;
-	this.SAlogo = null;
-	this.loadingText = null;
-	this.ready = false;
+  this.loadBackground = null;
+  this.preloadBar = null;
+  this.SAlogo = null;
+  this.loadingText = null;
+  this.ready = false;
 };
 
 SAGDX.Preloader.prototype = {
 
-	preload: function () {
-		this.preloadBar = this.add.sprite(209, 356, 'loadBar');
-		this.SAlogo = this.add.sprite(384, 156, 'SAGDlogo');
-		this.SAlogo.anchor.setTo(0.5, 0.5);
-		// this.loadingText = this.add.text(240, 450, 'now loading');
+  preload: function () {
+    this.preloadBar = this.add.sprite(209, 356, 'loadBar');
+    this.SAlogo = this.add.sprite(384, 156, 'SAGDlogo');
+    this.SAlogo.anchor.setTo(0.5, 0.5);
+    // this.loadingText = this.add.text(240, 450, 'now loading');
 
-		this.load.setPreloadSprite(this.preloadBar);
+    this.load.setPreloadSprite(this.preloadBar);
 
     this.game.load.tilemap('introForegroundLayerMap', 'data/intro/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('introBackgroundLayerMap', 'data/intro/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
@@ -29,9 +29,9 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level2CollisionLayerMap', 'data/level2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
     this.game.load.image('tileset', 'assets/levels/act1/tileset.png');
-		this.game.load.image('dialogbox', 'assets/dialogBox.png');
-		this.game.load.image('title', 'assets/title.png');
-		this.game.load.image('pausetext', 'assets/paused.png');
+    this.game.load.image('dialogbox', 'assets/dialogBox.png');
+    this.game.load.image('title', 'assets/title.png');
+    this.game.load.image('pausetext', 'assets/paused.png');
 
     this.game.load.text('introSpawns', 'data/intro/spawns.json');
     this.game.load.text('introEvents', 'data/intro/events.json');
@@ -49,7 +49,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
     this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
     this.game.load.image('flag', 'assets/flag.png');
-    this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 80, 80);
+    this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
 
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
@@ -58,16 +58,16 @@ SAGDX.Preloader.prototype = {
 
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
-	},
+  },
 
-	create: function () {
-		this.preloadBar.cropEnabled = false;
-	},
+  create: function () {
+    this.preloadBar.cropEnabled = false;
+  },
 
-	update: function () {
-		if (this.cache.isSoundDecoded('music') && this.ready == false) {
-			this.ready = true;
-			this.state.start('Level1');
-		}
-	}
+  update: function () {
+    if (this.cache.isSoundDecoded('music') && this.ready == false) {
+      this.ready = true;
+      this.state.start('Level1');
+    }
+  }
 };
