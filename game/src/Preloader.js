@@ -29,6 +29,9 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level2CollisionLayerMap', 'data/level2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
     this.game.load.image('tileset', 'assets/levels/act1/tileset.png');
+		this.game.load.image('dialogbox', 'assets/dialogBox.png');
+		this.game.load.image('title', 'assets/title.png');
+		this.game.load.image('pausetext', 'assets/paused.png');
 
     this.game.load.text('introSpawns', 'data/intro/spawns.json');
     this.game.load.text('introEvents', 'data/intro/events.json');
@@ -52,6 +55,9 @@ SAGDX.Preloader.prototype = {
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
 
     this.game.load.spritesheet('parabackground1', 'assets/levels/act1/background1.png', 768, 512);
+
+    this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+
 	},
 
 	create: function () {

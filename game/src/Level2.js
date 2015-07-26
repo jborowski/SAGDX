@@ -1,6 +1,6 @@
-SAGDX.level2State = function(game){};
+SAGDX.level1State = function(game){};
 
-SAGDX.level2State.prototype = {
+SAGDX.level1State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -14,6 +14,7 @@ SAGDX.level2State.prototype = {
   preload: function(){
     this.game.world.alpha = 0;
     this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
+
   },
   create: function(){
     this.mobs = this.game.add.group();
@@ -22,31 +23,32 @@ SAGDX.level2State.prototype = {
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
 
-    this.map = this.game.add.tilemap('level2ForegroundLayerMap');
+    this.map = this.game.add.tilemap('level1ForegroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('level2BackgroundLayerMap');
+    this.bgMap = this.game.add.tilemap('level1BackgroundLayerMap');
     this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('level2CollisionLayerMap');
+    this.collisionMap = this.game.add.tilemap('level1CollisionLayerMap');
     this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    this.parabgs = this.game.add.group();
-    this.parabg = this.game.add.tileSprite(0,0, this.game.width, this.game.height, 'parabackground1', 0, this.parabgs);
-    this.parabg.animations.add('full');
-    this.parabg.fixedToCamera = true;
+    //this.parabgs = this.game.add.group();
+    this.parabg = this.game.add.tileSprite(0, 14*gridSize, this.game.world.width, 512, 'parabackground1');
+    this.parabg.animations.add("full");
+    this.parabg.animations.play('full', 10, true);
+    this.parabg.fixedToCamera = false;
 
-    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
+    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
-    this.pauseFilter.alpha = 0.5;
+    this.pauseFilter.alpha = 0.2;
     this.pauseFilter.visible = false;
 
     this.pauseTexts = [];
@@ -61,7 +63,7 @@ SAGDX.level2State.prototype = {
     this.timerEvents = [];
 
     this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('level2Spawns'));
+    var spawnList = JSON.parse(this.game.cache.getText('level1Spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
@@ -80,7 +82,7 @@ SAGDX.level2State.prototype = {
     }
 
     var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('level2Events'));
+    this.events = JSON.parse(this.game.cache.getText('level1Events'));
     for(var ii=0; ii < this.events.length; ii+=1){
       thisEvent = this.events[ii];
       thisEvent.triggered = false;
@@ -110,8 +112,10 @@ SAGDX.level2State.prototype = {
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
       this.debugText.fixedToCamera = true;
     }
-    this.parabg.play('full');
+
+
     this.music = this.sound.play('music', true);
+
   },
   update: function(){
 
@@ -148,7 +152,7 @@ SAGDX.level2State.prototype = {
     }
 
     if(this.player.cState.outOfBounds){
-      this.goToState("level2State");
+      this.goToState("Level1");
     }
   },
   customMobContact: function(firstObject, secondObject){
@@ -219,14 +223,16 @@ SAGDX.level2State.prototype = {
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
-        this.goToState("Act1");
+        this.goToState("Level1");
       }
     }
   },
   newPauseText: function(){
     var x = this.game.camera.x + this.game.camera.width/2;
     var y = this.game.camera.y + this.game.camera.height/2;
-    return this.game.add.text(x, y-10, 'GAME PAUSED', { fontSize: '10px', fill: '#FFF' });
+    var sprite = this.game.add.sprite(x, y-10, 'pausetext');
+    sprite.anchor.setTo(0.5, 0.5);
+    return sprite;
   },
   enablePause: function(){
     this.paused = true;
@@ -276,7 +282,12 @@ SAGDX.level2State.prototype = {
   sendDialogue: function(newEvent){
     this.enablePause();
     var dialogueElement = newEvent.dialogue;
-    this.dialogueText = this.game.add.text(300, 280, dialogueElement[0].speaker+': '+dialogueElement[0].text, { fontSize: '16px', fill: '#FFF' });
+    this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
+    this.dialogueBox.anchor.setTo(0, 1);
+    this.dialogueBox.fixedToCamera = true;
+    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
+    this.speakerName.fixedToCamera = true;
+    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
       index: 0,
@@ -314,11 +325,14 @@ SAGDX.level2State.prototype = {
   advanceDialogue: function(){
     if(this.dialogue.element[this.dialogue.index]){
       var line = this.dialogue.element[this.dialogue.index];
-      this.dialogueText.text = line.speaker+": "+line.text;
+      this.speakerName.text = line.speaker
+      this.dialogueText.text = line.text;
       this.dialogue.index += 1;
     }else{
       this.dialogueText.text = "";
+      this.speakerName.text = "";
       this.dialogue = null;
+      this.dialogueBox.destroy();
     }
   },
   touchDoor: function(event){

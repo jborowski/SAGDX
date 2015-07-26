@@ -40,14 +40,15 @@ SAGDX.level1State.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    this.parabgs = this.game.add.group();
-    this.parabg = this.game.add.tileSprite(0,0, this.game.width, this.game.height, 'parabackground1', 0, this.parabgs);
-    this.parabg.animations.add('full');
-    this.parabg.fixedToCamera = true;
+    //this.parabgs = this.game.add.group();
+    this.parabg = this.game.add.tileSprite(0, 14*gridSize, this.game.world.width, 512, 'parabackground1');
+    this.parabg.animations.add("full");
+    this.parabg.animations.play('full', 10, true);
+    this.parabg.fixedToCamera = false;
 
-    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
+    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
-    this.pauseFilter.alpha = 0.5;
+    this.pauseFilter.alpha = 0.2;
     this.pauseFilter.visible = false;
 
     this.pauseTexts = [];
@@ -112,7 +113,7 @@ SAGDX.level1State.prototype = {
       this.debugText.fixedToCamera = true;
     }
 
-    this.parabg.play('full');
+
     this.music = this.sound.play('music', true);
 
   },
@@ -229,7 +230,9 @@ SAGDX.level1State.prototype = {
   newPauseText: function(){
     var x = this.game.camera.x + this.game.camera.width/2;
     var y = this.game.camera.y + this.game.camera.height/2;
-    return this.game.add.text(x, y-10, 'GAME PAUSED', { fontSize: '10px', fill: '#FFF' });
+    var sprite = this.game.add.sprite(x, y-10, 'pausetext');
+    sprite.anchor.setTo(0.5, 0.5);
+    return sprite;
   },
   enablePause: function(){
     this.paused = true;
@@ -279,7 +282,12 @@ SAGDX.level1State.prototype = {
   sendDialogue: function(newEvent){
     this.enablePause();
     var dialogueElement = newEvent.dialogue;
-    this.dialogueText = this.game.add.text(300, 280, dialogueElement[0].speaker+': '+dialogueElement[0].text, { fontSize: '16px', fill: '#FFF' });
+    this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
+    this.dialogueBox.anchor.setTo(0, 1);
+    this.dialogueBox.fixedToCamera = true;
+    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
+    this.speakerName.fixedToCamera = true;
+    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
       index: 0,
@@ -317,11 +325,14 @@ SAGDX.level1State.prototype = {
   advanceDialogue: function(){
     if(this.dialogue.element[this.dialogue.index]){
       var line = this.dialogue.element[this.dialogue.index];
-      this.dialogueText.text = line.speaker+": "+line.text;
+      this.speakerName.text = line.speaker
+      this.dialogueText.text = line.text;
       this.dialogue.index += 1;
     }else{
       this.dialogueText.text = "";
+      this.speakerName.text = "";
       this.dialogue = null;
+      this.dialogueBox.destroy();
     }
   },
   touchDoor: function(event){
