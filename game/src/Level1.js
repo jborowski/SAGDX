@@ -285,9 +285,9 @@ SAGDX.level1State.prototype = {
     this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
     this.dialogueBox.anchor.setTo(0, 1);
     this.dialogueBox.fixedToCamera = true;
-    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
+    this.speakerName = this.game.add.text(70, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
     this.speakerName.fixedToCamera = true;
-    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
+    this.dialogueText = this.game.add.text(50, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
       index: 0,
