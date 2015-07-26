@@ -35,7 +35,7 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtSpeed: 20*gridSize,
     hurtHeight: 3*gridSize,
     hurtWidth: 6*gridSize,
-    hurtTimeout: 1000,
+    hurtTimeout: 100,
     maxHurtReductionY: 0.7,
     animationPausedOffset: 80
   };
