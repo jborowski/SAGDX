@@ -40,11 +40,13 @@ SAGDX.level1State.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    //this.parabgs = this.game.add.group();
-    this.parabg = this.game.add.tileSprite(0, 14*gridSize, this.game.world.width, 512, 'parabackground1');
-    this.parabg.animations.add("full");
-    this.parabg.animations.play('full', 10, true);
-    this.parabg.fixedToCamera = false;
+    this.parabgsFront = this.game.add.group();
+    this.parabg1 = this.game.add.sprite(0, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg1.animations.add("full");
+    this.parabg1.animations.play('full', 30, true);
+    this.parabg2 = this.game.add.sprite(768, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg2.animations.add("full");
+    this.parabg2.animations.play('full', 30, true);
 
     var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
@@ -117,7 +119,9 @@ SAGDX.level1State.prototype = {
     this.music = this.sound.play('music', true);
 
   },
-  update: function(){
+  update: function(){ 
+    this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
+    this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
 
     if(this.debugMode){
       this.debugText.text = "";

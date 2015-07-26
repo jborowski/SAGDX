@@ -40,10 +40,13 @@ SAGDX.introState.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    this.parabgs = this.game.add.group();
-    this.parabg = this.game.add.tileSprite(0,0, this.game.width, this.game.height, 'parabackground1', 0, this.parabgs);
-    this.parabg.animations.add('full');
-    this.parabg.fixedToCamera = true;
+    this.parabgsFront = this.game.add.group();
+    this.parabg1 = this.game.add.sprite(0, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg1.animations.add("full");
+    this.parabg1.animations.play('full', 30, true);
+    this.parabg2 = this.game.add.sprite(768, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg2.animations.add("full");
+    this.parabg2.animations.play('full', 30, true);
 
     var pauseFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
@@ -118,6 +121,8 @@ SAGDX.introState.prototype = {
 
   },
   update: function(){
+    this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
+    this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
 
     if(this.debugMode){
       this.debugText.text = "";
