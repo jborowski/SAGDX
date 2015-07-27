@@ -16,9 +16,9 @@ SAGDX.Preloader.prototype = {
 
     this.load.setPreloadSprite(this.preloadBar);
 
-    this.game.load.tilemap('introForegroundLayerMap', 'data/intro/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('introBackgroundLayerMap', 'data/intro/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('introCollisionLayerMap', 'data/intro/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('introForegroundLayerMap', 'data/levels/Intro/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('introBackgroundLayerMap', 'data/levels/Intro/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('introCollisionLayerMap', 'data/levels/Intro/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
     this.game.load.tilemap('level1ForegroundLayerMap', 'data/levels/Act-1/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('level1BackgroundLayerMap', 'data/levels/Act-1/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
@@ -64,8 +64,8 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      //this.state.start('Intro');
-      this.state.start('Level2');
+      this.state.start('Intro');
+      //this.state.start('Level2');
     }
   }
 };
