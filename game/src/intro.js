@@ -54,7 +54,7 @@ SAGDX.introState.prototype = {
 
     this.lifts = this.game.add.group();
     for (var i = 0; i < 5; i++) {
-      var lift = this.game.add.sprite( (8 + 4 * i) * gridSize, 20*gridSize, 'lift');
+      var lift = this.game.add.sprite( (12 + 4 * i) * gridSize, 20*gridSize, 'lift');
       this.game.physics.arcade.enable(lift);
       this.lifts.add(lift);
     }
