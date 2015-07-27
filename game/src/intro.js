@@ -36,6 +36,11 @@ SAGDX.introState.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
+    this.parabgsBack = this.game.add.group();
+    this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsBack, "parabackground3");
+    this.parabg1.animations.add("full");
+    this.parabg1.animations.play('full', 30, true);
+
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
 
