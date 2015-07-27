@@ -58,6 +58,7 @@ var Player = function(conflux, game, x, y, key, group) {
     hurtTimeoutStarted: false,
     justToggled: false,
     outOfBounds: false,
+    inputDisabled: false,
     paused: false
   };
 
@@ -111,7 +112,7 @@ var Player = function(conflux, game, x, y, key, group) {
       } else {
         this.animations.play('hurtLeft', 10);
       }
-    }else{
+    }else if (!this.cState.inputDisabled){
       if(this.against.bottom){
         if(this.cState.facing > 0){
           if(this.cursors.right.isDown){
@@ -143,7 +144,7 @@ var Player = function(conflux, game, x, y, key, group) {
     if(this.cState.hurt){
       // Player cannot control themselves while hurt
       this.processHurtX();
-    } else{
+    } else if(!this.cState.inputDisabled){
       // If moving left or right, change facing and move forward
       if(this.cursors.left.isDown){
         this.cState.facing = -1;
@@ -176,7 +177,7 @@ var Player = function(conflux, game, x, y, key, group) {
       } else if(this.cState.jumping){
         this.processJump();
       } else {
-        if(this.keyboard.isDown(32) && this.cState.jumpReady && !this.cState.hurt){
+        if(this.keyboard.isDown(32) && this.cState.jumpReady && !this.cState.hurt && !this.cState.inputDisabled){
           this.startJump();
         } else {
           this.body.velocity.y = this.cConstants.fallSpeed;
