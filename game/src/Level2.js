@@ -39,7 +39,7 @@ SAGDX.level2State.prototype = {
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
-
+/*
     this.parabgsFront = this.game.add.group();
     this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsFront, "parabackground1");
     this.parabg1.animations.add("full");
@@ -47,7 +47,7 @@ SAGDX.level2State.prototype = {
     this.parabg2 = new ParaBackground(this, this.game, 768, 1, this.parabgsFront, 'parabackground1');
     this.parabg2.animations.add("full");
     this.parabg2.animations.play('full', 30, true);
-
+*/
     var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
     this.pauseFilter.alpha = 0.2;

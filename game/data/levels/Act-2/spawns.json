@@ -31,5 +31,39 @@
       ],
       "speed": 10
     }
+  },
+  { "description": "First hallway turret",
+    "type": "once",
+    "spawns":[
+      {"x": 65, "y": 39}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": -1,
+      "loopTo": 0,
+      "startPaused": true,
+      "actions": [
+        { "type": "fire", "speed": 8 },
+        { "type": "wait", "duration": 2 },
+        { "type": "turn" },
+        { "type": "wait", "duration": 8 }
+      ]
+    }
+  },
+  { "description": "Second hallway turret",
+    "type": "once",
+    "spawns":[
+      {"x": 74, "y": 55}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": -1,
+      "loopTo": 0,
+      "startPaused": true,
+      "actions": [
+        { "type": "fire", "speed": 8 },
+        { "type": "wait", "duration": 6 }
+      ]
+    }
   }
 ]
