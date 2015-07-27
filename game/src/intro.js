@@ -46,7 +46,7 @@ SAGDX.introState.prototype = {
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.player);
 
-    this.dialogueBox = this.game.add.sprite(0, 532, 'dialogbox');
+    this.dialogueBox = this.game.add.sprite(0, 535, 'dialogbox');
     this.dialogueBox.anchor.setTo(0, 1);
     this.dialogueBox.fixedToCamera = true;
     this.dialogueText = this.game.add.text(50, 410, "", { font: '20px Lato Black', fill: '#000' });
