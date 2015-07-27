@@ -50,6 +50,9 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
     this.cState.markDestroyed = true;
   };
 
+  this.hit = function(){
+  };
+
   this.tileContact = function(tile){
     this.cState.markDestroyed = true;
   };

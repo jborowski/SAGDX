@@ -140,6 +140,9 @@ SAGDX.level2State.prototype = {
 
       this.game.physics.arcade.collide(this.player, this.blasts, this.customMobContactedBy, null, this);
       this.game.physics.arcade.collide(this.blasts, this.collisionLayer, this.customTileContact, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.blasts, this.customMobContact, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.turrets, this.customMobContact, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.mobs, this.customMobContact, null, this);
 
       if(this.debugMode){
         this.debugText.text += "Player: "+this.player.debugString()+"\n";

@@ -138,6 +138,10 @@ var Turret = function(conflux, game, x, y, group, unit){
     return "[pos:"+Math.floor(this.x)+"/"+Math.floor(this.y)+"]";
   };
 
+  this.hit = function(){
+    this.setPause(false);
+  };
+
   this.setPause = function(pause){
     if(this.cState.paused != pause){
       if(pause){

@@ -79,6 +79,10 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     }
   };
 
+  this.hit = function(){
+    this.setPause(false);
+  };
+
   this.setNextWaypoint = function(){
     this.nextWaypoint.index += 1;
     if(this.nextWaypoint.index >= this.waypoints.length){

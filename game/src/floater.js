@@ -160,6 +160,10 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     }
   };
 
+  this.hit = function(){
+    this.setPause(false);
+  };
+
   this.debugString = function(){
     return "FLOATER: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextWaypoint.x+"/"+this.nextWaypoint.y+"]"+
       "[looking:"+this.nextWaypoint.directionX+"/"+this.nextWaypoint.directionY+"][moving:"+this.body.velocity.x+"/"+this.body.velocity.y+"]";

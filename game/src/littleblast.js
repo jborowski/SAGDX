@@ -48,6 +48,9 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
     this.cState.markDestroyed = true;
   };
 
+  this.hit = function(){
+  };
+
   this.tileContact = function(tile){
     this.cState.markDestroyed = true;
   };

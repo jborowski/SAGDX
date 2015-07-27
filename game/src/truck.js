@@ -39,6 +39,10 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
     }
   };
 
+  this.hit = function(){
+    this.setPause(false);
+  };
+
   this.debugString = function(){
     return "[pos:"+Math.floor(this.x)+"/"+Math.floor(this.y)+"]";
   };
