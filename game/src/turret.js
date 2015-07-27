@@ -125,11 +125,11 @@ var Turret = function(conflux, game, x, y, group, unit){
 
   this.fire = function(speed){
     var x, y;
-    y = this.body.y - 33;
+    y = this.body.y - 20;
     if(this.cState.facing == -1){
-      x = this.body.x - 61;
+      x = this.body.x - 110;
     } else {
-      x = this.body.right - 19;
+      x = this.body.right - 10;
     }
     new BigBlast(this.conflux, this.game, x, y, this.conflux.blasts, this.cState.facing, speed/gridSize, false);
   };

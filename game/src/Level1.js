@@ -41,10 +41,10 @@ SAGDX.level1State.prototype = {
     this.collisionLayer.visible = false;
 
     this.parabgsFront = this.game.add.group();
-    this.parabg1 = this.game.add.sprite(0, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsFront, "parabackground1");
     this.parabg1.animations.add("full");
     this.parabg1.animations.play('full', 30, true);
-    this.parabg2 = this.game.add.sprite(768, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg2 = new ParaBackground(this, this.game, 768, 1, this.parabgsFront, 'parabackground1');
     this.parabg2.animations.add("full");
     this.parabg2.animations.play('full', 30, true);
 
@@ -119,10 +119,7 @@ SAGDX.level1State.prototype = {
     this.music = this.sound.play('music', true);
 
   },
-  update: function(){
-    this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
-    this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
-
+  update: function(){ 
     if(this.debugMode){
       this.debugText.text = "";
     }
@@ -289,9 +286,9 @@ SAGDX.level1State.prototype = {
     this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
     this.dialogueBox.anchor.setTo(0, 1);
     this.dialogueBox.fixedToCamera = true;
-    this.speakerName = this.game.add.text(70, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
+    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
     this.speakerName.fixedToCamera = true;
-    this.dialogueText = this.game.add.text(50, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
+    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
     this.dialogueText.fixedToCamera = true;
     this.dialogue = {
       index: 0,

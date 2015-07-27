@@ -1,6 +1,6 @@
-SAGDX.level1State = function(game){};
+SAGDX.level2State = function(game){};
 
-SAGDX.level1State.prototype = {
+SAGDX.level2State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -23,28 +23,28 @@ SAGDX.level1State.prototype = {
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
 
-    this.map = this.game.add.tilemap('level1ForegroundLayerMap');
+    this.map = this.game.add.tilemap('level2ForegroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('level1BackgroundLayerMap');
+    this.bgMap = this.game.add.tilemap('level2BackgroundLayerMap');
     this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('level1CollisionLayerMap');
+    this.collisionMap = this.game.add.tilemap('level2CollisionLayerMap');
     this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
     this.parabgsFront = this.game.add.group();
-    this.parabg1 = this.game.add.sprite(0, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsFront, "parabackground1");
     this.parabg1.animations.add("full");
     this.parabg1.animations.play('full', 30, true);
-    this.parabg2 = this.game.add.sprite(768, this.game.height/3, 'parabackground1', this.parabgsFront);
+    this.parabg2 = new ParaBackground(this, this.game, 768, 1, this.parabgsFront, 'parabackground1');
     this.parabg2.animations.add("full");
     this.parabg2.animations.play('full', 30, true);
 
@@ -58,14 +58,14 @@ SAGDX.level1State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = new Player(this, this.game, 3*gridSize, 15*gridSize, 'player');
+    this.player = new Player(this, this.game, 3*gridSize, 67*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
 
     this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('level1Spawns'));
+    var spawnList = JSON.parse(this.game.cache.getText('level2Spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
@@ -84,7 +84,7 @@ SAGDX.level1State.prototype = {
     }
 
     var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('level1Events'));
+    this.events = JSON.parse(this.game.cache.getText('level2Events'));
     for(var ii=0; ii < this.events.length; ii+=1){
       thisEvent = this.events[ii];
       thisEvent.triggered = false;
@@ -120,9 +120,6 @@ SAGDX.level1State.prototype = {
 
   },
   update: function(){ 
-    this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
-    this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
-
     if(this.debugMode){
       this.debugText.text = "";
     }
@@ -156,7 +153,7 @@ SAGDX.level1State.prototype = {
     }
 
     if(this.player.cState.outOfBounds){
-      this.goToState("Level1");
+      this.goToState("Level2");
     }
   },
   customMobContact: function(firstObject, secondObject){
@@ -227,7 +224,7 @@ SAGDX.level1State.prototype = {
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
-        this.goToState("Level1");
+        this.goToState("Level2");
       }
     }
   },

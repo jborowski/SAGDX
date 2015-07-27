@@ -121,9 +121,6 @@ SAGDX.introState.prototype = {
 
   },
   update: function(){
-    this.parabg1.x = this.camera.x - (this.camera.x%1536)/2;
-    this.parabg2.x = this.camera.x + 768 - (this.camera.x%1536)/2;
-
     if(this.debugMode){
       this.debugText.text = "";
     }

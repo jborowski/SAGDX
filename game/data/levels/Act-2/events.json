@@ -1,0 +1,11 @@
+[
+  { "type": "dialogue",
+    "triggerType": "pass",
+    "x": 12,
+    "dialogue": [
+      {"speaker": "factory", "text": "Attention, all units."},
+      {"speaker": "factory", "text": "Threat level elevated. Entering security lockdown."},
+      {"speaker": "factory", "text": "End of Message."}
+    ]
+  }
+]

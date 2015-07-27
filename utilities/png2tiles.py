@@ -102,7 +102,7 @@ for layer, tiles in input_data:
     "width": level_size_x
   }
 
-  outfile = open(target+"data/"+layer+".json", 'w')
+  outfile = open(target+"data/"+source+layer+".json", 'w')
 
   json_dump = json.dumps(output_data, sort_keys=True, indent=2)
 
