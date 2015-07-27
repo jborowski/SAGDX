@@ -60,7 +60,6 @@ SAGDX.intro2State.prototype = {
     }
   },
   endIntro: function(){
-          console.log("AAAAAAAAAAAAAAAAA");
     this.game.add.tween(this.player).to({alpha:0}, 750).start();
     this.game.add.tween(this.dialogueText).to({alpha:0}, 750).start();
     var titleDrop = this.game.add.tween(this.title).to({ alpha:1 }, 10000);
