@@ -5,14 +5,14 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   Phaser.Sprite.call(this, game, x, y, 'floater');
   game.physics.arcade.enable(this);
   group.add(this);
-  this.body.setSize(40,40,7,77);
+  this.body.setSize(40,40);
   this.mobType = "floater";
   this.body.immovable = true;
   this.outOfBoundsKill = false;
   this.waypoints = waypoints;
   this.conflux = conflux;
-  this.animations.add('left', [0,1,2,6,7,8,12,13,14]);
-  this.animations.add('right', [3,4,5,9,10,11,15,16,17]);
+  this.animations.add('right', [0,1,2,6,7,8,12,13,14]);
+  this.animations.add('left', [3,4,5,9,10,11,15,16,17]);
 
   this.cConstants = {
     speed: speed*gridSize,
@@ -65,7 +65,6 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       if(this.body.x < this.conflux.player.body.x) this.animations.play('left');
       else if (this.body.x > this.conflux.player.body.x) this.animations.play('right');
     }
-
   }
 
   this.update = function(){
