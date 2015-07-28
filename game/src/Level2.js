@@ -41,15 +41,7 @@ SAGDX.level2State.prototype = {
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
-/*
-    this.parabgsFront = this.game.add.group();
-    this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsFront, "parabackground1");
-    this.parabg1.animations.add("full");
-    this.parabg1.animations.play('full', 30, true);
-    this.parabg2 = new ParaBackground(this, this.game, 768, 1, this.parabgsFront, 'parabackground1');
-    this.parabg2.animations.add("full");
-    this.parabg2.animations.play('full', 30, true);
-*/
+
     var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
     this.pauseFilter.alpha = 0.2;
@@ -100,6 +92,8 @@ SAGDX.level2State.prototype = {
         thisEvent.resultCallbackName = "touchDoor";
       } else if(thisEvent.type=="spawn"){
         thisEvent.resultCallbackName = "spawnEvent";
+      } else if(thisEvent.type=="activation"){
+        thisEvent.resultCallbackName = "checkActivations";
       }
     }
 
@@ -282,7 +276,9 @@ SAGDX.level2State.prototype = {
     }
   },
   triggerEvent: function(newEvent){
-    newEvent.triggered = true;
+    if(!newEvent.repeats){
+      newEvent.triggered = true;
+    }
     this[newEvent.resultCallbackName](newEvent);
   },
   sendDialogue: function(newEvent){
@@ -313,6 +309,13 @@ SAGDX.level2State.prototype = {
               this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
           }
         }
+      }
+    }
+  },
+  checkActivations: function(newEvent){
+    for(var ii = 0; ii < this.eventActivations.length; ii += 1){
+      if(this.eventActivations[ii].activatedBy.indexOf(newEvent.activates) >= 0){
+        this.eventActivations[ii].activate(newEvent.activates);
       }
     }
   },

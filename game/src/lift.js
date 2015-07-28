@@ -20,6 +20,11 @@ var Lift = function(conflux, game, x, y, group, unit){
     paused: false
   }
 
+  if(unit.activatedBy){
+    this.activatedBy = unit.activatedBy;
+    this.conflux.eventActivations.push(this);
+  }
+
   // Normalize units
   var action;
   for(var ii=0; ii < unit.actions.length; ii+=1){
@@ -35,16 +40,33 @@ var Lift = function(conflux, game, x, y, group, unit){
     this.body.velocity.y = 0;
     if(!this.cState.paused){
       if(this.nextAction.type == "wait"){
-        this.body.velocity.x = 0;
-        this.body.velocity.y = 0;
-        if(this.game.time.now > this.nextAction.until){
-          this.setNextAction();
-        }
+        this.wait();
       } else if(this.nextAction.type == "moveTo"){
         this.moveToWaypoint();
       }
     }
   };
+
+  this.wait = function(){
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+    if(this.nextAction.for == "time"){
+      if(this.game.time.now > this.nextAction.until){
+        this.setNextAction();
+      }
+    } else if(this.nextAction.for == "activation"){
+      if(this.nextAction.activated){
+        this.setNextAction();
+      }
+    }
+  }
+
+  this.activate = function(name){
+    this.setPause(false);
+    if(name == this.nextAction.activation && this.nextAction.activated != true){
+      this.nextAction.activated = true;
+    }
+  }
 
   this.moveToWaypoint = function(){
     reachedX = this.nextAction.directionX == 0 || (this.nextAction.directionX < 0 && this.body.x < this.nextAction.x)
@@ -87,7 +109,13 @@ var Lift = function(conflux, game, x, y, group, unit){
     this.nextAction = this.actions[nextIndex];
     this.nextAction.index = nextIndex;
     if(this.nextAction.type == "wait"){
-      this.nextAction.until = this.game.time.now + this.nextAction.duration;
+      if(this.nextAction.duration){
+        this.nextAction.for = "time";
+        this.nextAction.until = this.game.time.now + this.nextAction.duration;
+      } else if(this.nextAction.activation){
+        this.nextAction.for = "activation";
+        this.nextAction.activated = false;
+      }
     } else if(this.nextAction.type == "destroy"){
       this.destroy();
     } else if(this.nextAction.type == "moveTo"){

@@ -1,19 +1,31 @@
 [
-  { "type": "dialogue",
-    "triggerType": "pass",
-    "x": 12,
-    "dialogue": [
-      {"speaker": "factory", "text": "Attention, all units."},
-      {"speaker": "factory", "text": "Threat level elevated. Entering security lockdown."},
-      {"speaker": "factory", "text": "End of Message."}
-    ]
+  { "ignore": 
+    { "type": "dialogue",
+      "triggerType": "pass",
+      "x": 12,
+      "dialogue": [
+        {"speaker": "factory", "text": "Attention, all units."},
+        {"speaker": "factory", "text": "Threat level elevated. Entering security lockdown."},
+        {"speaker": "factory", "text": "End of Message."}
+      ]
+    }
   },
   { "type": "activation",
     "triggerType": "inside",
     "activates": "lift1",
-    "x":21,
-    "y":67,
-    "x2":23,
-    "y2":71
+    "repeats": true,
+    "x":20,
+    "y":60,
+    "x2":27,
+    "y2":75
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift2",
+    "repeats": true,
+    "x":0,
+    "y":20,
+    "x2":20,
+    "y2":75
   }
 ]
