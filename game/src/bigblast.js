@@ -18,12 +18,12 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
 
-  this.animations.add('plain', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29]);
-  this.animations.play('plain', 20, true);
+  this.animations.add('left', [0,1,2,3,4,5,12,13,14,15,16,17,24,25,26,27,28,29,36,37,38,39,40,41,48,49,50,51,52,53]);
+  this.animations.add('right', [6,7,8,9,10,11,18,19,20,21,22,23,30,31,32,33,34,35,42,43,44,45,46,47,54,55,56,57,58,59]);
 
   this.cConstants = {
     speed: speed*gridSize,
-    animationPausedOffset: 30
+    animationPausedOffset: 60
   };
 
   this.cState = {
@@ -31,6 +31,9 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
     paused: false,
     facing: facing
   };
+
+  if(this.cState.facing == 1) this.animations.play('right', 20, true);
+  else if (this.cState.facing == -1) this.animations.play('left', 20, true);
 
   this.update = function(){
     if(this.cState.paused){
