@@ -42,12 +42,12 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
     this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 32);
-    this.game.load.spritesheet('floater', 'assets/floater.png', 32, 32);
+    this.game.load.spritesheet('floater', 'assets/floater.png', 104, 118);
     this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
     this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
     this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
-    this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
+    this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 92, 34);
 
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
 
