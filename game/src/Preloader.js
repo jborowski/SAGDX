@@ -66,8 +66,8 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      //this.state.start('Intro');
-      this.state.start('Level1');
+      this.state.start('Intro');
+      //this.state.start('Level1');
       //this.state.start('Level2');
     }
   }
