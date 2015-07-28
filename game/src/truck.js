@@ -26,7 +26,6 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
       this.body.velocity.y = 0;
       this.body.gravity.y = 0;
     } else {
-      this.body.velocity.x = this.cConstants.groundSpeed*this.cState.facing;
       this.body.gravity.y = 40*gridSize;
 
       if(this.body.velocity.y > this.cConstants.fallSpeed){
@@ -34,6 +33,7 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
       }
 
       if(this.body.onFloor()){
+        this.body.velocity.x = this.cConstants.groundSpeed*this.cState.facing;
         this.y = Math.ceil(this.y);
       }
     }

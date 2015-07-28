@@ -100,7 +100,7 @@
     "type": "once",
     "spawns": [
       {"x": 68, "y": 73},
-      {"x": 50, "y": 73}
+      {"x": 52, "y": 73}
     ],
     "unit": {
       "type": "bigblast",
@@ -123,6 +123,34 @@
         { "type": "fire", "speed": 8 },
         { "type": "wait", "duration": 6 }
       ]
+    }
+  },
+  { "description": "The blast room turret that triggers the truck",
+    "type": "once",
+    "spawns":[
+      {"x": 97, "y": 64}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": 1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "fire", "speed": 8 },
+        { "type": "wait", "duration": 30 }
+      ]
+    }
+  },
+  { "description": "The blast room turret that triggers the truck",
+    "type": "once",
+    "spawns":[
+      {"x": 117, "y": 65}
+    ],
+    "unit": {
+      "type": "truck",
+      "facing": -1,
+      "paused": true,
+      "speed": 15
     }
   }
 ]
