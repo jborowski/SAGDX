@@ -172,7 +172,7 @@ SAGDX.level1State.prototype = {
     } else if(unit.type=="carrier"){
       mob = new Carrier(this, this.game, xCoord, yCoord, this.lifts, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="lift"){
-      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit.waypoints, unit.speed, unit.paused);
+      mob = new Lift(this, this.game, xCoord, yCoord, this.lifts, unit);
     } else if(unit.type=="turret"){
       mob = new Turret(this, this.game, xCoord, yCoord, this.turrets, unit);
     } else if(unit.type=="bigblast"){
