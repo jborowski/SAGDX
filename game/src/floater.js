@@ -5,14 +5,14 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   Phaser.Sprite.call(this, game, x, y, 'floater');
   game.physics.arcade.enable(this);
   group.add(this);
-  this.body.setSize(32,32);
+  this.body.setSize(40,40,7,77);
   this.mobType = "floater";
   this.body.immovable = true;
   this.outOfBoundsKill = false;
   this.waypoints = waypoints;
   this.conflux = conflux;
-  this.animations.add('plain', [0]);
-  this.animations.play('plain');
+  this.animations.add('left', [0,1,2,6,7,8,12,13,14]);
+  this.animations.add('right', [3,4,5,9,10,11,15,16,17]);
 
   this.cConstants = {
     speed: speed*gridSize,
@@ -23,7 +23,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     maxBoostVelocity: 30*gridSize,
     dropSpeed: 2*gridSize,
     boostTime: 60,
-    animationPausedOffset: 1
+    animationPausedOffset: 18
   }
 
   this.cState = {
@@ -60,7 +60,16 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.body.velocity.x = this.nextWaypoint.directionX * this.cConstants.speed;
   this.body.velocity.y = this.nextWaypoint.directionY * this.cConstants.speed;
 
+  this.processAnimation = function(){
+    if(!this.cState.paused){
+      if(this.body.x < this.conflux.player.body.x) this.animations.play('left');
+      else if (this.body.x > this.conflux.player.body.x) this.animations.play('right');
+    }
+
+  }
+
   this.update = function(){
+    this.processAnimation();
     if(this.cState.paused){
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
