@@ -17,29 +17,30 @@ var Lift = function(conflux, game, x, y, group, unit){
   }
 
   this.cState = {
-    waiting: false,
-    waitUntil: 0,
     paused: false
   }
 
-  this.nextAction = {
-    index: 0,
-    x: this.actions[0].x*gridSize,
-    y: this.actions[0].y*gridSize
+  // Normalize units
+  var action;
+  for(var ii=0; ii < unit.actions.length; ii+=1){
+    action = unit.actions[ii];
+    if(action.y){ action.y *= gridSize; }
+    if(action.x){ action.x *= gridSize; }
+    if(action.speed){ action.speed *= gridSize; }
+    if(action.duration){ action.duration *= conflux.timeMultiplier; }
   }
 
   this.update = function(){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     if(!this.cState.paused){
-      if(this.cState.waiting){
+      if(this.nextAction.type == "wait"){
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
-        if(this.game.time.now > this.cState.waitUntil){
-          this.cState.waiting = false;
+        if(this.game.time.now > this.nextAction.until){
           this.setNextAction();
         }
-      } else {
+      } else if(this.nextAction.type == "moveTo"){
         this.moveToWaypoint();
       }
     }
@@ -76,24 +77,26 @@ var Lift = function(conflux, game, x, y, group, unit){
   };
 
   this.setNextAction = function(){
-    this.nextAction.index += 1;
-    if(this.nextAction.index >= this.actions.length){
-      this.nextAction.index = 0;
+    var nextIndex = 0;
+    if(this.nextAction){
+      nextIndex = this.nextAction.index + 1;
     }
-    var next = this.actions[this.nextAction.index];
-    if(next.type == "wait"){
-      this.cState.waiting = true;
-      this.cState.waitUntil = this.game.time.now + next.duration*conflux.timeMultiplier;
-    } else if(next.type == "destroy"){
+    if(nextIndex >= this.actions.length){
+      nextIndex = 0;
+    }
+    this.nextAction = this.actions[nextIndex];
+    this.nextAction.index = nextIndex;
+    if(this.nextAction.type == "wait"){
+      this.nextAction.until = this.game.time.now + this.nextAction.duration;
+    } else if(this.nextAction.type == "destroy"){
       this.destroy();
-    } else if(next.type == "moveTo"){
-      this.nextAction.x = next.x*gridSize;
-      this.nextAction.y = next.y*gridSize;
+    } else if(this.nextAction.type == "moveTo"){
       this.setWaypointDirection();
       this.body.velocity.x = this.nextAction.directionX * this.cConstants.speed;
       this.body.velocity.y = this.nextAction.directionY * this.cConstants.speed;
     }
   };
+  this.setNextAction();
 
   this.setWaypointDirection = function(){
     if(this.nextAction.x < this.body.x){

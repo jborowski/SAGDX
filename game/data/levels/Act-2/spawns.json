@@ -25,8 +25,8 @@
     "unit": {
       "type": "lift",
       "actions": [
-        {"type": "moveTo", "x": 21, "y": 73},
         {"type": "wait", "duration": 10},
+        {"type": "moveTo", "x": 21, "y": 73},
         {"type": "moveTo", "x": 21, "y": 42}
       ],
       "speed": 10

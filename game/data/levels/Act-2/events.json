@@ -10,6 +10,7 @@
   },
   { "type": "activation",
     "triggerType": "inside",
+    "activates": "lift1",
     "x":21,
     "y":67,
     "x2":23,
