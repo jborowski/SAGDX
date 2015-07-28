@@ -11,12 +11,8 @@ SAGDX.level1State.prototype = {
   events: [],
   dialogue: null,
 
-  preload: function(){
-    this.game.world.alpha = 0;
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
-  },
   create: function(){
+    this.game.world.alpha = 0;
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
     this.turrets = this.game.add.group();
@@ -54,6 +50,10 @@ SAGDX.level1State.prototype = {
     this.parabg4 = new ParaBackground(this, this.game, 768, 1, this.parabgs, 'parabackground1');
     this.parabg4.animations.add("full");
     this.parabg4.animations.play('full', 30, true);
+
+    this.overlays = this.game.add.group();
+    this.overlay1 = new ParaBackground(this, this.game, 0, 1, this.overlays, 'overlay');
+    this.overlay2 = new ParaBackground(this, this.game, 768, 1, this.overlays, 'overlay');
 
     var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
     this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
@@ -124,6 +124,8 @@ SAGDX.level1State.prototype = {
 
 
     this.music = this.sound.play('music', true);
+
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
 
   },
   update: function(){

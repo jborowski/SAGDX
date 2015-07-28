@@ -16,13 +16,8 @@ SAGDX.introState.prototype = {
   tutorialPoint: 0,
   textTimer: 0,
 
-  preload: function(){
-    this.game.world.alpha = 0;
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
-  },
   create: function(){
-
+    this.game.world.alpha = 0;
     this.game.renderer.renderSession.roundPixels = true;
 
     this.bgMap = this.game.add.tilemap('introBackgroundLayerMap');
@@ -40,6 +35,9 @@ SAGDX.introState.prototype = {
     this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsBack, "parabackground3");
     this.parabg1.animations.add("full");
     this.parabg1.animations.play('full', 30, true);
+
+    this.overlays = this.game.add.group();
+    this.overlay1 = new ParaBackground(this, this.game, 0, 1, this.overlays, 'overlay');
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
@@ -65,6 +63,7 @@ SAGDX.introState.prototype = {
     }
 
     //this.music = this.sound.play('music', true);
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
 
   },
   update: function(){
