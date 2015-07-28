@@ -27,5 +27,23 @@
     "y":20,
     "x2":20,
     "y2":75
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift3",
+    "repeats": true,
+    "x":123,
+    "y":51,
+    "x2":131,
+    "y2":68
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift4",
+    "repeats": true,
+    "x":103,
+    "y":30,
+    "x2":123,
+    "y2":68
   }
 ]

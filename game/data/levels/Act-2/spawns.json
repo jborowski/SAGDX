@@ -18,7 +18,6 @@
   },
   { "description": "The initial lift",
     "type": "once",
-    "interval": 10,
     "spawns":[
       {"x": 21, "y": 73}
     ],
@@ -76,7 +75,7 @@
     "unit": {
       "type": "carrier",
       "facing": 1,
-      "speed": 11,
+      "speed": 12,
       "paused": true,
       "waypoints": [
         {"x": 76, "y": 76},
@@ -151,6 +150,23 @@
       "facing": -1,
       "paused": true,
       "speed": 15
+    }
+  },
+  { "description": "The blast room lift",
+    "type": "once",
+    "spawns":[
+      {"x": 124, "y": 68}
+    ],
+    "unit": {
+      "type": "lift",
+      "activatedBy": ["lift3", "lift4"],
+      "actions": [
+        {"type": "wait", "activation": "lift3"},
+        {"type": "moveTo", "x": 124, "y": 40},
+        {"type": "wait", "activation": "lift4"},
+        {"type": "moveTo", "x": 124, "y": 68}
+      ],
+      "speed": 10
     }
   }
 ]
