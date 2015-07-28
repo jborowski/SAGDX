@@ -5,6 +5,7 @@
 
 from PIL import Image
 import json
+import os
 import sys
 
 # global variables
@@ -24,7 +25,7 @@ input_data = [( "foregroundLayer","tileset"),
 
 for layer, tiles in input_data:
 
-  bitmap = Image.open(source+layer+".png")
+  bitmap = Image.open(os.path.join(source, layer+".png"))
 
   level_size_x = bitmap.size[0]
   level_size_y = bitmap.size[1]
@@ -63,7 +64,7 @@ for layer, tiles in input_data:
       else:
         formatted_data.extend([0])
 
-  tileset = Image.open(source+tiles+".png")
+  tileset = Image.open(os.path.join(source, tiles+".png"))
 
   tileset_size_x = tileset.size[0]
   tileset_size_y = tileset.size[1]
@@ -102,7 +103,7 @@ for layer, tiles in input_data:
     "width": level_size_x
   }
 
-  outfile = open(target+"data/"+source+layer+".json", 'w')
+  outfile = open(os.path.join(target, "data", source, layer+".json"), 'w')
 
   json_dump = json.dumps(output_data, sort_keys=True, indent=2)
 

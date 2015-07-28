@@ -36,10 +36,15 @@ SAGDX.introState.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
+    this.parabgsBack = this.game.add.group();
+    this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgsBack, "parabackground3");
+    this.parabg1.animations.add("full");
+    this.parabg1.animations.play('full', 30, true);
+
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
 
-    this.player = new Player(this, this.game, 10*gridSize, 10*gridSize, 'player');
+    this.player = new Player(this, this.game, 15*gridSize, 10*gridSize, 'player');
 
     this.keyboard = this.game.input.keyboard;
 
@@ -54,7 +59,7 @@ SAGDX.introState.prototype = {
 
     this.lifts = this.game.add.group();
     for (var i = 0; i < 5; i++) {
-      var lift = this.game.add.sprite( (8 + 4 * i) * gridSize, 20*gridSize, 'lift');
+      var lift = this.game.add.sprite( (12 + 4 * i) * gridSize, 20*gridSize, 'lift');
       this.game.physics.arcade.enable(lift);
       this.lifts.add(lift);
     }
