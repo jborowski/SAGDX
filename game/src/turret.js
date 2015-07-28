@@ -153,7 +153,7 @@ var Turret = function(conflux, game, x, y, group, unit){
       this.cState.paused = pause;
     }
   };
-  this.setPause(!!unit.startPaused);
+  this.setPause(!!unit.paused);
 }
 
 Turret.prototype = Object.create(Phaser.Sprite.prototype);

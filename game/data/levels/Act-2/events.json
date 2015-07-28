@@ -7,5 +7,12 @@
       {"speaker": "factory", "text": "Threat level elevated. Entering security lockdown."},
       {"speaker": "factory", "text": "End of Message."}
     ]
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "x":21,
+    "y":67,
+    "x2":23,
+    "y2":71
   }
 ]
