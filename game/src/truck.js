@@ -31,11 +31,12 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
       if(this.body.velocity.y > this.cConstants.fallSpeed){
         this.body.velocity.y = this.cConstants.fallSpeed;
       }
-
+      
       if(this.body.onFloor()){
         this.body.velocity.x = this.cConstants.groundSpeed*this.cState.facing;
-        this.y = Math.ceil(this.y);
       }
+
+      this.y = Math.ceil(this.y);
     }
   };
 

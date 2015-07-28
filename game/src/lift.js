@@ -6,14 +6,14 @@ var Lift = function(conflux, game, x, y, group, unit){
   group.add(this);
   this.mobType = "lift";
   this.body.immovable = true;
-  this.actions = unit.actions;
   this.conflux = conflux;
   this.animations.add('plain', [0]);
   this.animations.play('plain');
 
   this.cConstants = {
     speed: unit.speed*gridSize,
-    animationPausedOffset: 1
+    animationPausedOffset: 1,
+    actions: []
   }
 
   this.cState = {
@@ -25,14 +25,20 @@ var Lift = function(conflux, game, x, y, group, unit){
     this.conflux.eventActivations.push(this);
   }
 
-  // Normalize units
-  var action;
+  // Copy action definitions to an internalize list with normalized units
+  var unitAction, newAction;
   for(var ii=0; ii < unit.actions.length; ii+=1){
-    action = unit.actions[ii];
-    if(action.y){ action.y *= gridSize; }
-    if(action.x){ action.x *= gridSize; }
-    if(action.speed){ action.speed *= gridSize; }
-    if(action.duration){ action.duration *= conflux.timeMultiplier; }
+    unitActionList = [];
+    unitAction = unit.actions[ii];
+    newAction = {};
+    newAction.type = unitAction.type;
+    newAction.index = ii;
+    if(unitAction.y){newAction.y = unitAction.y * gridSize;}
+    if(unitAction.x){newAction.x = unitAction.x * gridSize;}
+    if(unitAction.speed){newAction.speed = unitAction.speed * gridSize;}
+    if(unitAction.duration){newAction.duration = unitAction.duration * conflux.timeMultiplier;}
+    newAction.activation = unitAction.activation;
+    this.cConstants.actions.push(newAction);
   }
 
   this.update = function(){
@@ -120,11 +126,10 @@ var Lift = function(conflux, game, x, y, group, unit){
     if(this.nextAction){
       nextIndex = this.nextAction.index + 1;
     }
-    if(nextIndex >= this.actions.length){
+    if(nextIndex >= this.cConstants.actions.length){
       nextIndex = 0;
     }
-    this.nextAction = this.actions[nextIndex];
-    this.nextAction.index = nextIndex;
+    this.nextAction = this.cConstants.actions[nextIndex];
     if(this.nextAction.type == "wait"){
       if(this.nextAction.duration){
         this.nextAction.for = "time";

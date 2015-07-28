@@ -23,20 +23,26 @@ var Turret = function(conflux, game, x, y, group, unit){
     this.animations.play('right');
   }
 
-  // Normalize units
-  var action;
-  for(var ii=0; ii < unit.actions.length; ii+=1){
-    action = unit.actions[ii];
-    if(action.y){ action.y *= gridSize; }
-    if(action.speed){ action.speed *= gridSize; }
-    if(action.duration){ action.duration *= conflux.timeMultiplier; }
-  }
-
   this.cConstants = {
     animationPausedOffset: 2,
-    actions: unit.actions,
+    actions: [],
     actionLoopIndex: unit.loopTo
   };
+
+  // Copy action definitions to an internalize list with normalized units
+  var unitAction, newAction;
+  for(var ii=0; ii < unit.actions.length; ii+=1){
+    unitActionList = [];
+    unitAction = unit.actions[ii];
+    newAction = {};
+    newAction.type = unitAction.type;
+    if(unitAction.y){newAction.y = unitAction.y * gridSize;}
+    if(unitAction.x){newAction.x = unitAction.x * gridSize;}
+    if(unitAction.speed){newAction.speed = unitAction.speed * gridSize;}
+    if(unitAction.duration){newAction.duration = unitAction.duration * conflux.timeMultiplier;}
+    newAction.activation = unitAction.activation;
+    this.cConstants.actions.push(newAction);
+  }
 
   this.cState = {
     paused: false,

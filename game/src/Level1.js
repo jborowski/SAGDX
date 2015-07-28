@@ -9,6 +9,8 @@ SAGDX.level1State.prototype = {
   justToggled:null,
   paused:false,
   events: [],
+  eventSpawns: [],
+  eventActivations: [],
   dialogue: null,
 
   preload: function(){
@@ -106,6 +108,8 @@ SAGDX.level1State.prototype = {
         thisEvent.resultCallbackName = "touchDoor";
       } else if(thisEvent.type=="spawn"){
         thisEvent.resultCallbackName = "spawnEvent";
+      } else if(thisEvent.type=="activation"){
+        thisEvent.resultCallbackName = "checkActivations";
       }
     }
 
@@ -148,6 +152,9 @@ SAGDX.level1State.prototype = {
 
       this.game.physics.arcade.collide(this.player, this.blasts, this.customMobContactedBy, null, this);
       this.game.physics.arcade.collide(this.blasts, this.collisionLayer, this.customTileContact, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.blasts, this.customMobContact, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.turrets, this.customMobContact, null, this);
+      this.game.physics.arcade.collide(this.blasts, this.mobs, this.customMobContact, null, this);
 
       if(this.debugMode){
         this.debugText.text += "Player: "+this.player.debugString()+"\n";
@@ -285,7 +292,9 @@ SAGDX.level1State.prototype = {
     }
   },
   triggerEvent: function(newEvent){
-    newEvent.triggered = true;
+    if(!newEvent.repeats){
+      newEvent.triggered = true;
+    }
     this[newEvent.resultCallbackName](newEvent);
   },
   sendDialogue: function(newEvent){
@@ -312,10 +321,20 @@ SAGDX.level1State.prototype = {
           if(spawnDef.type=="once"){
               this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
           } else if(spawnDef.type=="continous"){
-              this.spawnMob(spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint);
-              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize));
+              this.spawnMob(
+                spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint
+              );
+              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, 
+                spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint));
           }
         }
+      }
+    }
+  },
+  checkActivations: function(newEvent){
+    for(var ii = 0; ii < this.eventActivations.length; ii += 1){
+      if(this.eventActivations[ii].activatedBy.indexOf(newEvent.activates) >= 0){
+        this.eventActivations[ii].activate(newEvent.activates);
       }
     }
   },
