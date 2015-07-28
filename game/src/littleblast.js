@@ -4,7 +4,7 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
   Phaser.Sprite.call(this, game, x, y, 'littleblast');
   game.physics.arcade.enable(this);
   group.add(this);
-  this.body.setSize(48,16,16,32);
+  this.body.setSize(48,16,16,16);
   if(this.game.debugMode){
     var hitboxG = new Phaser.Graphics().beginFill(0x898989).drawRect(0,0,48,16);
     var hitbox = game.add.sprite(16,32,hitboxG.generateTexture());
@@ -18,8 +18,9 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
   this.body.customSeparateY = true;
   this.body.allowGravity = false;
 
-  this.animations.add('plain', [0]);
-  this.animations.play('plain');
+  this.animations.add('left', [0,1,2,3,4,5,12,13,14,15,16,17,24,25,26,27,28,29,36,37,38,39,40,41,48,49,50,51,52,53]);
+  this.animations.add('right', [6,7,8,9,10,11,18,19,20,21,22,23,30,31,32,33,34,35,42,43,44,45,46,47,54,55,56,57,58,59]);
+
 
   this.cConstants = {
     speed: speed*gridSize,
@@ -31,6 +32,9 @@ var LittleBlast = function(conflux, game, x, y, group, facing, speed, startPause
     paused: false,
     facing: facing
   };
+
+  if(this.cState.facing == 1) this.animations.play('right', 20, true);
+  else if (this.cState.facing == -1) this.animations.play('left', 20, true);
 
   this.update = function(){
     if(this.cState.paused){

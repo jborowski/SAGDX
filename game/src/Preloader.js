@@ -47,7 +47,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
     this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
-    this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 80, 80);
+    this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 92, 34);
 
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
 
