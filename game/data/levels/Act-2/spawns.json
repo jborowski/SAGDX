@@ -71,15 +71,15 @@
   { "description": "The pit carrier",
     "type": "once",
     "spawns": [
-      {"x": 43, "y": 78}
+      {"x": 43, "y": 76}
     ],
     "unit": {
       "type": "carrier",
       "facing": 1,
-      "speed": 5,
+      "speed": 11,
       "paused": true,
       "waypoints": [
-        {"x": 73, "y": 78},
+        {"x": 76, "y": 76},
         {"wait": 100}
       ]
     }
@@ -94,6 +94,35 @@
       "facing": -1,
       "speed": 8,
       "paused": true
+    }
+  },
+  { "description": "Pit blast",
+    "type": "once",
+    "spawns": [
+      {"x": 68, "y": 73},
+      {"x": 50, "y": 73}
+    ],
+    "unit": {
+      "type": "bigblast",
+      "facing": -1,
+      "speed": 8,
+      "paused": true
+    }
+  },
+  { "description": "Pit turret",
+    "type": "once",
+    "spawns":[
+      {"x": 85, "y": 74}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": -1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "fire", "speed": 8 },
+        { "type": "wait", "duration": 6 }
+      ]
     }
   }
 ]
