@@ -98,6 +98,23 @@ var Lift = function(conflux, game, x, y, group, unit){
     }
   };
 
+  this.setWaypointDirection = function(){
+    if(this.nextAction.x < this.body.x){
+      this.nextAction.directionX = -1;
+    } else if(this.nextAction.x > this.body.x) {
+      this.nextAction.directionX = 1;
+    } else {
+      this.nextAction.directionX = 0;
+    }
+    if(this.nextAction.y < this.body.y){
+      this.nextAction.directionY = -1;
+    } else if(this.nextAction.y > this.body.y) {
+      this.nextAction.directionY = 1;
+    } else {
+      this.nextAction.directionY = 0;
+    }
+  };
+
   this.setNextAction = function(){
     var nextIndex = 0;
     if(this.nextAction){
@@ -126,23 +143,7 @@ var Lift = function(conflux, game, x, y, group, unit){
   };
   this.setNextAction();
 
-  this.setWaypointDirection = function(){
-    if(this.nextAction.x < this.body.x){
-      this.nextAction.directionX = -1;
-    } else if(this.nextAction.x > this.body.x) {
-      this.nextAction.directionX = 1;
-    } else {
-      this.nextAction.directionX = 0;
-    }
-    if(this.nextAction.y < this.body.y){
-      this.nextAction.directionY = -1;
-    } else if(this.nextAction.y > this.body.y) {
-      this.nextAction.directionY = 1;
-    } else {
-      this.nextAction.directionY = 0;
-    }
-  };
-  this.setWaypointDirection();
+
 
   this.setPause = function(pause){
     if(this.cState.paused != pause){
