@@ -234,5 +234,40 @@
       ],
       "speed": 10
     }
+  },
+  { "description": "Left bonus access turret",
+    "type": "once",
+    "spawns":[
+      {"x": 83, "y": 14}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": 1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "wait", "duration": 5 },
+        { "type": "fire", "speed": 20 },
+        { "type": "wait", "duration": 10 }
+      ]
+    }
+  },
+  { "description": "Right bonus access turret",
+    "type": "once",
+    "spawns":[
+      {"x": 128, "y": 11}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": -1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "wait", "duration": 8 },
+        { "type": "fire", "speed": 20 },
+        { "type": "wait", "duration": 7 }
+
+      ]
+    }
   }
 ]
