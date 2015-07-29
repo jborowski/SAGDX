@@ -3,7 +3,6 @@ var ParaBackground = function(conflux, game, offsetX, speedX, speedY, group, ima
   if(typeof speed === 'undefined') { speed = 10; }
   Phaser.Sprite.call(this, game, offsetX, game.height/3, image);
   group.add(this);
-  //this.alpha = .3;
 
   this.cConstants = {
     offsetX: offsetX,

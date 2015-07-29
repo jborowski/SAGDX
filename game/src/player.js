@@ -115,13 +115,13 @@ var Player = function(conflux, game, x, y, key, group) {
     }else if (!this.cState.inputDisabled){
       if(this.against.bottom){
         if(this.cState.facing > 0){
-          if(this.cursors.right.isDown){
+          if(this.cursors.right.isDown && !this.cState.rightDisabled){
             this.animations.play('runRight');
           } else {
             this.animations.play('standRight');
           }
         } else {
-          if(this.cursors.left.isDown){
+          if(this.cursors.left.isDown && !this.cState.leftDisabled){
             this.animations.play('runLeft');
           } else {
             this.animations.play('standLeft');
@@ -146,13 +146,13 @@ var Player = function(conflux, game, x, y, key, group) {
       this.processHurtX();
     } else if(!this.cState.inputDisabled){
       // If moving left or right, change facing and move forward
-      if(this.cursors.left.isDown){
+      if(this.cursors.left.isDown && !this.cState.leftDisabled){
         this.cState.facing = -1;
-      } else if(this.cursors.right.isDown){
+      } else if(this.cursors.right.isDown && !this.cState.rightDisabled){
         this.cState.facing = 1;
       }
 
-      if(this.cursors.left.isDown || this.cursors.right.isDown){
+      if( (this.cursors.left.isDown && !this.cState.leftDisabled) || (this.cursors.right.isDown && !this.cState.rightDisabled)){
         this.body.velocity.x = this.cConstants.runSpeed * this.cState.facing;
       }
 
@@ -177,7 +177,7 @@ var Player = function(conflux, game, x, y, key, group) {
       } else if(this.cState.jumping){
         this.processJump();
       } else {
-        if(this.keyboard.isDown(32) && this.cState.jumpReady && !this.cState.hurt && !this.cState.inputDisabled){
+        if(this.keyboard.isDown(32) && this.cState.jumpReady && !this.cState.hurt && !(this.cState.inputDisabled || this.cState.jumpDisabled)){
           this.startJump();
         } else {
           this.body.velocity.y = this.cConstants.fallSpeed;

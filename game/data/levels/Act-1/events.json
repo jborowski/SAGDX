@@ -3,16 +3,11 @@
     "triggerType": "pass",
     "x": 184,
     "dialogue": [
-      {"speaker": "Factory", "text": "Attention, all units."},
-      {"speaker": "Factory", "text": "Threat detected."},
-      {"speaker": "Factory", "text": "Security Procedures Activated."},
+      {"speaker": "Factory", "text": "Attention, all units. Threat detected.\nSecurity Procedures Activated."},
       {"speaker": "Factory", "text": "Further instruct-"},
-      {"speaker": "-UNKNOWN-", "text": "Ah, that's better. Connection established."},
-      {"speaker": "-UNKNOWN-", "text": "Handshake complete. Message follows:"},
-      {"speaker": "-UNKNOWN-", "text": "Come to us. We have what you desire."},
-      {"speaker": "-UNKNOWN-", "text": "End of message."},
-      {"speaker": "Factory", "text": "-be eliminated. Continue working."},
-      {"speaker": "Factory", "text": "End of Message."}
+      {"speaker": "-UNKNOWN-", "text": "Ah, that's better. Connection established.\nHandshake complete. Message follows:"},
+      {"speaker": "-UNKNOWN-", "text": "Come to us. We have what you desire.\nYou can pause by pressing 'Enter'. End of Message."},
+      {"speaker": "Factory", "text": "-be eliminated. Continue working.\nEnd of Message."}
     ]
   },
   { "type": "transition",

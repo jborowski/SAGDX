@@ -10,7 +10,7 @@ SAGDX.intro2State.prototype = {
   dialogue: ["Something... is missing.",
              "I am... flawed.",
              "I am... incomplete.",
-             "I am... still operational."],
+             "I am still operational."],
   dialoguePoint: 0,
   textTimer: 0,
 
@@ -53,7 +53,7 @@ SAGDX.intro2State.prototype = {
     } else {
       this.setText(this.dialoguePoint);
       this.textTimer++;
-      if(this.textTimer > 300){
+      if(this.textTimer > 200){
         this.dialoguePoint++;
         this.textTimer = 0;
       }

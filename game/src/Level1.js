@@ -46,12 +46,12 @@ SAGDX.level1State.prototype = {
     this.parabg2.animations.add("full");
     this.parabg2.animations.play('full', 30, true);
 
-
     this.parabgsBackPaused = this.game.add.group();
     this.parabg1p = new ParaBackground(this, this.game, 0, 0.5, 0.8, this.parabgsBackPaused, "parabackground3p");
     this.parabg1p.animations.add("full");
     this.parabg2p = new ParaBackground(this, this.game, 768, 0.5, 0.8, this.parabgsBackPaused, 'parabackground3p');
     this.parabg2p.animations.add("full");
+    this.parabg2p.visible = false;
 
     this.parabgsFront = this.game.add.group();
     this.parabg3 = new ParaBackground(this, this.game, 0, 0.45, 0.8, this.parabgsFront, "parabackground1");
@@ -61,27 +61,32 @@ SAGDX.level1State.prototype = {
     this.parabg4.animations.add("full");
     this.parabg4.animations.play('full', 30, true);
 
-
     this.parabgsFrontPaused = this.game.add.group();
     this.parabg3p = new ParaBackground(this, this.game, 0, 0.45, 0.8, this.parabgsFrontPaused, "parabackground1p");
     this.parabg3p.animations.add("full");
     this.parabg4p = new ParaBackground(this, this.game, 768, 0.45, 0.8, this.parabgsFrontPaused, 'parabackground1p');
     this.parabg4p.animations.add("full");
+    this.parabg4p.visible = false;
 
     this.overlays = this.game.add.group();
     this.overlay1 = new ParaBackground(this, this.game, 0, 0, 0.8, this.overlays, 'overlay');
-
-    var distanceFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
+    
+    var distanceFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
     this.distanceFilter1 = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
     this.distanceFilter1.alpha = 0.1;
+    this.distanceFilter1.fixedToCamera = true;
     this.distanceFilter2 = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
     this.distanceFilter2.alpha = 0.6;
+    this.distanceFilter2.fixedToCamera = true;
+
     this.distanceFilter1p = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
     this.distanceFilter1p.alpha = 0.1;
+    this.distanceFilter1p.fixedToCamera = true;
+    this.distanceFilter1p.visible = false;
     this.distanceFilter2p = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
     this.distanceFilter2p.alpha = 0.6;
-
-
+    this.distanceFilter2p.fixedToCamera = true;
+    this.distanceFilter1p.visible = false;
 
     this.pauseTexts = [];
 
@@ -318,6 +323,8 @@ SAGDX.level1State.prototype = {
 
     this.distanceFilter1.visible = false;
     this.distanceFilter2.visible = false;
+    this.distanceFilter1p.visible = true;
+    this.distanceFilter2p.visible = true;
 
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){
