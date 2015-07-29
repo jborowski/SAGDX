@@ -37,13 +37,12 @@
     "x2":113,
     "y2": 70
   },
-  { "type": "activation",
+  { "type": "transition",
     "triggerType": "inside",
-    "activates": "lift4",
-    "repeats": true,
-    "x":103,
-    "y":30,
-    "x2":123,
-    "y2":68
+    "x":119,
+    "y":13,
+    "x2":127,
+    "y2":21,
+    "target": "Level2"
   }
 ]
