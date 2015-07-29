@@ -2,14 +2,14 @@
   { "description": "Intro turret",
     "type": "once",
     "spawns":[
-      {"x": 35, "y": 73}
+      {"x": 35, "y": 71}
     ],
     "unit": {
       "type": "turret",
       "facing": -1,
       "loopTo": 0,
       "actions": [
-        { "type": "moveTo", "y": 70, "speed": 5 },
+        { "type": "moveTo", "y": 68, "speed": 5 },
         { "type": "fire", "speed": 4 },
         { "type": "wait", "duration": 20 }
 
@@ -19,16 +19,16 @@
   { "description": "The initial lift",
     "type": "once",
     "spawns":[
-      {"x": 21, "y": 73}
+      {"x": 21, "y": 71}
     ],
     "unit": {
       "type": "lift",
       "activatedBy": ["lift1", "lift2"],
       "actions": [
         {"type": "wait", "activation": "lift1"},
-        {"type": "moveTo", "x": 21, "y": 42},
+        {"type": "moveTo", "x": 21, "y": 40},
         {"type": "wait", "activation": "lift2"},
-        {"type": "moveTo", "x": 21, "y": 73}
+        {"type": "moveTo", "x": 21, "y": 71}
       ],
       "speed": 10
     }
@@ -36,7 +36,7 @@
   { "description": "First hallway turret",
     "type": "once",
     "spawns":[
-      {"x": 65, "y": 39}
+      {"x": 65, "y": 37}
     ],
     "unit": {
       "type": "turret",
@@ -54,7 +54,7 @@
   { "description": "Second hallway turret",
     "type": "once",
     "spawns":[
-      {"x": 74, "y": 55}
+      {"x": 74, "y": 53}
     ],
     "unit": {
       "type": "turret",
@@ -70,7 +70,7 @@
   { "description": "The pit carrier",
     "type": "once",
     "spawns": [
-      {"x": 43, "y": 76}
+      {"x": 43, "y": 74}
     ],
     "unit": {
       "type": "carrier",
@@ -78,7 +78,7 @@
       "speed": 12,
       "paused": true,
       "waypoints": [
-        {"x": 76, "y": 76},
+        {"x": 76, "y": 74},
         {"wait": 100}
       ]
     }
@@ -86,7 +86,7 @@
   { "description": "Hallway blast",
     "type": "once",
     "spawns": [
-      {"x": 31, "y": 37}
+      {"x": 31, "y": 35}
     ],
     "unit": {
       "type": "bigblast",
@@ -98,8 +98,8 @@
   { "description": "Pit blast",
     "type": "once",
     "spawns": [
-      {"x": 68, "y": 73},
-      {"x": 52, "y": 73}
+      {"x": 68, "y": 71},
+      {"x": 52, "y": 71}
     ],
     "unit": {
       "type": "bigblast",
@@ -111,7 +111,7 @@
   { "description": "Pit turret",
     "type": "once",
     "spawns":[
-      {"x": 85, "y": 74}
+      {"x": 85, "y": 72}
     ],
     "unit": {
       "type": "turret",
@@ -127,7 +127,7 @@
   { "description": "The blast room turret that triggers the truck",
     "type": "once",
     "spawns":[
-      {"x": 97, "y": 64}
+      {"x": 97, "y": 62}
     ],
     "unit": {
       "type": "turret",
@@ -143,7 +143,7 @@
   { "description": "The blast room turret that triggers the truck",
     "type": "once",
     "spawns":[
-      {"x": 117, "y": 65}
+      {"x": 117, "y": 63}
     ],
     "unit": {
       "type": "truck",
@@ -155,16 +155,16 @@
   { "description": "The first blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 124, "y": 68}
+      {"x": 124, "y": 66}
     ],
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
+      "startPaused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 124, "y": 53},
-        {"type": "wait", "activation": "lift4"},
-        {"type": "moveTo", "x": 124, "y": 68}
+        {"type": "moveTo", "x": 124, "y": 51},
+        {"type": "moveTo", "x": 124, "y": 66}
       ],
       "speed": 10
     }
@@ -172,16 +172,16 @@
   { "description": "The second blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 119, "y": 50}
+      {"x": 119, "y": 51}
     ],
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
+      "startPaused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 119, "y": 40},
-        {"type": "wait", "activation": "lift4"},
-        {"type": "moveTo", "x": 124, "y": 50}
+        {"type": "moveTo", "x": 119, "y": 66},
+        {"type": "moveTo", "x": 119, "y": 51}
       ],
       "speed": 10
     }
@@ -189,16 +189,16 @@
   { "description": "The third blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 114, "y": 37}
+      {"x": 114, "y": 35}
     ],
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
+      "startPaused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 114, "y": 27},
-        {"type": "wait", "activation": "lift4"},
-        {"type": "moveTo", "x": 114, "y": 37}
+        {"type": "moveTo", "x": 114, "y": 35},
+        {"type": "moveTo", "x": 114, "y": 25}
       ],
       "speed": 10
     }

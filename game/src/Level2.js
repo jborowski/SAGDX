@@ -97,7 +97,7 @@ SAGDX.level2State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = new Player(this, this.game, 3*gridSize, 67*gridSize, 'player');
+    this.player = new Player(this, this.game, 3*gridSize, 65*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     this.keyboard = this.game.input.keyboard;

@@ -68,8 +68,8 @@ var Lift = function(conflux, game, x, y, group, unit){
   }
 
   this.activate = function(name){
-    this.setPause(false);
     if(name == this.nextAction.activation && this.nextAction.activated != true){
+      this.setPause(false);
       this.nextAction.activated = true;
     }
   }

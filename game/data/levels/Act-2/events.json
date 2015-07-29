@@ -32,10 +32,10 @@
     "triggerType": "inside",
     "activates": "lift3",
     "repeats": true,
-    "x":123,
-    "y":51,
-    "x2":131,
-    "y2":68
+    "x":108,
+    "y":63,
+    "x2":113,
+    "y2": 70
   },
   { "type": "activation",
     "triggerType": "inside",
