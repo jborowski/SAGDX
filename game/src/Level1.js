@@ -160,7 +160,6 @@ SAGDX.level1State.prototype = {
       this.debugText.fixedToCamera = true;
     }
 
-
     this.music = this.sound.play('music', true);
 
     this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
