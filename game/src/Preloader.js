@@ -54,6 +54,8 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('parabackground1', 'assets/levels/act1/background1.png', 768, 512);
     this.game.load.spritesheet('parabackground3', 'assets/levels/act1/background3.png', 768, 512);
 
+    this.game.load.image('overlay', 'assets/overlay.png', 100, 512);
+
 
     //this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
