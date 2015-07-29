@@ -59,8 +59,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.image('overlay', 'assets/overlay.png', 100, 512);
 
 
-    //this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-
+    this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },
 
   create: function () {

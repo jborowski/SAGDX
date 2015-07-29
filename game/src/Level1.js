@@ -50,7 +50,6 @@ SAGDX.level1State.prototype = {
     this.parabg1p.visible = false;
     this.parabg2p = new ParaBackground(this, this.game, 768, 0.5, 0.8, this.parabgsBack, 'parabackground3p');
     this.parabg2p.animations.add("full");
-    this.parabg2p.visible = false;
 
 
     this.parabgsFront = this.game.add.group();
@@ -65,7 +64,6 @@ SAGDX.level1State.prototype = {
     this.parabg3p.visible = false;
     this.parabg4p = new ParaBackground(this, this.game, 768, 0.45, 0.8, this.parabgsFront, 'parabackground1p');
     this.parabg4p.animations.add("full");
-    this.parabg4p.visible = false;
 
 
 
@@ -236,6 +234,7 @@ SAGDX.level1State.prototype = {
         }else{
           this.player.hurt();
         }
+        this.backgroundLayer.visible=false;
       }
       if(this.keyboard.isDown(70)){
         this.justToggled = 70;
