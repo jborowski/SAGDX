@@ -70,7 +70,7 @@ SAGDX.level1State.prototype = {
 
     this.overlays = this.game.add.group();
     this.overlay1 = new ParaBackground(this, this.game, 0, 0, 0.8, this.overlays, 'overlay');
-    
+
     var distanceFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
     this.distanceFilter1 = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
     this.distanceFilter1.alpha = 0.1;
@@ -300,7 +300,7 @@ SAGDX.level1State.prototype = {
     this.blasts.forEach(function(blast){
       blast.setPause(true);
     });
-    
+
     // Pause Backgrounds
     this.parabg1.animations.paused = true;
     this.parabg1.visible = false;
@@ -382,7 +382,7 @@ SAGDX.level1State.prototype = {
               this.spawnMob(
                 spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint
               );
-              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this, 
+              this.timerEvents.push(this.game.time.events.loop(spawnDef.interval*this.timeMultiplier, this.spawnMob, this,
                 spawnDef.unit, spawnDef.spawns[jj].x*gridSize, spawnDef.spawns[jj].y*gridSize, spawnDef.spawns[jj].firstWaypoint));
           }
         }
@@ -426,7 +426,11 @@ SAGDX.level1State.prototype = {
   },
   goToState: function(state){
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){this.state.start(state);}, this);
+    fadeOut.onComplete.add(function(){
+      this.events = [];
+      this.eventSpawns = [];
+      this.eventActivations = [];
+      this.state.start(state);}, this);
     fadeOut.start();
   }
 
