@@ -1,4 +1,4 @@
-var ParaBackground = function(conflux, game, offsetX, speed, group, image){
+var ParaBackground = function(conflux, game, offsetX, speedX, speedY, group, image){
   if(typeof group === 'undefined'){ group = game.world; }
   if(typeof speed === 'undefined') { speed = 10; }
   Phaser.Sprite.call(this, game, offsetX, game.height/3, image);
@@ -6,7 +6,9 @@ var ParaBackground = function(conflux, game, offsetX, speed, group, image){
   //this.alpha = .3;
 
   this.cConstants = {
-    offsetX: offsetX
+    offsetX: offsetX,
+    speedX: speedX,
+    speedY: speedY
   };
 
   this.cState = {
@@ -14,8 +16,8 @@ var ParaBackground = function(conflux, game, offsetX, speed, group, image){
   };
 
   this.update = function(){
-    this.x = this.game.camera.x + this.cConstants.offsetX- (this.game.camera.x%1536)/2;
-    this.y = this.game.camera.y - (this.game.camera.y%1280)/2;
+    this.x = this.game.camera.x + this.cConstants.offsetX - ((this.game.camera.x*this.cConstants.speedX) % 768);
+    this.y = this.game.camera.y - (this.game.camera.y * this.cConstants.speedY);
   };
 
   this.setPause = function(pause){

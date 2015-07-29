@@ -38,29 +38,31 @@ SAGDX.level1State.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    this.parabgs = this.game.add.group();
-    this.parabg1 = new ParaBackground(this, this.game, 0, 1, this.parabgs, "parabackground3");
+    this.parabgsBack = this.game.add.group();
+    this.parabg1 = new ParaBackground(this, this.game, 0, 0.5, 0.8, this.parabgsBack, "parabackground3");
     this.parabg1.animations.add("full");
     this.parabg1.animations.play('full', 30, true);
-    this.parabg2 = new ParaBackground(this, this.game, 768, 1, this.parabgs, 'parabackground3');
+    this.parabg2 = new ParaBackground(this, this.game, 768, 0.5, 0.8, this.parabgsBack, 'parabackground3');
     this.parabg2.animations.add("full");
     this.parabg2.animations.play('full', 30, true);
 
-    this.parabg3 = new ParaBackground(this, this.game, 0, 1, this.parabgs, "parabackground1");
+    this.parabgsFront = this.game.add.group();
+    this.parabg3 = new ParaBackground(this, this.game, 0, 0.45, 0.8, this.parabgsFront, "parabackground1");
     this.parabg3.animations.add("full");
     this.parabg3.animations.play('full', 30, true);
-    this.parabg4 = new ParaBackground(this, this.game, 768, 1, this.parabgs, 'parabackground1');
+    this.parabg4 = new ParaBackground(this, this.game, 768, 0.45, 0.8, this.parabgsFront, 'parabackground1');
     this.parabg4.animations.add("full");
     this.parabg4.animations.play('full', 30, true);
 
     this.overlays = this.game.add.group();
-    this.overlay1 = new ParaBackground(this, this.game, 0, 1, this.overlays, 'overlay');
-    this.overlay2 = new ParaBackground(this, this.game, 768, 1, this.overlays, 'overlay');
+    this.overlay1 = new ParaBackground(this, this.game, 0, 0, 0.8, this.overlays, 'overlay');
 
-    var pauseFilterGraphic = new Phaser.Graphics().beginFill(0xFFFFFF).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
-    this.pauseFilter = this.game.add.sprite(0,0,pauseFilterGraphic.generateTexture());
-    this.pauseFilter.alpha = 0.2;
-    this.pauseFilter.visible = false;
+
+    var distanceFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.map.width*gridSize,this.map.height*gridSize);
+    this.distanceFilter1 = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
+    this.distanceFilter1.alpha = 0.1;
+    this.distanceFilter2 = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
+    this.distanceFilter2.alpha = 0.6;
 
     this.pauseTexts = [];
 
@@ -112,9 +114,13 @@ SAGDX.level1State.prototype = {
       }
     }
 
+    this.game.world.bringToTop(this.parabgsBack);
+    this.game.world.bringToTop(this.distanceFilter2);
+    this.game.world.bringToTop(this.parabgsFront);
+    this.game.world.bringToTop(this.distanceFilter1);
+    this.game.world.bringToTop(this.overlays);
     this.game.world.bringToTop(this.turrets);
     this.game.world.bringToTop(this.backgroundLayer);
-    this.game.world.bringToTop(this.pauseFilter);
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
@@ -130,7 +136,6 @@ SAGDX.level1State.prototype = {
     this.music = this.sound.play('music', true);
 
     this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
   },
   update: function(){
     if(this.debugMode){
@@ -253,7 +258,6 @@ SAGDX.level1State.prototype = {
   },
   enablePause: function(){
     this.paused = true;
-    this.pauseFilter.visible = true;
     this.music.volume = 0.3;
     this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
@@ -268,7 +272,10 @@ SAGDX.level1State.prototype = {
     this.blasts.forEach(function(blast){
       blast.setPause(true);
     });
-    this.parabgs.forEach(function(bg){
+    this.parabgsFront.forEach(function(bg){
+      bg.animations.paused = true;
+    });
+    this.parabgsBack.forEach(function(bg){
       bg.animations.paused = true;
     });
     this.player.setPause(true);
