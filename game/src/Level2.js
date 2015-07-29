@@ -159,6 +159,10 @@ SAGDX.level2State.prototype = {
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
 
+    /// DEBUG SQUARES
+    var debugGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
+    this.debugGraphic = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
+
     if(this.debugMode){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
       this.debugText.fixedToCamera = true;

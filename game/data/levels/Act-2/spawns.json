@@ -163,8 +163,8 @@
       "startPaused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 124, "y": 51},
-        {"type": "moveTo", "x": 124, "y": 66}
+        {"type": "moveTo", "x": 124, "y": 48, "activation": "lift3"},
+        {"type": "moveTo", "x": 124, "y": 66, "activation": "lift3"}
       ],
       "speed": 10
     }
@@ -172,7 +172,7 @@
   { "description": "The second blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 119, "y": 51}
+      {"x": 119, "y": 55}
     ],
     "unit": {
       "type": "lift",
@@ -180,8 +180,8 @@
       "startPaused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 119, "y": 66},
-        {"type": "moveTo", "x": 119, "y": 51}
+        {"type": "moveTo", "x": 119, "y": 66, "activation": "lift3"},
+        {"type": "moveTo", "x": 119, "y": 55, "activation": "lift3"}
       ],
       "speed": 10
     }
@@ -189,7 +189,7 @@
   { "description": "The third blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 114, "y": 35}
+      {"x": 119, "y": 42}
     ],
     "unit": {
       "type": "lift",
@@ -197,8 +197,8 @@
       "startPaused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 114, "y": 35},
-        {"type": "moveTo", "x": 114, "y": 25}
+        {"type": "moveTo", "x": 119, "y": 53, "activation": "lift3"},
+        {"type": "moveTo", "x": 119, "y": 42, "activation": "lift3"}
       ],
       "speed": 10
     }
