@@ -45,6 +45,13 @@ SAGDX.level1State.prototype = {
     this.parabg2 = new ParaBackground(this, this.game, 768, 0.5, 0.8, this.parabgsBack, 'parabackground3');
     this.parabg2.animations.add("full");
     this.parabg2.animations.play('full', 30, true);
+    this.parabg1p = new ParaBackground(this, this.game, 0, 0.5, 0.8, this.parabgsBack, "parabackground3p");
+    this.parabg1p.animations.add("full");
+    this.parabg1p.visible = false;
+    this.parabg2p = new ParaBackground(this, this.game, 768, 0.5, 0.8, this.parabgsBack, 'parabackground3p');
+    this.parabg2p.animations.add("full");
+    this.parabg2p.visible = false;
+
 
     this.parabgsFront = this.game.add.group();
     this.parabg3 = new ParaBackground(this, this.game, 0, 0.45, 0.8, this.parabgsFront, "parabackground1");
@@ -53,6 +60,14 @@ SAGDX.level1State.prototype = {
     this.parabg4 = new ParaBackground(this, this.game, 768, 0.45, 0.8, this.parabgsFront, 'parabackground1');
     this.parabg4.animations.add("full");
     this.parabg4.animations.play('full', 30, true);
+    this.parabg3p = new ParaBackground(this, this.game, 0, 0.45, 0.8, this.parabgsFront, "parabackground1p");
+    this.parabg3p.animations.add("full");
+    this.parabg3p.visible = false;
+    this.parabg4p = new ParaBackground(this, this.game, 768, 0.45, 0.8, this.parabgsFront, 'parabackground1p');
+    this.parabg4p.animations.add("full");
+    this.parabg4p.visible = false;
+
+
 
     this.overlays = this.game.add.group();
     this.overlay1 = new ParaBackground(this, this.game, 0, 0, 0.8, this.overlays, 'overlay');
@@ -272,12 +287,26 @@ SAGDX.level1State.prototype = {
     this.blasts.forEach(function(blast){
       blast.setPause(true);
     });
-    this.parabgsFront.forEach(function(bg){
-      bg.animations.paused = true;
-    });
-    this.parabgsBack.forEach(function(bg){
-      bg.animations.paused = true;
-    });
+    
+    // Pause Backgrounds
+    this.parabg1.animations.paused = true;
+    this.parabg1.visible = false;
+    this.parabg1p.visible = true;
+    this.parabg1p.animations.frame = this.parabg1.animations.frame;
+    this.parabg2.animations.paused = true;
+    this.parabg2.visible = false;
+    this.parabg2p.visible = true;
+    this.parabg2p.animations.frame = this.parabg2.animations.frame;
+
+    this.parabg3.animations.paused = true;
+    this.parabg3.visible = false;
+    this.parabg3p.visible = true;
+    this.parabg3p.animations.frame = this.parabg3.animations.frame;
+    this.parabg4.animations.paused = true;
+    this.parabg4.visible = false;
+    this.parabg4p.visible = true;
+    this.parabg4p.animations.frame = this.parabg4.animations.frame;
+
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){
       this.game.time.events.remove(this.timerEvents[i]);

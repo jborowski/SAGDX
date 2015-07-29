@@ -52,7 +52,9 @@ SAGDX.Preloader.prototype = {
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
 
     this.game.load.spritesheet('parabackground1', 'assets/levels/act1/background1.png', 768, 512);
+    this.game.load.spritesheet('parabackground1p', 'assets/levels/act1/background1paused.png', 768, 512);
     this.game.load.spritesheet('parabackground3', 'assets/levels/act1/background3.png', 768, 512);
+    this.game.load.spritesheet('parabackground3p', 'assets/levels/act1/background3paused.png', 768, 512);
 
     this.game.load.image('overlay', 'assets/overlay.png', 100, 512);
 
