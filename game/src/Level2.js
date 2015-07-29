@@ -74,7 +74,7 @@ SAGDX.level2State.prototype = {
 
     this.overlays = this.game.add.group();
     this.overlay1 = new ParaBackground(this, this.game, 0, 0, 0.8, this.overlays, 'overlay');
-    
+
     var distanceFilterGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
     this.distanceFilter1 = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
     this.distanceFilter1.alpha = 0.1;
@@ -168,7 +168,7 @@ SAGDX.level2State.prototype = {
 
     this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
-  update: function(){ 
+  update: function(){
     if(this.debugMode){
       this.debugText.text = "";
     }
@@ -425,8 +425,13 @@ SAGDX.level2State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
+
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){this.state.start(state);}, this);
+    fadeOut.onComplete.add(function(){
+      this.events = [];
+      this.eventSpawns = [];
+      this.eventActivations = [];
+      this.state.start(state);}, this);
     fadeOut.start();
   }
 
