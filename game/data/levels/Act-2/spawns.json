@@ -160,7 +160,7 @@
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
         {"type": "moveTo", "x": 124, "y": 48, "activation": "lift3"},
@@ -177,7 +177,7 @@
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
         {"type": "moveTo", "x": 119, "y": 66, "activation": "lift3"},
@@ -194,7 +194,7 @@
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
         {"type": "moveTo", "x": 119, "y": 53, "activation": "lift3"},
@@ -227,7 +227,7 @@
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "moveTo", "x": 86, "y": 25},
         {"type": "moveTo", "x": 86, "y": 42}
