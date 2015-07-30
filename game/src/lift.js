@@ -166,7 +166,7 @@ var Lift = function(conflux, game, x, y, group, unit){
     return "PLATFORM: [pos:"+Math.floor(this.body.x)+"/"+Math.floor(this.body.y)+"][target:"+this.nextAction.x+"/"+this.nextAction.y+"]"+
       "[looking:"+this.nextAction.directionX+"/"+this.nextAction.directionY+"][moving:"+this.body.velocity.x+"/"+this.body.velocity.y+"]";
   };
-  this.setPause(!!unit.startPaused);
+  this.setPause(!!unit.paused);
 }
 
 Lift.prototype = Object.create(Phaser.Sprite.prototype);

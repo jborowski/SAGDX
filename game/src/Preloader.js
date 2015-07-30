@@ -32,6 +32,10 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level3BackgroundLayerMap', 'data/levels/Act-3/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('level3CollisionLayerMap', 'data/levels/Act-3/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
+    this.game.load.tilemap('level4ForegroundLayerMap', 'data/levels/Act-4/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level4BackgroundLayerMap', 'data/levels/Act-4/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level4CollisionLayerMap', 'data/levels/Act-4/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+
     this.game.load.image('tileset', 'assets/tileset.png');
     this.game.load.image('dialogbox', 'assets/dialogBox.png');
     this.game.load.image('title', 'assets/title.png');
@@ -45,6 +49,9 @@ SAGDX.Preloader.prototype = {
 
     this.game.load.text('level3Spawns', 'data/levels/Act-3/spawns.json');
     this.game.load.text('level3Events', 'data/levels/Act-3/events.json');
+
+    this.game.load.text('level4Spawns', 'data/levels/Act-4/spawns.json');
+    this.game.load.text('level4Events', 'data/levels/Act-4/events.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
@@ -76,8 +83,8 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      //this.state.start('Intro');
-      this.state.start('Level3');
+      this.state.start('Intro');
+      //this.state.start('Level4');
     }
   }
 };

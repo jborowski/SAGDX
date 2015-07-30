@@ -427,6 +427,7 @@ SAGDX.level2State.prototype = {
   goToState: function(state){
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
     fadeOut.onComplete.add(function(){
+      this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];

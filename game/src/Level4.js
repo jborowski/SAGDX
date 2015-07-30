@@ -1,6 +1,6 @@
-SAGDX.level3State = function(game){};
+SAGDX.level4State = function(game){};
 
-SAGDX.level3State.prototype = {
+SAGDX.level4State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -26,18 +26,18 @@ SAGDX.level3State.prototype = {
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
 
-    this.map = this.game.add.tilemap('level3ForegroundLayerMap');
+    this.map = this.game.add.tilemap('level4ForegroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('level3BackgroundLayerMap');
+    this.bgMap = this.game.add.tilemap('level4BackgroundLayerMap');
     this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('level3CollisionLayerMap');
+    this.collisionMap = this.game.add.tilemap('level4CollisionLayerMap');
     this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
@@ -105,7 +105,7 @@ SAGDX.level3State.prototype = {
     this.timerEvents = [];
 
     this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('level3Spawns'));
+    var spawnList = JSON.parse(this.game.cache.getText('level4Spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
@@ -124,7 +124,7 @@ SAGDX.level3State.prototype = {
     }
 
     var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('level3Events'));
+    this.events = JSON.parse(this.game.cache.getText('level4Events'));
     for(var ii=0; ii < this.events.length; ii+=1){
       thisEvent = this.events[ii];
       thisEvent.triggered = false;
@@ -202,7 +202,7 @@ SAGDX.level3State.prototype = {
     }
 
     if(this.player.cState.outOfBounds){
-      this.goToState("Level3");
+      this.goToState("Level4");
     }
   },
   customMobContact: function(firstObject, secondObject){
@@ -273,7 +273,7 @@ SAGDX.level3State.prototype = {
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
-        this.goToState("Level3");
+        this.goToState("Level4");
       }
     }
   },
@@ -428,7 +428,6 @@ SAGDX.level3State.prototype = {
 
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
     fadeOut.onComplete.add(function(){
-      this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];

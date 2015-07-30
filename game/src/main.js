@@ -14,6 +14,7 @@ window.onload = function(){
   game.state.add('Level1', SAGDX.level1State);
   game.state.add('Level2', SAGDX.level2State);
   game.state.add('Level3', SAGDX.level3State);
+  game.state.add('Level4', SAGDX.level4State);
   game.state.add('Credits', SAGDX.Credits);
   game.state.start('Boot');
 }
