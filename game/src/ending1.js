@@ -20,7 +20,7 @@ SAGDX.ending1State.prototype = {
   preload: function(){
   },
   create: function(){
-
+    console.log("ENDING!");
     this.game.renderer.renderSession.roundPixels = true;
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);

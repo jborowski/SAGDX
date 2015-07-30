@@ -86,7 +86,7 @@ SAGDX.Preloader.prototype = {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
       //this.state.start('Intro');
-      this.state.start('Ending2');
+      this.state.start('Level4');
     }
   }
 };

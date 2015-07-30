@@ -120,5 +120,21 @@
     "y":40,
     "x2":60,
     "y2":48
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":113,
+    "y":0,
+    "x2":131,
+    "y2":17,
+    "target": "Ending1"
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":113,
+    "y":63,
+    "x2":131,
+    "y2":76,
+    "target": "Ending2"
   }
 ]
