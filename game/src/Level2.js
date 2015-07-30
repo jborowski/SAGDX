@@ -333,6 +333,13 @@ SAGDX.level2State.prototype = {
     this.distanceFilter1p.visible = true;
     this.distanceFilter2p.visible = true;
 
+    // PAUSE TILES
+    var tilecount = 54;
+    for(var ii=0; ii < tilecount; ii+=1){
+      this.bgMap.swap(ii, ii+tilecount);
+      this.map.swap(ii, ii+tilecount);
+    }
+
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){
       this.game.time.events.remove(this.timerEvents[i]);
