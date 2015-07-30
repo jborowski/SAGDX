@@ -7,11 +7,79 @@
     "unit": {
       "type": "floater",
       "activatedBy": ["lift3", "lift4"],
-      "paused": true,
       "waypoints": [
-        {"x": 27, "y": 12},
-        {"x": 27, "y": 6}
+        {"x": 27, "y": 26},
+        {"x": 27, "y": 28}
       ],
       "speed": 10
     }
-  }]
+  },
+  { "description": "First section turret",
+    "type": "once",
+    "spawns":[
+      {"x": 17, "y": 38}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": -1,
+      "loopTo": 0,
+      "actions": [
+        { "type": "fire", "speed": 4 },
+        { "type": "wait", "duration": 16 }
+      ]
+    }
+  },
+  { "description": "Turret Line, left wall",
+    "type": "once",
+    "spawns":[
+      {"x": 3, "y": 58},
+      {"x": 3, "y": 63},
+      {"x": 3, "y": 68},
+      {"x": 3, "y": 73}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": 1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "fire", "speed": 8 },
+        { "type": "wait", "duration": 20 }
+      ]
+    }
+  },
+  { "description": "Blast Line, left wall",
+    "type": "once",
+    "spawns": [
+      {"x": 25, "y": 58},
+      {"x": 10, "y": 63},
+      {"x": 20, "y": 68},
+      {"x": 30, "y": 73}
+    ],
+    "unit": {
+      "type": "bigblast",
+      "facing": 1,
+      "speed": 8,
+      "paused": true
+    }
+  },
+  { "description": "First pit carrier",
+    "type": "once",
+    "spawns": [
+      {"x": 32, "y": 72}
+    ],
+    "unit": {
+      "type": "carrier",
+      "facing": 1,
+      "speed": 10,
+      "paused": true,
+      "waypoints": [
+        {"x": 56, "y": 72},
+        {"x": 56, "y": 40},
+        {"x": 110, "y": 40},
+        {"wait": 100}
+      ]
+    }
+  }
+
+]

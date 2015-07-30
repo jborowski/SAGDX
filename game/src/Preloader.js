@@ -28,9 +28,9 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level2BackgroundLayerMap', 'data/levels/Act-2/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('level2CollisionLayerMap', 'data/levels/Act-2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
-    this.game.load.tilemap('level3ForegroundLayerMap', 'data/levels/Act-2/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('level3BackgroundLayerMap', 'data/levels/Act-2/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
-    this.game.load.tilemap('level3CollisionLayerMap', 'data/levels/Act-2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3ForegroundLayerMap', 'data/levels/Act-3/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3BackgroundLayerMap', 'data/levels/Act-3/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3CollisionLayerMap', 'data/levels/Act-3/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
     this.game.load.image('tileset', 'assets/tileset.png');
     this.game.load.image('dialogbox', 'assets/dialogBox.png');
@@ -42,6 +42,9 @@ SAGDX.Preloader.prototype = {
 
     this.game.load.text('level2Spawns', 'data/levels/Act-2/spawns.json');
     this.game.load.text('level2Events', 'data/levels/Act-2/events.json');
+
+    this.game.load.text('level3Spawns', 'data/levels/Act-3/spawns.json');
+    this.game.load.text('level3Events', 'data/levels/Act-3/events.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);

@@ -19,7 +19,8 @@ SAGDX.level3State.prototype = {
 
   },
   create: function(){
-    this.mobs = this.game.add.group();
+    this.trucks = this.game.add.group();
+    this.floaters = this.game.add.group();
     this.lifts = this.game.add.group();
     this.turrets = this.game.add.group();
     this.blasts = this.game.add.group();
@@ -97,14 +98,14 @@ SAGDX.level3State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = new Player(this, this.game, 28*gridSize, 1*gridSize, 'player');
+    this.player = new Player(this, this.game, 26*gridSize, 1*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
 
     this.eventSpawns = [];
-    var spawnList = JSON.parse(this.game.cache.getText('level2Spawns'));
+    var spawnList = JSON.parse(this.game.cache.getText('level3Spawns'));
     var ii, spawnDef;
     for(var ii=0; ii < spawnList.length; ii+=1){
       spawnDef = spawnList[ii];
@@ -123,7 +124,7 @@ SAGDX.level3State.prototype = {
     }
 
     var thisEvent;
-    this.events = JSON.parse(this.game.cache.getText('level2Events'));
+    this.events = JSON.parse(this.game.cache.getText('level3Events'));
     for(var ii=0; ii < this.events.length; ii+=1){
       thisEvent = this.events[ii];
       thisEvent.triggered = false;
@@ -153,15 +154,12 @@ SAGDX.level3State.prototype = {
     this.game.world.bringToTop(this.overlays);
     this.game.world.bringToTop(this.turrets);
     this.game.world.bringToTop(this.backgroundLayer);
-    this.game.world.bringToTop(this.mobs);
+    this.game.world.bringToTop(this.trucks);
+    this.game.world.bringToTop(this.floaters);
     this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
-
-    /// DEBUG SQUARES
-    var debugGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
-    this.debugGraphic = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
 
     if(this.debugMode){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
@@ -182,34 +180,29 @@ SAGDX.level3State.prototype = {
     } else {
       this.checkInput();
 
-      this.game.physics.arcade.collide(this.mobs, this.lifts);
+      this.game.physics.arcade.collide(this.trucks, this.lifts);
       if(!this.player.cState.hurt){
-        this.game.physics.arcade.collide(this.player, this.mobs, this.customMobContact, null, this);
+        this.game.physics.arcade.collide(this.player, this.trucks, this.customMobContact, null, this);
+        this.game.physics.arcade.collide(this.player, this.floaters, this.customMobContact, null, this);
       }
       this.game.physics.arcade.collide(this.player, this.turrets, this.customMobContact, null, this);
       this.game.physics.arcade.collide(this.player, this.collisionLayer, this.customTileContact, null, this);
-      this.game.physics.arcade.collide(this.mobs, this.collisionLayer);
+      this.game.physics.arcade.collide(this.trucks, this.collisionLayer);
+      this.game.physics.arcade.collide(this.floaters, this.collisionLayer);
       this.game.physics.arcade.collide(this.player, this.lifts, this.customMobContact, null, this);
 
       this.game.physics.arcade.collide(this.player, this.blasts, this.customMobContactedBy, null, this);
       this.game.physics.arcade.collide(this.blasts, this.collisionLayer, this.customTileContact, null, this);
       this.game.physics.arcade.collide(this.blasts, this.blasts, this.customMobContact, null, this);
       this.game.physics.arcade.collide(this.blasts, this.turrets, this.customMobContact, null, this);
-      this.game.physics.arcade.collide(this.blasts, this.mobs, this.customMobContact, null, this);
-
-      if(this.debugMode){
-        this.debugText.text += "Player: "+this.player.debugString()+"\n";
-        conflux = this;
-        this.mobs.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
-        this.lifts.forEach(function(mob){conflux.debugText.text += mob.mobType+": "+mob.debugString()+"\n";});
-      }
+      this.game.physics.arcade.collide(this.blasts, this.trucks, this.customMobContact, null, this);
 
       this.checkEvents();
 
     }
 
     if(this.player.cState.outOfBounds){
-      this.goToState("Level2");
+      this.goToState("Level3");
     }
   },
   customMobContact: function(firstObject, secondObject){
@@ -224,7 +217,7 @@ SAGDX.level3State.prototype = {
   spawnMob: function(unit, xCoord, yCoord, firstWaypoint){
     var mob;
     if(unit.type=="truck"){
-      mob = new Truck(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.speed, unit.paused);
+      mob = new Truck(this, this.game, xCoord, yCoord, this.trucks, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="carrier"){
       mob = new Carrier(this, this.game, xCoord, yCoord, this.lifts, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="lift"){
@@ -236,7 +229,7 @@ SAGDX.level3State.prototype = {
     } else if(unit.type=="littleblast"){
       mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="floater"){
-      mob = new Floater(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
+      mob = new Floater(this, this.game, xCoord, yCoord, this.floaters, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
     } else if(unit.type=="flag"){
       mob = this.add.sprite(xCoord, yCoord, 'flag');
     }
@@ -280,7 +273,7 @@ SAGDX.level3State.prototype = {
       }
       if(this.keyboard.isDown(82)){
         this.justToggled = 82;
-        this.goToState("Level2");
+        this.goToState("Level3");
       }
     }
   },
@@ -295,7 +288,10 @@ SAGDX.level3State.prototype = {
     this.paused = true;
     this.music.volume = 0.3;
     this.pauseTexts.push(this.newPauseText());
-    this.mobs.forEach(function(mob){
+    this.trucks.forEach(function(mob){
+      mob.setPause(true);
+    });
+    this.floaters.forEach(function(mob){
       mob.setPause(true);
     });
     this.turrets.forEach(function(mob){
@@ -343,7 +339,7 @@ SAGDX.level3State.prototype = {
       nextEvent = this.events[ii];
       if(!nextEvent.triggered){
         if(nextEvent.triggerType == "pass"){
-          if(nextEvent.x < this.player.body.x){
+          if(nextEvent.x < this.player.body.x || nextEvent.y < this.player.body.y){
             this.triggerEvent(nextEvent);
           }
         } else if(nextEvent.triggerType == "inside"){

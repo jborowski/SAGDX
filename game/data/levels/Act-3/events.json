@@ -1,2 +1,9 @@
 [
+  { "type": "dialogue",
+    "triggerType": "pass",
+    "y": 34,
+    "dialogue": [
+      {"speaker": "unknown", "text": "You're almost out, now."}
+    ]
+  }
 ]

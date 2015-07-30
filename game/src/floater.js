@@ -21,7 +21,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     chaseAccel: 10*gridSize,
     maxChaseVelocity: 15*gridSize,
     maxBoostVelocity: 30*gridSize,
-    dropSpeed: 2*gridSize,
+    dropSpeed: 5*gridSize,
     boostTime: 60,
     animationPausedOffset: 18
   }

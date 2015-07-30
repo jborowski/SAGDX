@@ -12,7 +12,6 @@
         { "type": "moveTo", "y": 68, "speed": 5 },
         { "type": "fire", "speed": 4 },
         { "type": "wait", "duration": 20 }
-
       ]
     }
   },
