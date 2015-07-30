@@ -9,10 +9,10 @@
       "activatedBy": ["lift1"],
       "actions": [
         {"type": "wait", "activation": "lift1"},
-        {"type": "moveTo", "x": 46, "y": 59},
-        {"type": "wait", "duration": 3},
-        {"type": "moveTo", "x": 46, "y": 46},
-        {"type": "wait", "duration": 3}
+        {"type": "moveTo", "x": 46, "y": 59, "activation": "lift1"},
+        {"type": "wait", "duration": 3, "activation": "lift1"},
+        {"type": "moveTo", "x": 46, "y": 46, "activation": "lift1"},
+        {"type": "wait", "duration": 3, "activation": "lift1"}
       ],
       "speed": 10
     }
@@ -27,10 +27,10 @@
       "activatedBy": ["lift2"],
       "actions": [
         {"type": "wait", "activation": "lift2"},
-        {"type": "moveTo", "x": 55, "y": 36},
-        {"type": "wait", "duration": 3},
-        {"type": "moveTo", "x": 55, "y": 46},
-        {"type": "wait", "duration": 3}
+        {"type": "moveTo", "x": 55, "y": 36, "activation": "lift2"},
+        {"type": "wait", "duration": 3, "activation": "lift2"},
+        {"type": "moveTo", "x": 55, "y": 46, "activation": "lift2"},
+        {"type": "wait", "duration": 3, "activation": "lift2"}
       ],
       "speed": 10
     }
