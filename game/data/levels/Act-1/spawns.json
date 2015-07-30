@@ -331,14 +331,5 @@
       "speed": 5,
       "paused": true
     }
-  },
-  { "description": "Marks a small victory for mankind, but a big leap for us.",
-    "type": "once",
-    "spawns": [
-      {"x": 270, "y": 75}
-    ],
-    "unit": {
-      "type": "flag"
-    }
   }
 ]

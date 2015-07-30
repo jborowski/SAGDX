@@ -230,8 +230,6 @@ SAGDX.level3State.prototype = {
       mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="floater"){
       mob = new Floater(this, this.game, xCoord, yCoord, this.floaters, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
-    } else if(unit.type=="flag"){
-      mob = this.add.sprite(xCoord, yCoord, 'flag');
     }
     return mob;
   },

@@ -100,6 +100,12 @@ SAGDX.level2State.prototype = {
     this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
     this.game.camera.follow(this.player);
 
+    /***** TERRIBLE ****/
+    this.floorbuttons = this.game.add.group();
+    this.floorbutton1 = this.add.sprite(109*gridSize, 69*gridSize-5, 'floorbutton');
+    this.floorbuttons.add(this.floorbutton1);
+    /*******************/
+
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
 
@@ -155,6 +161,7 @@ SAGDX.level2State.prototype = {
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
+    this.game.world.bringToTop(this.floorbuttons);
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
@@ -233,8 +240,6 @@ SAGDX.level2State.prototype = {
       mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="floater"){
       mob = new Floater(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
-    } else if(unit.type=="flag"){
-      mob = this.add.sprite(xCoord, yCoord, 'flag');
     }
     return mob;
   },
