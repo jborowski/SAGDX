@@ -19,6 +19,8 @@ SAGDX.ending2State.prototype = {
   dialogueY: 2,
 
   preload: function(){
+    this.game.world.alpha = 0;
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 10).start();
   },
   create: function(){
 

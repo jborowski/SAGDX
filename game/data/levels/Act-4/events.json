@@ -136,5 +136,13 @@
     "x2":131,
     "y2":76,
     "target": "Ending2"
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":101,
+    "y":38,
+    "x2":115,
+    "y2":56,
+    "target": "Ending3"
   }
 ]

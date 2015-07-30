@@ -7,54 +7,47 @@ SAGDX.ending3State.prototype = {
   // State Variables
   debugMode:false,
   justToggled:null,
-  dialogue: ["Target acquired. The Doctor's performing destructive analysis in the back right now. Even if the Factory makes more of these things, we'll be ready. The mission is a success - Tell the boys we're coming home."],
+  dialogueTexts: [ "SYSTEM INFORMATION: DANGER!\nHEAT DAMAGE CRITICAL!",
+                   "Servos: OFFLINE\nCommunications: OFFLINE",
+                   "Pausebreaker P-PB14: OFFLINE",
+                   "Emergency Breakers Tripped.",
+                   "Activating Component P23.",
+                   "Game Paused"
+                  ],
   dialoguePoint: 0,
   textTimer: 0,
+  dialogues: [],
+  dialogueY: 2,
 
   preload: function(){
     this.game.world.alpha = 0;
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 10).start();
   },
   create: function(){
-
     this.game.renderer.renderSession.roundPixels = true;
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
 
-    this.player = this.game.add.sprite(5*gridSize, 10*gridSize, 'player');
-    this.player.animations.add('fallRight', [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]);
-    this.player.animations.play('fallRight', 30, true);
-
-    this.dialogueText = this.game.add.text(20*gridSize, 10*gridSize, "", { font: '25px Lato Black', fill: '#FFF' });
-    this.dialogueText.fixedToCamera = true;
-
+    this.player = this.game.add.sprite(22*gridSize, 14*gridSize, 'player');
+    this.player.animations.add('paused', [124]);
+    this.player.animations.play('paused', 1, true);
+    
     this.title = this.game.add.sprite(width/2, height/2, 'title');
     this.title.anchor.setTo(0.5, 0.5);
     this.title.alpha = 0;
-
-    //this.music = this.sound.play('music', true);
-
+    
+    var newText;
+    for(var ii=0; ii<this.dialogueTexts.length; ii+=1){
+      newText = this.game.add.text(2*gridSize, this.dialogueY*gridSize, this.dialogueTexts[ii], { font: '25px Lato Black', fill: '#FFF' });
+      newText.alpha = 0.0;
+      newText.anchor.set(0.0);
+      this.dialogueY += 5;
+      this.dialogues.push(newText);
+      this.game.add.tween(newText).to({ alpha:1 }, 2500, "Linear", true, 2500*ii);
+    }
   },
   update: function(){
-    if(this.dialoguePoint <= this.dialogue.length) this.processEnding();
-  },
-  setText: function(point){
-    this.dialogueText.text = this.dialogue[point];
-  },
-  processEnding: function(){
-    if(this.dialoguePoint == this.dialogue.length){
-      this.dialoguePoint++;
-      this.endEnding();
-    } else {
-      this.setText(this.dialoguePoint);
-      this.textTimer++;
-      if(this.textTimer > 200){
-        this.dialoguePoint++;
-        this.textTimer = 0;
-      }
-    }
   },
   endEnding: function(){
     this.game.add.tween(this.player).to({alpha:0}, 750).start();

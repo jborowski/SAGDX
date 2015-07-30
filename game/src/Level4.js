@@ -351,16 +351,18 @@ SAGDX.level4State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0.5 }, 750);
+    var fadeOut;
+    if(state=="Ending3"){
+      var fadeOut = this.game.add.tween(this.game.world).to({ alpha: 0}, 10);
+    } else {
+      var fadeOut = this.game.add.tween(this.game.world).to({ alpha: 0}, 750);
+    }
     fadeOut.onComplete.add(function(){
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];
-      this.changeToState(state);
+      this.state.start(state);
     }, this);
     fadeOut.start();
-  },
-  changeToState(state){
-    this.state.start(state);
   }
 }
