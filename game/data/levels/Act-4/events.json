@@ -54,6 +54,46 @@
       {"speaker": "Factory", "text": "Unit, turn back now and proceed to he laboratory, or the outsiders will\n destroy you in order to steal my technology. This is an order."}
     ]
   },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":67,
+    "y":43,
+    "x2":72,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Attention, unit. That is not the correct direction.\nThis path leads to the incinerator."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":77,
+    "y":43,
+    "x2":82,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "Where are you going? That hallway doesn't appear on our blueprints.\nWe recommend you turn back, and head up to reach the exit."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":89,
+    "y":43,
+    "x2":94,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Unit, turn back. You will be destroyed by the incinerator.\nYour technology will become lost. You will be useless to us."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":99,
+    "y":43,
+    "x2":104,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "We're detecting a massive heat buildup in your system. We order you, turn back.\nIf you are destroyed, this mission will be a failure!"}
+    ]
+  },
   { "type": "activation",
     "triggerType": "inside",
     "activates": "lift1",
