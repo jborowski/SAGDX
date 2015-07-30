@@ -43,19 +43,13 @@ SAGDX.level4State.prototype = {
     this.collisionMap.setCollision(1, true, this.collisionLayer);
     this.collisionLayer.visible = false;
 
-    this.parabgsBack = this.game.add.group();
-    this.parabg1 = new ParaBackground(this, this.game, 0, 0.5, 0.8, this.parabgsBack, "parabackgroundSky");
-
-    this.parabgsBackPaused = this.game.add.group();
-    this.parabg1p = new ParaBackground(this, this.game, 0, 0.5, 0.8, this.parabgsBackPaused, "parabackgroundSkyp");
-
-    this.overlays = this.game.add.group();
-    this.overlay1 = new ParaBackground(this, this.game, 0, 0, 0.8, this.overlays, 'overlay');
+    this.parabg1 = this.game.add.sprite(1400, -60, "parabackgroundSky");
+    this.parabg1p = this.game.add.sprite(1400, -60, "parabackgroundSkyp");
 
     this.pauseTexts = [];
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.stage.backgroundColor = 808080;
+    this.game.stage.backgroundColor = 000000;
 
     this.player = new Player(this, this.game, 5*gridSize, 41*gridSize, 'player');
     this.game.camera.follow(this.player);
@@ -102,9 +96,8 @@ SAGDX.level4State.prototype = {
       }
     }
 
-    this.game.world.bringToTop(this.parabgsBackPaused);
-    this.game.world.bringToTop(this.parabgsBack);
-    this.game.world.bringToTop(this.overlays);
+    this.game.world.bringToTop(this.parabg1p);
+    this.game.world.bringToTop(this.parabg1);
     this.game.world.bringToTop(this.turrets);
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.trucks);
