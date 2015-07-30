@@ -28,6 +28,10 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level2BackgroundLayerMap', 'data/levels/Act-2/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('level2CollisionLayerMap', 'data/levels/Act-2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
+    this.game.load.tilemap('level3ForegroundLayerMap', 'data/levels/Act-2/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3BackgroundLayerMap', 'data/levels/Act-2/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3CollisionLayerMap', 'data/levels/Act-2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+
     this.game.load.image('tileset', 'assets/tileset.png');
     this.game.load.image('dialogbox', 'assets/dialogBox.png');
     this.game.load.image('title', 'assets/title.png');
@@ -70,8 +74,7 @@ SAGDX.Preloader.prototype = {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
       //this.state.start('Intro');
-      //this.state.start('Level1');
-      this.state.start('Level2');
+      this.state.start('Level3');
     }
   }
 };

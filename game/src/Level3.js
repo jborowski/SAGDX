@@ -1,6 +1,6 @@
-SAGDX.level2State = function(game){};
+SAGDX.level3State = function(game){};
 
-SAGDX.level2State.prototype = {
+SAGDX.level3State.prototype = {
   // Settings
   timeMultiplier: 400,
 
@@ -25,18 +25,18 @@ SAGDX.level2State.prototype = {
     this.blasts = this.game.add.group();
     this.game.renderer.renderSession.roundPixels = true;
 
-    this.map = this.game.add.tilemap('level2ForegroundLayerMap');
+    this.map = this.game.add.tilemap('level3ForegroundLayerMap');
     this.map.addTilesetImage('tileset');
     this.foregroundLayer = this.map.createLayer('foregroundLayer');
     this.foregroundLayer.resizeWorld();
     this.foregroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.bgMap = this.game.add.tilemap('level2BackgroundLayerMap');
+    this.bgMap = this.game.add.tilemap('level3BackgroundLayerMap');
     this.bgMap.addTilesetImage('tileset');
     this.backgroundLayer = this.bgMap.createLayer('backgroundLayer');
     this.backgroundLayer.renderSettings.enableScrollDelta = false;
 
-    this.collisionMap = this.game.add.tilemap('level2CollisionLayerMap');
+    this.collisionMap = this.game.add.tilemap('level3CollisionLayerMap');
     this.collisionMap.addTilesetImage('tileset');
     this.collisionLayer = this.collisionMap.createLayer('collisionLayer');
     this.collisionMap.setCollision(1, true, this.collisionLayer);
@@ -97,7 +97,7 @@ SAGDX.level2State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 808080;
 
-    this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
+    this.player = new Player(this, this.game, 28*gridSize, 1*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     this.keyboard = this.game.input.keyboard;
@@ -158,6 +158,10 @@ SAGDX.level2State.prototype = {
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
+
+    /// DEBUG SQUARES
+    var debugGraphic = new Phaser.Graphics().beginFill(0x000000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
+    this.debugGraphic = this.game.add.sprite(0,0,distanceFilterGraphic.generateTexture());
 
     if(this.debugMode){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
@@ -425,6 +429,7 @@ SAGDX.level2State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
+
     var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
     fadeOut.onComplete.add(function(){
       this.events = [];
