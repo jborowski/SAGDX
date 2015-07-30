@@ -6,7 +6,6 @@
     ],
     "unit": {
       "type": "floater",
-      "activatedBy": ["lift3", "lift4"],
       "waypoints": [
         {"x": 27, "y": 26},
         {"x": 27, "y": 28}

@@ -1,9 +1,27 @@
 [
   { "type": "dialogue",
     "triggerType": "pass",
-    "y": 34,
+    "x": 34,
     "dialogue": [
-      {"speaker": "unknown", "text": "You're almost out, now."}
+      {"speaker": "unknown", "text": "Booya!"}
     ]
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift1",
+    "repeats": true,
+    "x":45,
+    "y":40,
+    "x2":51,
+    "y2":48
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift2",
+    "repeats": true,
+    "x":55,
+    "y":40,
+    "x2":60,
+    "y2":48
   }
 ]

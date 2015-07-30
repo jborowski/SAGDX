@@ -69,6 +69,8 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('parabackground1p', 'assets/levels/act1/background1paused.png', 768, 512);
     this.game.load.spritesheet('parabackground3', 'assets/levels/act1/background3.png', 768, 512);
     this.game.load.spritesheet('parabackground3p', 'assets/levels/act1/background3paused.png', 768, 512);
+    this.game.load.spritesheet('parabackgroundSky', 'assets/levels/act4/sky.jpg', 768, 512);
+    this.game.load.spritesheet('parabackgroundSkyp', 'assets/levels/act4/skypause.jpg', 768, 512);
 
     this.game.load.image('overlay', 'assets/overlay.png', 100, 512);
 
@@ -83,8 +85,8 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      this.state.start('Intro');
-      //this.state.start('Level4');
+      //this.state.start('Intro');
+      this.state.start('Level4');
     }
   }
 };
