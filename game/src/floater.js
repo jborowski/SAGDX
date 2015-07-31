@@ -83,7 +83,6 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       var direction = this.conflux.player.cState.facing;
       this.body.velocity.x = direction * this.cConstants.speed / 2;
       this.body.velocity.y = this.cConstants.dropSpeed;
-      console.log(this.conflux.player.facing);
     } else if(this.cState.boosting){
       this.cState.boostTimer++;
       if(this.cState.boostTimer > this.cConstants.boostTime){
