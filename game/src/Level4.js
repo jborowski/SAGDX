@@ -390,6 +390,7 @@ SAGDX.level4State.prototype = {
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];
+      this.paused = false;
       this.state.start(state);
     //}, this);
     //fadeOut.start();

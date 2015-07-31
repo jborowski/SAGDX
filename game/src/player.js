@@ -117,21 +117,27 @@ var Player = function(conflux, game, x, y, key, group) {
         if(this.cState.facing > 0){
           if(this.cursors.right.isDown && !this.cState.rightDisabled){
             this.animations.play('runRight');
+            if(!steps.isPlaying) steps.play('walk');
           } else {
             this.animations.play('standRight');
+            steps.stop();
           }
         } else {
           if(this.cursors.left.isDown && !this.cState.leftDisabled){
             this.animations.play('runLeft');
+            if(!steps.isPlaying) steps.play('walk');
           } else {
             this.animations.play('standLeft');
+            steps.stop();
           }
         }
       } else {
         if(this.cState.facing > 0){
           this.animations.play('fallRight');
+          steps.stop();
         } else {
           this.animations.play('fallLeft');
+          steps.stop();
         }
       }
     }
