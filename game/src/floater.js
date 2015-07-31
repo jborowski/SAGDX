@@ -16,6 +16,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
 
   this.sfx = this.game.add.audio('sfx');
   this.sfx.addMarker('floaterChase', 0.5, 2.5, 1, false);
+  this.sfx.addMarker('idle', 9.5, 0.5, 0.05, true);
 
   this.cConstants = {
     speed: speed*gridSize,
@@ -71,6 +72,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   }
 
   this.update = function(){
+    if(!this.cState.paused && !this.sfx.isPlaying) this.sfx.play('idle');
     this.processAnimation();
     if(this.cState.paused){
       this.body.velocity.x = 0;

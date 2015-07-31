@@ -22,11 +22,12 @@ var Player = function(conflux, game, x, y, key, group) {
   this.keyboard = this.game.input.keyboard;
 
   this.sfx = this.game.add.audio('sfx');
-  this.sfx.addMarker('walk', 5, 1.352, 0.5, true);
   this.sfx.addMarker('land', 4, 0.5, 1, false);
   this.sfx.addMarker('liftHit', 0, 0.5, 1, false);
   this.sfx.addMarker('floaterHit', 3, 0.25, 1, false);
   this.sfx.addMarker('hit', 3.5, 0.5, 1, false);
+  this.steps = this.game.add.audio('sfx');
+  this.steps.addMarker('walk', 5, 1.352, 0.5, true);
 
   this.conflux = conflux;
 
@@ -124,27 +125,27 @@ var Player = function(conflux, game, x, y, key, group) {
         if(this.cState.facing > 0){
           if(this.cursors.right.isDown && !this.cState.rightDisabled){
             this.animations.play('runRight');
-            if(!this.sfx.isPlaying) this.sfx.play('walk');
+            if(!this.steps.isPlaying) this.steps.play('walk');
           } else {
             this.animations.play('standRight');
-            this.sfx.stop();
+            this.steps.stop();
           }
         } else {
           if(this.cursors.left.isDown && !this.cState.leftDisabled){
             this.animations.play('runLeft');
-            if(!this.sfx.isPlaying) this.sfx.play('walk');
+            if(!this.steps.isPlaying) this.steps.play('walk');
           } else {
             this.animations.play('standLeft');
-            this.sfx.stop();
+            this.steps.stop();
           }
         }
       } else {
         if(this.cState.facing > 0){
           this.animations.play('fallRight');
-          this.sfx.stop();
+          this.steps.stop();
         } else {
           this.animations.play('fallLeft');
-          this.sfx.stop();
+          this.steps.stop();
         }
       }
     }
@@ -296,6 +297,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.hit = function(){
     this.hurt();
+    this.sfx.play('hit');
   };
 
   this.hurt = function(){
@@ -312,6 +314,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
     // Cancel other states
     this.cState.jumping = false;
+    this.steps.stop();
   };
 
   this.cancelHurt = function(){
@@ -353,6 +356,9 @@ var Player = function(conflux, game, x, y, key, group) {
         this.against.bottom = tile;
         newY = tile.top - this.body.height - 1;
         this.body.position.y = newY;
+        if (this.body.prev.y < this.body.position.y) {
+          this.sfx.play('land');
+        }
       }
     }
     this.resetWasDirections();
@@ -407,6 +413,9 @@ var Player = function(conflux, game, x, y, key, group) {
         if(mob.cState.paused && !this.cState.paused){
           mob.setPause(false);
         }
+        if (this.body.prev.y < this.body.position.y) {
+          this.sfx.play('land');
+        }
       }
     }
     this.resetWasDirections();
@@ -414,6 +423,7 @@ var Player = function(conflux, game, x, y, key, group) {
 
   this.setPause = function(pause){
     this.sfx.stop();
+    this.steps.stop();
     if(this.cState.paused != pause){
       if(pause){
         this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;

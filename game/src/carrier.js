@@ -14,6 +14,9 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.animations.add('plain', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
   this.animations.play('plain', 20, true);
 
+  this.sfx = this.game.add.audio('sfx');
+  this.sfx.addMarker('idle', 9.5, 0.5, 0.05, true);
+
   this.cConstants = {
     speed: speed*gridSize,
     animationPausedOffset: 16
@@ -36,6 +39,7 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
     if(!this.cState.paused){
+      if(!this.sfx.isPlaying) this.sfx.play('idle');
       if(this.cState.waiting){
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
@@ -129,6 +133,7 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   };
 
   this.setPause = function(pause){
+    this.sfx.stop();
     if(this.cState.paused != pause){
       if(pause){
         this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;

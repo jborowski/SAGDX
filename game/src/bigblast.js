@@ -19,7 +19,7 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   this.body.allowGravity = false;
 
   this.sfx = this.game.add.audio('sfx');
-  this.sfx.addMarker('blast', 7, 1, 1, false);
+  this.sfx.addMarker('blast', 7, 1, 0.5, false);
 
   this.animations.add('left', [0,1,2,3,4,5,12,13,14,15,16,17,24,25,26,27,28,29,36,37,38,39,40,41,48,49,50,51,52,53]);
   this.animations.add('right', [6,7,8,9,10,11,18,19,20,21,22,23,30,31,32,33,34,35,42,43,44,45,46,47,54,55,56,57,58,59]);
@@ -38,7 +38,6 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
   if(this.cState.facing == 1) this.animations.play('right', 20, true);
   else if (this.cState.facing == -1) this.animations.play('left', 20, true);
 
-  this.sfx.play('blast');
 
   this.update = function(){
     if(this.cState.paused){
@@ -82,6 +81,7 @@ var BigBlast = function(conflux, game, x, y, group, facing, speed, startPaused){
     }
   };
   this.setPause(!!startPaused);
+  this.sfx.play('blast');
 }
 
 BigBlast.prototype = Object.create(Phaser.Sprite.prototype);

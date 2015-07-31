@@ -81,6 +81,11 @@ SAGDX.Preloader.prototype = {
     this.game.load.audio('ambience', ['assets/sfx/ambience_loop.ogg'])
     this.game.load.audio('sfx', ['assets/sfx/sfx.ogg']);
 
+    music = this.game.add.audio('music');
+    ambience = this.game.add.audio('ambience');
+    sfx = this.game.add.audio('sfx');
+    sfx.addMarker('land', 4, 0.5, 1, false);
+    sfx.addMarker('suicide', 6.5, 0.5, 1, false);
 
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },

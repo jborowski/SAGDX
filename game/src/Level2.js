@@ -364,7 +364,7 @@ SAGDX.level2State.prototype = {
   sendDialogue: function(newEvent){
     this.enablePause();
     var dialogueElement = newEvent.dialogue;
-    this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
+    this.dialogueBox = this.game.add.sprite(0, 512, 'factorydialogbox');
     this.dialogueBox.anchor.setTo(0, 1);
     this.dialogueBox.fixedToCamera = true;
     this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
