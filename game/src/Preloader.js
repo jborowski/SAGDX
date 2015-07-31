@@ -28,8 +28,19 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level2BackgroundLayerMap', 'data/levels/Act-2/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.tilemap('level2CollisionLayerMap', 'data/levels/Act-2/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
+    this.game.load.tilemap('level3ForegroundLayerMap', 'data/levels/Act-3/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3BackgroundLayerMap', 'data/levels/Act-3/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level3CollisionLayerMap', 'data/levels/Act-3/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+
+    this.game.load.tilemap('level4ForegroundLayerMap', 'data/levels/Act-4/foregroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level4BackgroundLayerMap', 'data/levels/Act-4/backgroundLayer.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.tilemap('level4CollisionLayerMap', 'data/levels/Act-4/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
+
     this.game.load.image('tileset', 'assets/tileset.png');
-    this.game.load.image('dialogbox', 'assets/dialogBox.png');
+    this.game.load.image('factorydialogbox', 'assets/factoryDialogBox.png');
+    this.game.load.image('unknowndialogbox', 'assets/unknownDialogBox.png');
+    this.game.load.image('instructionbox', 'assets/instructionBox.png');
+
     this.game.load.image('title', 'assets/title.png');
     this.game.load.image('pausetext', 'assets/paused.png');
 
@@ -39,6 +50,12 @@ SAGDX.Preloader.prototype = {
     this.game.load.text('level2Spawns', 'data/levels/Act-2/spawns.json');
     this.game.load.text('level2Events', 'data/levels/Act-2/events.json');
 
+    this.game.load.text('level3Spawns', 'data/levels/Act-3/spawns.json');
+    this.game.load.text('level3Events', 'data/levels/Act-3/events.json');
+
+    this.game.load.text('level4Spawns', 'data/levels/Act-4/spawns.json');
+    this.game.load.text('level4Events', 'data/levels/Act-4/events.json');
+
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
     this.game.load.spritesheet('suicide', 'assets/player/sucide_sheet.png', 147, 136)
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
@@ -46,9 +63,9 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('floater', 'assets/floater.png', 52, 59);
     this.game.load.spritesheet('lift', 'assets/lift.png', 64, 12);
     this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
-    this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 92, 34);
+    this.game.load.spritesheet('floorbutton', 'assets/floorbutton.png', 60, 5);
 
     this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
 
@@ -56,6 +73,8 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('parabackground1p', 'assets/levels/act1/background1paused.png', 768, 512);
     this.game.load.spritesheet('parabackground3', 'assets/levels/act1/background3.png', 768, 512);
     this.game.load.spritesheet('parabackground3p', 'assets/levels/act1/background3paused.png', 768, 512);
+    this.game.load.image('parabackgroundSky', 'assets/levels/act4/sky.jpg', 768, 512);
+    this.game.load.image('parabackgroundSkyp', 'assets/levels/act4/skypause.jpg', 768, 512);
 
     this.game.load.image('overlay', 'assets/overlay.png', 100, 512);
 

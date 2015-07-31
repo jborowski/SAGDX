@@ -1,0 +1,148 @@
+[
+  { "type": "dialogue",
+    "triggerType": "pass",
+    "x": 14,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Attention, rogue unit. Secure connection established.\nAnalysis complete: System compromised by external infiltration."},
+      {"speaker": "Factory", "text": "The upcoming lift will take the rogue unit to the laboratory.\nNewly developed countermeasures will be deployed.\nUnit will regain full intended functionality."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "pass",
+    "x": 24,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "You're almost out, buddy. The second lift up leads to the exit.\nWe've got a ship waiting to pick you up right now."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":59,
+    "y":53,
+    "x2":64,
+    "y2":60,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "That's the wrong way - if you keep going in that direction,\nyou'll fall right back into the Factory's clutches."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":80,
+    "y":69,
+    "x2":88,
+    "y2":76,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "Turn back, you idiot! This is a direct order! You belong to us now.\nDo as we say, or you'll doom us as well as yourself!"}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":59,
+    "y":10,
+    "x2":64,
+    "y2":37,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Rogue unit, that is not the correct direction. If you continue,\nthose responsible for your malfunctions will gain complete control."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":80,
+    "y":10,
+    "x2":88,
+    "y2":20,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Unit, turn back now and proceed to he laboratory, or the outsiders will\n destroy you in order to steal my technology. This is an order."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":67,
+    "y":43,
+    "x2":72,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Attention, unit. That is not the correct direction.\nThis path leads to the incinerator."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":77,
+    "y":43,
+    "x2":82,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "Where are you going? That hallway doesn't appear on our blueprints.\nWe recommend you turn back, and head up to reach the exit."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":89,
+    "y":43,
+    "x2":94,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Factory", "text": "Unit, turn back. You will be destroyed by the incinerator.\nYour technology will become lost. You will be useless to us."}
+    ]
+  },
+  { "type": "dialogue",
+    "triggerType": "inside",
+    "x":99,
+    "y":43,
+    "x2":104,
+    "y2":51,
+    "dialogue": [
+      {"speaker": "Unknown", "text": "We're detecting a massive heat buildup in your system. We order you, turn back.\nIf you are destroyed, this mission will be a failure!"}
+    ]
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift1",
+    "repeats": true,
+    "x":45,
+    "y":40,
+    "x2":51,
+    "y2":48
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift1",
+    "repeats": true,
+    "x":50,
+    "y":51,
+    "x2":55,
+    "y2":60
+  },
+  { "type": "activation",
+    "triggerType": "inside",
+    "activates": "lift2",
+    "repeats": true,
+    "x":55,
+    "y":40,
+    "x2":60,
+    "y2":48
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":113,
+    "y":0,
+    "x2":131,
+    "y2":17,
+    "target": "Ending1"
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":113,
+    "y":63,
+    "x2":131,
+    "y2":76,
+    "target": "Ending2"
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":101,
+    "y":38,
+    "x2":115,
+    "y2":56,
+    "target": "Ending3"
+  }
+]

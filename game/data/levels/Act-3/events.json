@@ -1,0 +1,17 @@
+[
+  { "type": "dialogue",
+    "triggerType": "pass",
+    "y": 34,
+    "dialogue": [
+      {"speaker": "unknown", "text": "You're almost out, now."}
+    ]
+  },
+  { "type": "transition",
+    "triggerType": "inside",
+    "x":119,
+    "y":31,
+    "x2":127,
+    "y2":38,
+    "target": "Level4"
+  }
+]

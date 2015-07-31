@@ -12,12 +12,13 @@ SAGDX.introState.prototype = {
              "Press right arrow to move right",
              "Press space to jump",
              "FATAL ERROR: Core component 0x5AFF missing",
-             "Error cannot be rescued. Unit is defective.\nPress R to activate self-destruct sequence."],
+             "Error cannot be rescued. Unit is defective.",
+             "Press R to activate self-destruct sequence."],
   tutorialPoint: 0,
   textTimer: 0,
 
   create: function(){
-    this.game.world.alpha = 0;
+    this.game.world.alpha = 1;
     this.game.renderer.renderSession.roundPixels = true;
 
     this.bgMap = this.game.add.tilemap('introBackgroundLayerMap');
@@ -65,11 +66,10 @@ SAGDX.introState.prototype = {
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.player);
 
-    this.dialogueBox = this.game.add.sprite(0, 535, 'dialogbox');
-    this.dialogueBox.anchor.setTo(0, 1);
+    this.dialogueBox = this.game.add.sprite(30, 380, 'instructionbox');
     this.dialogueBox.fixedToCamera = true;
-    this.dialogueText = this.game.add.text(50, 410, "", { font: '20px Lato Black', fill: '#000' });
-    this.dialogueText.fixedToCamera = true;
+    this.dialogueText = this.game.add.text(50, 50, "", { font: '20px Lato Black', fill: '#000' });
+    this.dialogueBox.addChild(this.dialogueText);
 
     this.lifts = this.game.add.group();
     for (var i = 0; i < 5; i++) {
@@ -78,9 +78,8 @@ SAGDX.introState.prototype = {
       this.lifts.add(lift);
     }
 
-    //this.music = this.sound.play('music', true);
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
+    this.music = this.sound.play('music', true);
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
     this.processTutorial();
@@ -130,13 +129,14 @@ SAGDX.introState.prototype = {
         if(this.keyboard.isDown(32)) this.tutorialPoint++;
         break;
       case 4:
+      case 5:
         this.textTimer++;
         if(this.textTimer > 150){
           this.tutorialPoint++;
           this.textTimer = 0;
         }
         break;
-      case 5:
+      case 6:
         if(this.keyboard.isDown(82)){
           this.tutorialPoint++;
           this.dialogueBox.destroy();
@@ -153,9 +153,12 @@ SAGDX.introState.prototype = {
     this.game.time.events.add(1500, function(){ this.lifts.destroy(true); }, this);
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){this.state.start(state);}, this);
-    fadeOut.start();
+    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
+    //fadeOut.onComplete.add(function(){
+      this.music.stop();
+      this.state.start(state);
+    //}, this);
+    //fadeOut.start();
   }
 
 }

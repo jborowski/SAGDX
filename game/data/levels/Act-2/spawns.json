@@ -12,7 +12,6 @@
         { "type": "moveTo", "y": 68, "speed": 5 },
         { "type": "fire", "speed": 4 },
         { "type": "wait", "duration": 20 }
-
       ]
     }
   },
@@ -40,7 +39,7 @@
     ],
     "unit": {
       "type": "turret",
-      "facing": -1,
+      "facing": 1,
       "loopTo": 0,
       "paused": true,
       "actions": [
@@ -160,11 +159,11 @@
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 124, "y": 51},
-        {"type": "moveTo", "x": 124, "y": 66}
+        {"type": "moveTo", "x": 124, "y": 48, "activation": "lift3"},
+        {"type": "moveTo", "x": 124, "y": 66, "activation": "lift3"}
       ],
       "speed": 10
     }
@@ -172,16 +171,16 @@
   { "description": "The second blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 119, "y": 51}
+      {"x": 119, "y": 55}
     ],
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 119, "y": 66},
-        {"type": "moveTo", "x": 119, "y": 51}
+        {"type": "moveTo", "x": 119, "y": 66, "activation": "lift3"},
+        {"type": "moveTo", "x": 119, "y": 55, "activation": "lift3"}
       ],
       "speed": 10
     }
@@ -189,18 +188,85 @@
   { "description": "The third blast room lift",
     "type": "once",
     "spawns":[
-      {"x": 114, "y": 35}
+      {"x": 119, "y": 42}
     ],
     "unit": {
       "type": "lift",
       "activatedBy": ["lift3", "lift4"],
-      "startPaused": true,
+      "paused": true,
       "actions": [
         {"type": "wait", "activation": "lift3"},
-        {"type": "moveTo", "x": 114, "y": 35},
-        {"type": "moveTo", "x": 114, "y": 25}
+        {"type": "moveTo", "x": 119, "y": 53, "activation": "lift3"},
+        {"type": "moveTo", "x": 119, "y": 42, "activation": "lift3"}
       ],
       "speed": 10
+    }
+  },
+  { "description": "The blast room carrier",
+    "type": "once",
+    "spawns":[
+      {"x": 113, "y": 42}
+    ],
+    "unit": {
+      "type": "carrier",
+      "activatedBy": ["lift3", "lift4"],
+      "paused": true,
+      "waypoints": [
+        {"x": 92, "y": 42},
+        {"x": 113, "y": 42}
+      ],
+      "speed": 10
+    }
+  },
+  { "description": "Final blast room lift",
+    "type": "once",
+    "spawns":[
+      {"x": 86, "y": 42}
+    ],
+    "unit": {
+      "type": "lift",
+      "activatedBy": ["lift3", "lift4"],
+      "paused": true,
+      "actions": [
+        {"type": "moveTo", "x": 86, "y": 25},
+        {"type": "moveTo", "x": 86, "y": 42}
+      ],
+      "speed": 10
+    }
+  },
+  { "description": "Left bonus access turret",
+    "type": "once",
+    "spawns":[
+      {"x": 83, "y": 14}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": 1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "wait", "duration": 5 },
+        { "type": "fire", "speed": 20 },
+        { "type": "wait", "duration": 10 }
+      ]
+    }
+  },
+  { "description": "Right bonus access turret",
+    "type": "once",
+    "spawns":[
+      {"x": 128, "y": 11}
+    ],
+    "unit": {
+      "type": "turret",
+      "facing": -1,
+      "loopTo": 0,
+      "paused": true,
+      "actions": [
+        { "type": "wait", "duration": 8 },
+        { "type": "fire", "speed": 20 },
+        { "type": "wait", "duration": 7 }
+
+      ]
     }
   }
 ]

@@ -14,7 +14,7 @@ SAGDX.level1State.prototype = {
   dialogue: null,
 
   create: function(){
-    this.game.world.alpha = 0;
+    this.game.world.alpha = 1;
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
     this.turrets = this.game.add.group();
@@ -162,7 +162,7 @@ SAGDX.level1State.prototype = {
 
     this.music = this.sound.play('music', true);
 
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
     if(this.debugMode){
@@ -285,7 +285,6 @@ SAGDX.level1State.prototype = {
     return sprite;
   },
   enablePause: function(){
-    this.paused = true;
     this.music.volume = 0.3;
     this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
@@ -300,35 +299,45 @@ SAGDX.level1State.prototype = {
     this.blasts.forEach(function(blast){
       blast.setPause(true);
     });
+    
+    if(!this.paused){
+      // Pause Backgrounds
+      this.parabg1.animations.paused = true;
+      this.parabg1.visible = false;
+      this.parabg1p.visible = true;
+      this.parabg1p.animations.frame = this.parabg1.animations.frame;
+      this.parabg2.animations.paused = true;
+      this.parabg2.visible = false;
+      this.parabg2p.visible = true;
+      this.parabg2p.animations.frame = this.parabg2.animations.frame;
 
-    // Pause Backgrounds
-    this.parabg1.animations.paused = true;
-    this.parabg1.visible = false;
-    this.parabg1p.visible = true;
-    this.parabg1p.animations.frame = this.parabg1.animations.frame;
-    this.parabg2.animations.paused = true;
-    this.parabg2.visible = false;
-    this.parabg2p.visible = true;
-    this.parabg2p.animations.frame = this.parabg2.animations.frame;
+      this.parabg3.animations.paused = true;
+      this.parabg3.visible = false;
+      this.parabg3p.visible = true;
+      this.parabg3p.animations.frame = this.parabg3.animations.frame;
+      this.parabg4.animations.paused = true;
+      this.parabg4.visible = false;
+      this.parabg4p.visible = true;
+      this.parabg4p.animations.frame = this.parabg4.animations.frame;
 
-    this.parabg3.animations.paused = true;
-    this.parabg3.visible = false;
-    this.parabg3p.visible = true;
-    this.parabg3p.animations.frame = this.parabg3.animations.frame;
-    this.parabg4.animations.paused = true;
-    this.parabg4.visible = false;
-    this.parabg4p.visible = true;
-    this.parabg4p.animations.frame = this.parabg4.animations.frame;
+      this.distanceFilter1.visible = false;
+      this.distanceFilter2.visible = false;
+      this.distanceFilter1p.visible = true;
+      this.distanceFilter2p.visible = true;
 
-    this.distanceFilter1.visible = false;
-    this.distanceFilter2.visible = false;
-    this.distanceFilter1p.visible = true;
-    this.distanceFilter2p.visible = true;
+      // PAUSE TILES
+      var tilecount = 54;
+      for(var ii=0; ii < tilecount; ii+=1){
+        this.bgMap.swap(ii, ii+tilecount);
+        this.map.swap(ii, ii+tilecount);
+      }
+    }
 
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){
       this.game.time.events.remove(this.timerEvents[i]);
     }
+    this.paused = true;
   },
   checkEvents: function(){
     var nextEvent;
@@ -357,14 +366,21 @@ SAGDX.level1State.prototype = {
   },
   sendDialogue: function(newEvent){
     this.enablePause();
+
     var dialogueElement = newEvent.dialogue;
-    this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
-    this.dialogueBox.anchor.setTo(0, 1);
+    var name = dialogueElement[0].speaker;
+    var text = dialogueElement[0].text;
+
+    if(name == "Unknown"){
+      this.dialogueBox = this.game.add.sprite(30, 220, 'unknowndialogbox');
+    } else if(name == "Factory"){
+      this.dialogueBox = this.game.add.sprite(30, 220, 'factorydialogbox');
+    }
     this.dialogueBox.fixedToCamera = true;
-    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
-    this.speakerName.fixedToCamera = true;
-    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
-    this.dialogueText.fixedToCamera = true;
+    this.speakerName = this.game.add.text(20, 15, name, {font: '16px Lato', fill: '#000'});
+    this.dialogueBox.addChild(this.speakerName);
+    this.dialogueText = this.game.add.text(40, 40, text, { font: '20px Lato Black', fill: '#000' });
+    this.dialogueBox.addChild(this.dialogueText);
     this.dialogue = {
       index: 0,
       element: dialogueElement
@@ -409,11 +425,16 @@ SAGDX.level1State.prototype = {
     }
   },
   advanceDialogue: function(){
+    this.dialogue.index += 1;
     if(this.dialogue.element[this.dialogue.index]){
       var line = this.dialogue.element[this.dialogue.index];
+      if(line.speaker == "Unknown"){
+        this.dialogueBox.loadTexture('unknowndialogbox');
+      } else if(line.speaker == "Factory"){
+        this.dialogueBox.loadTexture('factorydialogbox');
+      }
       this.speakerName.text = line.speaker
       this.dialogueText.text = line.text;
-      this.dialogue.index += 1;
     }else{
       this.dialogueText.text = "";
       this.speakerName.text = "";
@@ -425,13 +446,15 @@ SAGDX.level1State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){
+    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 720);
+    //fadeOut.onComplete.add(function(){
+      this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];
-      this.state.start(state);}, this);
-    fadeOut.start();
+      this.state.start(state);
+    //}, this);
+    //fadeOut.start();
   }
 
 }
