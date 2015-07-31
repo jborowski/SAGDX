@@ -119,7 +119,7 @@ SAGDX.level4State.prototype = {
       this.debugText.fixedToCamera = true;
     }
 
-    //this.music = this.sound.play('music', true);
+    this.music = this.sound.play('music', true);
 
     this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
@@ -237,8 +237,7 @@ SAGDX.level4State.prototype = {
     return sprite;
   },
   enablePause: function(){
-    this.paused = true;
-    //this.music.volume = 0.3;
+    this.music.volume = 0.3;
     this.pauseTexts.push(this.newPauseText());
     this.trucks.forEach(function(mob){
       mob.setPause(true);
@@ -256,21 +255,25 @@ SAGDX.level4State.prototype = {
       blast.setPause(true);
     });
 
-     // Pause Backgrounds
-    this.parabg1.visible = false;
-    this.parabg1p.visible = true;
+    if(!this.paused){
+       // Pause Backgrounds
+      this.parabg1.visible = false;
+      this.parabg1p.visible = true;
 
-    // PAUSE TILES
-    var tilecount = 54;
-    for(var ii=0; ii < tilecount; ii+=1){
-      this.bgMap.swap(ii, ii+tilecount);
-      this.map.swap(ii, ii+tilecount);
+      // PAUSE TILES
+      var tilecount = 54;
+      for(var ii=0; ii < tilecount; ii+=1){
+        this.bgMap.swap(ii, ii+tilecount);
+        this.map.swap(ii, ii+tilecount);
+      }
     }
 
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){
       this.game.time.events.remove(this.timerEvents[i]);
     }
+
+    this.paused = true;
   },
   checkEvents: function(){
     var nextEvent;
