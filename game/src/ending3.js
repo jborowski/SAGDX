@@ -20,10 +20,11 @@ SAGDX.ending3State.prototype = {
   dialogueY: 2,
 
   preload: function(){
-    this.game.world.alpha = 0;
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 10).start();
   },
   create: function(){
+    this.game.world.alpha = 1;
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 10).start();
+
     this.game.renderer.renderSession.roundPixels = true;
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -50,15 +51,12 @@ SAGDX.ending3State.prototype = {
   update: function(){
   },
   endEnding: function(){
-    this.game.add.tween(this.player).to({alpha:0}, 750).start();
-    this.game.add.tween(this.dialogueText).to({alpha:0}, 750).start();
-    var titleDrop = this.game.add.tween(this.title).to({ alpha:1 }, 10000);
-    titleDrop.onComplete.add(function(){this.goToState("Level1");}, this);
-    titleDrop.start();
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){this.state.start(state);}, this);
-    fadeOut.start();
+    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
+    //fadeOut.onComplete.add(function(){
+      this.state.start(state);
+    //}, this);
+    //fadeOut.start();
   }
 }

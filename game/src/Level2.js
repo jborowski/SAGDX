@@ -14,11 +14,10 @@ SAGDX.level2State.prototype = {
   dialogue: null,
 
   preload: function(){
-    this.game.world.alpha = 0;
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
   },
   create: function(){
+    this.game.world.alpha = 1;
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
     this.turrets = this.game.add.group();
@@ -95,7 +94,7 @@ SAGDX.level2State.prototype = {
     this.pauseTexts = [];
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.stage.backgroundColor = 808080;
+    this.game.stage.backgroundColor = 000000;
 
     this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
     this.game.camera.follow(this.player);
@@ -172,8 +171,6 @@ SAGDX.level2State.prototype = {
     }
 
     this.music = this.sound.play('music', true);
-
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
     if(this.debugMode){
@@ -439,14 +436,15 @@ SAGDX.level2State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){
+    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
+    //fadeOut.onComplete.add(function(){
       this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];
-      this.state.start(state);}, this);
-    fadeOut.start();
+      this.state.start(state);
+    //}, this);
+    //fadeOut.start();
   }
 
 }

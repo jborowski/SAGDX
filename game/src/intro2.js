@@ -15,12 +15,11 @@ SAGDX.intro2State.prototype = {
   textTimer: 0,
 
   preload: function(){
-    this.game.world.alpha = 0;
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
 
   },
   create: function(){
-
+    this.game.world.alpha = 1;
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
     this.game.renderer.renderSession.roundPixels = true;
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);

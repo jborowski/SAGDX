@@ -17,7 +17,7 @@ SAGDX.introState.prototype = {
   textTimer: 0,
 
   create: function(){
-    this.game.world.alpha = 0;
+    this.game.world.alpha = 1;
     this.game.renderer.renderSession.roundPixels = true;
 
     this.bgMap = this.game.add.tilemap('introBackgroundLayerMap');
@@ -79,8 +79,7 @@ SAGDX.introState.prototype = {
     }
 
     this.music = this.sound.play('music', true);
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
-
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
     this.processTutorial();
@@ -153,11 +152,12 @@ SAGDX.introState.prototype = {
     this.game.time.events.add(1500, function(){ this.lifts.destroy(true); }, this);
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){
+    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
+    //fadeOut.onComplete.add(function(){
       this.music.stop();
-      this.state.start(state);}, this);
-    fadeOut.start();
+      this.state.start(state);
+    //}, this);
+    //fadeOut.start();
   }
 
 }
