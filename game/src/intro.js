@@ -78,7 +78,9 @@ SAGDX.introState.prototype = {
       this.lifts.add(lift);
     }
 
-    this.music = this.sound.play('music', true);
+    music = this.game.add.audio('music');
+    ambience = this.game.add.audio('ambience');
+    ambience.play('', 0, 0.8, true);
     //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
@@ -155,7 +157,6 @@ SAGDX.introState.prototype = {
   goToState: function(state){
     //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
     //fadeOut.onComplete.add(function(){
-      this.music.stop();
       this.state.start(state);
     //}, this);
     //fadeOut.start();

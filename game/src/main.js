@@ -7,6 +7,11 @@ window.onload = function(){
       families: ['Lato']
     }
   };
+
+  var music = null;
+  var ambience;
+  var sfx;
+
   game.state.add('Boot', SAGDX.Boot);
   game.state.add('Preloader', SAGDX.Preloader)
   game.state.add('Intro', SAGDX.introState);

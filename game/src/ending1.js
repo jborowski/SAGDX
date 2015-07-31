@@ -31,11 +31,11 @@ SAGDX.ending1State.prototype = {
     this.player = this.game.add.sprite(35*gridSize, 25*gridSize, 'player');
     this.player.animations.add('hurtLeft', [73]);
     this.player.animations.play('hurtLeft', 2, true);
-    
+
     this.title = this.game.add.sprite(width/2, height/2, 'title');
     this.title.anchor.setTo(0.5, 0.5);
     this.title.alpha = 0;
-    
+
     var newText;
     for(var ii=0; ii<this.dialogueTexts.length; ii+=1){
       newText = this.game.add.text(3*gridSize, this.dialogueY*gridSize, this.dialogueTexts[ii], { font: '25px Lato Black', fill: '#4444FF' });

@@ -14,10 +14,11 @@ SAGDX.level2State.prototype = {
   dialogue: null,
 
   preload: function(){
+    this.game.world.alpha = 0;
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
+
   },
   create: function(){
-    this.game.world.alpha = 1;
-    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
     this.turrets = this.game.add.group();
@@ -96,14 +97,8 @@ SAGDX.level2State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
 
-    this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
+    this.player = new Player(this, this.game, 3*gridSize, 65*gridSize, 'player');
     this.game.camera.follow(this.player);
-
-    /***** TERRIBLE ****/
-    this.floorbuttons = this.game.add.group();
-    this.floorbutton1 = this.add.sprite(109*gridSize, 69*gridSize-5, 'floorbutton');
-    this.floorbuttons.add(this.floorbutton1);
-    /*******************/
 
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
@@ -160,7 +155,6 @@ SAGDX.level2State.prototype = {
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
-    this.game.world.bringToTop(this.floorbuttons);
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
@@ -170,7 +164,10 @@ SAGDX.level2State.prototype = {
       this.debugText.fixedToCamera = true;
     }
 
-    this.music = this.sound.play('music', true);
+    music.volume = 1;
+    ambience.volume = 0.3;
+
+    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
     if(this.debugMode){
@@ -237,6 +234,8 @@ SAGDX.level2State.prototype = {
       mob = new LittleBlast(this, this.game, xCoord, yCoord, this.blasts, unit.facing, unit.speed, unit.paused);
     } else if(unit.type=="floater"){
       mob = new Floater(this, this.game, xCoord, yCoord, this.mobs, unit.facing, unit.waypoints, firstWaypoint, unit.speed, unit.paused);
+    } else if(unit.type=="flag"){
+      mob = this.add.sprite(xCoord, yCoord, 'flag');
     }
     return mob;
   },
@@ -290,7 +289,9 @@ SAGDX.level2State.prototype = {
     return sprite;
   },
   enablePause: function(){
-    this.music.volume = 0.3;
+    this.paused = true;
+    music.volume = 0.3;
+    ambience.volume = 0;
     this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
       mob.setPause(true);
@@ -305,44 +306,34 @@ SAGDX.level2State.prototype = {
       blast.setPause(true);
     });
 
-    if(!this.paused){
-      // Pause Backgrounds
-      this.parabg1.animations.paused = true;
-      this.parabg1.visible = false;
-      this.parabg1p.visible = true;
-      this.parabg1p.animations.frame = this.parabg1.animations.frame;
-      this.parabg2.animations.paused = true;
-      this.parabg2.visible = false;
-      this.parabg2p.visible = true;
-      this.parabg2p.animations.frame = this.parabg2.animations.frame;
+     // Pause Backgrounds
+    this.parabg1.animations.paused = true;
+    this.parabg1.visible = false;
+    this.parabg1p.visible = true;
+    this.parabg1p.animations.frame = this.parabg1.animations.frame;
+    this.parabg2.animations.paused = true;
+    this.parabg2.visible = false;
+    this.parabg2p.visible = true;
+    this.parabg2p.animations.frame = this.parabg2.animations.frame;
 
-      this.parabg3.animations.paused = true;
-      this.parabg3.visible = false;
-      this.parabg3p.visible = true;
-      this.parabg3p.animations.frame = this.parabg3.animations.frame;
-      this.parabg4.animations.paused = true;
-      this.parabg4.visible = false;
-      this.parabg4p.visible = true;
-      this.parabg4p.animations.frame = this.parabg4.animations.frame;
+    this.parabg3.animations.paused = true;
+    this.parabg3.visible = false;
+    this.parabg3p.visible = true;
+    this.parabg3p.animations.frame = this.parabg3.animations.frame;
+    this.parabg4.animations.paused = true;
+    this.parabg4.visible = false;
+    this.parabg4p.visible = true;
+    this.parabg4p.animations.frame = this.parabg4.animations.frame;
 
-      this.distanceFilter1.visible = false;
-      this.distanceFilter2.visible = false;
-      this.distanceFilter1p.visible = true;
-      this.distanceFilter2p.visible = true;
-
-      // PAUSE TILES
-      var tilecount = 54;
-      for(var ii=0; ii < tilecount; ii+=1){
-        this.bgMap.swap(ii, ii+tilecount);
-        this.map.swap(ii, ii+tilecount);
-      }
-    }
+    this.distanceFilter1.visible = false;
+    this.distanceFilter2.visible = false;
+    this.distanceFilter1p.visible = true;
+    this.distanceFilter2p.visible = true;
 
     this.player.setPause(true);
     for (var i=0; i<this.timerEvents.length; i++){
       this.game.time.events.remove(this.timerEvents[i]);
     }
-    this.paused = true;
   },
   checkEvents: function(){
     var nextEvent;
@@ -371,21 +362,14 @@ SAGDX.level2State.prototype = {
   },
   sendDialogue: function(newEvent){
     this.enablePause();
-
     var dialogueElement = newEvent.dialogue;
-    var name = dialogueElement[0].speaker;
-    var text = dialogueElement[0].text;
-
-    if(name == "Unknown"){
-      this.dialogueBox = this.game.add.sprite(30, 220, 'unknowndialogbox');
-    } else if(name == "Factory"){
-      this.dialogueBox = this.game.add.sprite(30, 220, 'factorydialogbox');
-    }
+    this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
+    this.dialogueBox.anchor.setTo(0, 1);
     this.dialogueBox.fixedToCamera = true;
-    this.speakerName = this.game.add.text(20, 15, name, {font: '16px Lato', fill: '#000'});
-    this.dialogueBox.addChild(this.speakerName);
-    this.dialogueText = this.game.add.text(40, 40, text, { font: '20px Lato Black', fill: '#000' });
-    this.dialogueBox.addChild(this.dialogueText);
+    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
+    this.speakerName.fixedToCamera = true;
+    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
+    this.dialogueText.fixedToCamera = true;
     this.dialogue = {
       index: 0,
       element: dialogueElement
@@ -427,11 +411,11 @@ SAGDX.level2State.prototype = {
     }
   },
   advanceDialogue: function(){
-    this.dialogue.index += 1;
     if(this.dialogue.element[this.dialogue.index]){
       var line = this.dialogue.element[this.dialogue.index];
       this.speakerName.text = line.speaker
       this.dialogueText.text = line.text;
+      this.dialogue.index += 1;
     }else{
       this.dialogueText.text = "";
       this.speakerName.text = "";
@@ -443,15 +427,14 @@ SAGDX.level2State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
-    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    //fadeOut.onComplete.add(function(){
-      this.music.stop();
+
+    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
+    fadeOut.onComplete.add(function(){
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];
-      this.state.start(state);
-    //}, this);
-    //fadeOut.start();
+      this.state.start(state);}, this);
+    fadeOut.start();
   }
 
 }

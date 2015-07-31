@@ -160,7 +160,11 @@ SAGDX.level1State.prototype = {
       this.debugText.fixedToCamera = true;
     }
 
-    this.music = this.sound.play('music', true);
+    if(!music.isPlaying){
+      music.play('', 0, 1, true);
+    }
+    music.volume = 1;
+    ambience.volume = 0.5;
 
     //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
@@ -285,7 +289,8 @@ SAGDX.level1State.prototype = {
     return sprite;
   },
   enablePause: function(){
-    this.music.volume = 0.3;
+    music.volume = 0.3;
+    ambience.volume = 0;
     this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
       mob.setPause(true);
@@ -299,7 +304,7 @@ SAGDX.level1State.prototype = {
     this.blasts.forEach(function(blast){
       blast.setPause(true);
     });
-    
+
     if(!this.paused){
       // Pause Backgrounds
       this.parabg1.animations.paused = true;
@@ -448,7 +453,6 @@ SAGDX.level1State.prototype = {
   goToState: function(state){
     //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 720);
     //fadeOut.onComplete.add(function(){
-      this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];

@@ -166,7 +166,8 @@ SAGDX.level3State.prototype = {
       this.debugText.fixedToCamera = true;
     }
 
-    this.music = this.sound.play('music', true);
+    music.volume = 1;
+    ambience.volume = 0.3;
   },
   update: function(){
     if(this.debugMode){
@@ -281,7 +282,8 @@ SAGDX.level3State.prototype = {
     return sprite;
   },
   enablePause: function(){
-    this.music.volume = 0.3;
+    music.volume = 0.3;
+    ambience.volume = 0;
     this.pauseTexts.push(this.newPauseText());
     this.trucks.forEach(function(mob){
       mob.setPause(true);
@@ -445,7 +447,6 @@ SAGDX.level3State.prototype = {
   goToState: function(state){
     //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
     //fadeOut.onComplete.add(function(){
-      this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];

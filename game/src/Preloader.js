@@ -57,7 +57,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.text('level4Events', 'data/levels/Act-4/events.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
-    this.game.load.spritesheet('suicide', 'assets/player/sucide_sheet.png', 147, 136)
+    this.game.load.spritesheet('suicide', 'assets/player/suicide_sheet.png', 147, 136)
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
     this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 37);
     this.game.load.spritesheet('floater', 'assets/floater.png', 52, 59);
@@ -66,8 +66,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 92, 34);
     this.game.load.spritesheet('floorbutton', 'assets/floorbutton.png', 60, 5);
-
-    this.game.load.audio('music', 'assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3')
+    this.game.load.spritesheet('door', 'assets/door_opening_spritesheet.png', 196, 280)
 
     this.game.load.spritesheet('parabackground1', 'assets/levels/act1/background1.png', 768, 512);
     this.game.load.spritesheet('parabackground1p', 'assets/levels/act1/background1paused.png', 768, 512);
@@ -77,6 +76,10 @@ SAGDX.Preloader.prototype = {
     this.game.load.image('parabackgroundSkyp', 'assets/levels/act4/skypause.jpg', 768, 512);
 
     this.game.load.image('overlay', 'assets/overlay.png', 100, 512);
+
+    this.game.load.audio('music', ['assets/music/Alan_Singley_-_Taking_Dark_Matter_Lightly.mp3']);
+    this.game.load.audio('ambience', ['assets/sfx/ambience_loop.ogg'])
+    this.game.load.audio('sfx', ['assets/sfx/sfx.ogg']);
 
 
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
