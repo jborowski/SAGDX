@@ -425,6 +425,7 @@ SAGDX.level1State.prototype = {
     }
   },
   advanceDialogue: function(){
+    this.dialogue.index += 1;
     if(this.dialogue.element[this.dialogue.index]){
       var line = this.dialogue.element[this.dialogue.index];
       if(line.speaker == "Unknown"){
@@ -434,7 +435,6 @@ SAGDX.level1State.prototype = {
       }
       this.speakerName.text = line.speaker
       this.dialogueText.text = line.text;
-      this.dialogue.index += 1;
     }else{
       this.dialogueText.text = "";
       this.speakerName.text = "";
