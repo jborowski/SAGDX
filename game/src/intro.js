@@ -12,7 +12,8 @@ SAGDX.introState.prototype = {
              "Press right arrow to move right",
              "Press space to jump",
              "FATAL ERROR: Core component 0x5AFF missing",
-             "Error cannot be rescued. Unit is defective.\nPress R to activate self-destruct sequence."],
+             "Error cannot be rescued. Unit is defective.",
+             "Press R to activate self-destruct sequence."],
   tutorialPoint: 0,
   textTimer: 0,
 
@@ -65,11 +66,10 @@ SAGDX.introState.prototype = {
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.player);
 
-    this.dialogueBox = this.game.add.sprite(0, 535, 'dialogbox');
-    this.dialogueBox.anchor.setTo(0, 1);
+    this.dialogueBox = this.game.add.sprite(30, 380, 'instructionbox');
     this.dialogueBox.fixedToCamera = true;
-    this.dialogueText = this.game.add.text(50, 410, "", { font: '20px Lato Black', fill: '#000' });
-    this.dialogueText.fixedToCamera = true;
+    this.dialogueText = this.game.add.text(50, 50, "", { font: '20px Lato Black', fill: '#000' });
+    this.dialogueBox.addChild(this.dialogueText);
 
     this.lifts = this.game.add.group();
     for (var i = 0; i < 5; i++) {
@@ -129,13 +129,14 @@ SAGDX.introState.prototype = {
         if(this.keyboard.isDown(32)) this.tutorialPoint++;
         break;
       case 4:
+      case 5:
         this.textTimer++;
         if(this.textTimer > 150){
           this.tutorialPoint++;
           this.textTimer = 0;
         }
         break;
-      case 5:
+      case 6:
         if(this.keyboard.isDown(82)){
           this.tutorialPoint++;
           this.dialogueBox.destroy();

@@ -39,6 +39,8 @@ SAGDX.Preloader.prototype = {
     this.game.load.image('tileset', 'assets/tileset.png');
     this.game.load.image('factorydialogbox', 'assets/factoryDialogBox.png');
     this.game.load.image('unknowndialogbox', 'assets/unknownDialogBox.png');
+    this.game.load.image('instructionbox', 'assets/instructionBox.png');
+
     this.game.load.image('title', 'assets/title.png');
     this.game.load.image('pausetext', 'assets/paused.png');
 
