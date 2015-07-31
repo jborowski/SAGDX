@@ -372,7 +372,7 @@ var Player = function(conflux, game, x, y, key, group) {
       if(mob.cState.paused && !this.cState.paused){
         mob.setPause(false);
       }
-    } else if(!(this.was.left || this.was.right)){
+    } else { //if(!(this.was.left || this.was.right)){
       if (this.body.overlapY < 0){
         /*this.body.blocked.top = true;
         this.against.top = mob;
