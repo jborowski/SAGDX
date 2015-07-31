@@ -21,6 +21,13 @@ var Player = function(conflux, game, x, y, key, group) {
   this.cursors = this.game.input.keyboard.createCursorKeys();
   this.keyboard = this.game.input.keyboard;
 
+  this.sfx = this.game.add.audio('sfx');
+  this.sfx.addMarker('walk', 5, 1.352, 0.5, true);
+  this.sfx.addMarker('land', 4, 0.5, 1, false);
+  this.sfx.addMarker('liftHit', 0, 0.5, 1, false);
+  this.sfx.addMarker('floaterHit', 3, 0.25, 1, false);
+  this.sfx.addMarker('hit', 3.5, 0.5, 1, false);
+
   this.conflux = conflux;
 
   this.riding = null;
@@ -117,27 +124,27 @@ var Player = function(conflux, game, x, y, key, group) {
         if(this.cState.facing > 0){
           if(this.cursors.right.isDown && !this.cState.rightDisabled){
             this.animations.play('runRight');
-            if(!steps.isPlaying) steps.play('walk');
+            if(!this.sfx.isPlaying) this.sfx.play('walk');
           } else {
             this.animations.play('standRight');
-            steps.stop();
+            this.sfx.stop();
           }
         } else {
           if(this.cursors.left.isDown && !this.cState.leftDisabled){
             this.animations.play('runLeft');
-            if(!steps.isPlaying) steps.play('walk');
+            if(!this.sfx.isPlaying) this.sfx.play('walk');
           } else {
             this.animations.play('standLeft');
-            steps.stop();
+            this.sfx.stop();
           }
         }
       } else {
         if(this.cState.facing > 0){
           this.animations.play('fallRight');
-          steps.stop();
+          this.sfx.stop();
         } else {
           this.animations.play('fallLeft');
-          steps.stop();
+          this.sfx.stop();
         }
       }
     }
@@ -375,6 +382,7 @@ var Player = function(conflux, game, x, y, key, group) {
         this.cState.facing = -1;
       }
       this.hurt();
+      this.processSound(mob);
       if(mob.cState.paused && !this.cState.paused){
         mob.setPause(false);
       }
@@ -385,6 +393,7 @@ var Player = function(conflux, game, x, y, key, group) {
         newY = mob.body.y + mob.body.height + 1;
         this.body.position.y = newY;*/
         this.hurt();
+        this.processSound(mob);
         if(mob.cState.paused && !this.cState.paused){
           mob.setPause(false);
         }
@@ -404,6 +413,7 @@ var Player = function(conflux, game, x, y, key, group) {
   }
 
   this.setPause = function(pause){
+    this.sfx.stop();
     if(this.cState.paused != pause){
       if(pause){
         this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;
@@ -412,6 +422,16 @@ var Player = function(conflux, game, x, y, key, group) {
       }
       this.animations.paused = pause;
       this.cState.paused = pause;
+    }
+  }
+
+  this.processSound = function(mob){
+    if(mob.mobType == "floater"){
+      this.sfx.play('floaterHit');
+    } else if (mob.mobType == "lift") {
+      this.sfx.play('liftHit');
+    } else {
+      this.sfx.play('hit');
     }
   }
 };

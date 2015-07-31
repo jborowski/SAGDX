@@ -14,6 +14,9 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.animations.add('right', [0,1,2,6,7,8,12,13,14]);
   this.animations.add('left', [3,4,5,9,10,11,15,16,17]);
 
+  this.sfx = this.game.add.audio('sfx');
+  this.sfx.addMarker('floaterChase', 0.5, 2.5, 1, false);
+
   this.cConstants = {
     speed: speed*gridSize,
     chaseDistance: 30*gridSize,
@@ -86,6 +89,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       }
     } else {
       if(Phaser.Math.distance(this.body.x, this.body.y, this.conflux.player.body.x+this.conflux.player.body.width/2, this.conflux.player.body.y+16) <= this.cConstants.boostDistance){
+        this.sfx.play('floaterChase');
         this.cState.boosting = true;
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
@@ -178,6 +182,7 @@ var Floater = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   };
 
   this.setPause = function(pause){
+    this.sfx.stop();
     if(this.cState.paused != pause){
       if(pause){
         this.animations.frame = this.animations.frame + this.cConstants.animationPausedOffset;

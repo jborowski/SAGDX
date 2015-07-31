@@ -291,6 +291,7 @@ SAGDX.level1State.prototype = {
   enablePause: function(){
     music.volume = 0.3;
     ambience.volume = 0;
+    sfx.stop();
     this.pauseTexts.push(this.newPauseText());
     this.mobs.forEach(function(mob){
       mob.setPause(true);

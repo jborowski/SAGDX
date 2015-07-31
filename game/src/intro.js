@@ -81,16 +81,16 @@ SAGDX.introState.prototype = {
     music = this.game.add.audio('music');
     ambience = this.game.add.audio('ambience');
     sfx = this.game.add.audio('sfx');
-    steps = this.game.add.audio('sfx');
-    steps.addMarker('walk', 5, 1.352, 0.5, true);
+    //steps = this.game.add.audio('sfx');
+    //steps.addMarker('walk', 5, 1.352, 0.5, true);
     sfx.addMarker('liftHit', 0, 0.5, 1, false);
-    sfx.addMarker('floaterChase', 0.5, 2.5, 1, false);
+
     sfx.addMarker('floaterHit', 3, 0.25, 1, false);
     sfx.addMarker('hit', 3.5, 0.5, 1, false);
     sfx.addMarker('land', 4, 0.5, 1, false);
     sfx.addMarker('suicide', 6.5, 0.5, 1, false);
     sfx.addMarker('bigBlast', 7, 1, 1, false);
-    sfx.addMarker('smallBlast', 8, 1, 1, false);
+    sfx.addMarker('smallBlast', 8.25, 1, 1, false);
     ambience.play('', 0, 0.8, true);
     //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
