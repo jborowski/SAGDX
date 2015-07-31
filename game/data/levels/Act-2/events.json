@@ -3,7 +3,7 @@
     "triggerType": "pass",
     "x": 12,
     "dialogue": [
-      {"speaker": "factory", "text": "Attention, all units. Threat level elevated.\nEntering security lockdown. End of Message."}
+      {"speaker": "Factory", "text": "Attention, all units. Threat level elevated.\nEntering security lockdown. End of Message."}
     ]
   },
   { "type": "activation",

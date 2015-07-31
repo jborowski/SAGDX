@@ -371,14 +371,21 @@ SAGDX.level2State.prototype = {
   },
   sendDialogue: function(newEvent){
     this.enablePause();
+
     var dialogueElement = newEvent.dialogue;
-    this.dialogueBox = this.game.add.sprite(0, 512, 'dialogbox');
-    this.dialogueBox.anchor.setTo(0, 1);
+    var name = dialogueElement[0].speaker;
+    var text = dialogueElement[0].text;
+
+    if(name == "Unknown"){
+      this.dialogueBox = this.game.add.sprite(30, 220, 'unknowndialogbox');
+    } else if(name == "Factory"){
+      this.dialogueBox = this.game.add.sprite(30, 220, 'factorydialogbox');
+    }
     this.dialogueBox.fixedToCamera = true;
-    this.speakerName = this.game.add.text(40, 380, dialogueElement[0].speaker, {font: '16px Lato', fill: '#000'});
-    this.speakerName.fixedToCamera = true;
-    this.dialogueText = this.game.add.text(20, 410, dialogueElement[0].text, { font: '20px Lato Black', fill: '#000' });
-    this.dialogueText.fixedToCamera = true;
+    this.speakerName = this.game.add.text(20, 15, name, {font: '16px Lato', fill: '#000'});
+    this.dialogueBox.addChild(this.speakerName);
+    this.dialogueText = this.game.add.text(40, 40, text, { font: '20px Lato Black', fill: '#000' });
+    this.dialogueBox.addChild(this.dialogueText);
     this.dialogue = {
       index: 0,
       element: dialogueElement

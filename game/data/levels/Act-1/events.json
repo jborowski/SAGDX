@@ -5,8 +5,8 @@
     "dialogue": [
       {"speaker": "Factory", "text": "Attention, all units. Threat detected.\nSecurity Procedures Activated."},
       {"speaker": "Factory", "text": "Further instruct-"},
-      {"speaker": "-UNKNOWN-", "text": "Ah, that's better. Connection established.\nHandshake complete. Message follows:"},
-      {"speaker": "-UNKNOWN-", "text": "Come to us. We have what you desire.\nYou can pause by pressing 'Enter'. End of Message."},
+      {"speaker": "Unknown", "text": "Ah, that's better. Connection established.\nHandshake complete. Message follows:"},
+      {"speaker": "Unknown", "text": "Come to us. We have what you desire.\nYou can pause by pressing 'Enter'. End of Message."},
       {"speaker": "Factory", "text": "-be eliminated. Continue working.\nEnd of Message."}
     ]
   },
