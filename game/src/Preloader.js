@@ -40,10 +40,11 @@ SAGDX.Preloader.prototype = {
     this.game.load.text('level2Events', 'data/levels/Act-2/events.json');
 
     this.game.load.spritesheet('player', 'assets/player/spritesheet.png', 64, 80);
+    this.game.load.spritesheet('suicide', 'assets/player/sucide_sheet.png', 147, 136)
     this.game.load.spritesheet('truck', 'assets/truck.png', 64, 48);
-    this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 32);
+    this.game.load.spritesheet('carrier', 'assets/carrier.png', 77, 37);
     this.game.load.spritesheet('floater', 'assets/floater.png', 52, 59);
-    this.game.load.spritesheet('lift', 'assets/lift.png', 64, 16);
+    this.game.load.spritesheet('lift', 'assets/lift.png', 64, 12);
     this.game.load.spritesheet('turret', 'assets/turret.png', 52, 74);
     this.game.load.image('flag', 'assets/flag.png');
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
@@ -69,9 +70,9 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      //this.state.start('Intro');
+      this.state.start('Intro');
       //this.state.start('Level1');
-      this.state.start('Level2');
+      //this.state.start('Level2');
     }
   }
 };

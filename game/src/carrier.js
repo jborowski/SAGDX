@@ -11,12 +11,12 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
   this.outOfBoundsKill = true;
   this.waypoints = waypoints;
   this.conflux = conflux;
-  this.animations.add('plain', [0]);
-  this.animations.play('plain');
+  this.animations.add('plain', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+  this.animations.play('plain', 20, true);
 
   this.cConstants = {
     speed: speed*gridSize,
-    animationPausedOffset: 1
+    animationPausedOffset: 16
   }
 
   this.cState = {
@@ -48,7 +48,7 @@ var Carrier = function(conflux, game, x, y, group, facing, waypoints, firstWaypo
       }
     }
   }
-  
+
   this.moveToWaypoint = function(){
     reachedX = this.nextWaypoint.directionX == 0 || (this.nextWaypoint.directionX < 0 && this.body.x < this.nextWaypoint.x)
     reachedX = reachedX || (this.nextWaypoint.directionX > 0 && this.body.x > this.nextWaypoint.x)

@@ -6,13 +6,13 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
   group.add(this);
   this.mobType = "truck";
   this.conflux = conflux;
-  this.animations.add('plain', [0]);
-  this.animations.play('plain');
+  this.animations.add('plain', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]);
+  this.animations.play('plain', 20, true);
 
   this.cConstants = {
     groundSpeed: speed*gridSize,
     fallSpeed: 20*gridSize,
-    animationPausedOffset: 1
+    animationPausedOffset: 20
   };
 
   this.cState = {
@@ -31,7 +31,7 @@ var Truck = function(conflux, game, x, y, group, facing, speed, startPaused){
       if(this.body.velocity.y > this.cConstants.fallSpeed){
         this.body.velocity.y = this.cConstants.fallSpeed;
       }
-      
+
       if(this.body.onFloor() || this.body.touching.down){
         this.body.velocity.x = this.cConstants.groundSpeed*this.cState.facing;
         this.y = Math.ceil(this.y);
