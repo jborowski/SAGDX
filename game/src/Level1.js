@@ -14,7 +14,7 @@ SAGDX.level1State.prototype = {
   dialogue: null,
 
   create: function(){
-    this.game.world.alpha = 0;
+    this.game.world.alpha = 1;
     this.mobs = this.game.add.group();
     this.lifts = this.game.add.group();
     this.turrets = this.game.add.group();
@@ -162,7 +162,7 @@ SAGDX.level1State.prototype = {
 
     this.music = this.sound.play('music', true);
 
-    this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
+    //this.game.add.tween(this.game.world).to({ alpha:1 }, 750).start();
   },
   update: function(){
     if(this.debugMode){
@@ -434,14 +434,15 @@ SAGDX.level1State.prototype = {
     this.goToState(event.target);
   },
   goToState: function(state){
-    var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 750);
-    fadeOut.onComplete.add(function(){
+    //var fadeOut = this.game.add.tween(this.game.world).to({ alpha:0 }, 720);
+    //fadeOut.onComplete.add(function(){
       this.music.stop();
       this.events = [];
       this.eventSpawns = [];
       this.eventActivations = [];
-      this.state.start(state);}, this);
-    fadeOut.start();
+      this.state.start(state);
+    //}, this);
+    //fadeOut.start();
   }
 
 }

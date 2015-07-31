@@ -169,6 +169,23 @@
       "speed": 8
     }
   },
+  { "description": "The paused trucks that already start on screen",
+    "type": "once",
+    "spawns": [
+      {"x": 198,"y": 44},
+      {"x": 204,"y": 44},
+      {"x": 210,"y": 44},
+      {"x": 216,"y": 44},
+      {"x": 222,"y": 44}
+    ],
+    "unit": {
+      "type": "truck",
+      "paused": true,
+      "facing": 1,
+      "speed": 8
+    }
+  },
+
   { "description": "The first challenge carrier spawn point for the top carrier",
     "type": "continous",
     "interval": 15,
@@ -320,13 +337,13 @@
     "type": "once",
     "interval": 10,
     "spawns": [
-      {"x": 179, "y": 69}
+      {"x": 179, "y": 70}
     ],
     "unit": {
       "type": "lift",
       "actions": [
         {"type": "moveTo", "x": 179, "y": 49},
-        {"type": "moveTo", "x": 179, "y": 69}
+        {"type": "moveTo", "x": 179, "y": 70}
       ],
       "speed": 5,
       "paused": true
