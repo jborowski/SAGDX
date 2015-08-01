@@ -8,9 +8,9 @@
   },
   { "type": "transition",
     "triggerType": "inside",
-    "x":119,
-    "y":31,
-    "x2":127,
+    "x":121,
+    "y":0,
+    "x2":131,
     "y2":38,
     "target": "Level4"
   }
