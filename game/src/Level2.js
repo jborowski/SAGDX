@@ -105,6 +105,13 @@ SAGDX.level2State.prototype = {
     this.floorbuttons = this.game.add.group();
     this.floorbutton1 = this.add.sprite(109*gridSize, 69*gridSize-5, 'floorbutton');
     this.floorbuttons.add(this.floorbutton1);
+
+
+    this.bonuses = this.game.add.group();
+    this.bonus1 = this.game.add.sprite(52*gridSize,3*gridSize, 'interstellaria');
+    this.bonus1.animations.add("full");
+    this.bonus1.animations.play('full', 10, true);
+    this.bonuses.add(this.bonus1);
     /*******************/
 
     this.keyboard = this.game.input.keyboard;
@@ -163,6 +170,7 @@ SAGDX.level2State.prototype = {
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
     this.game.world.bringToTop(this.floorbuttons);
+    this.game.world.bringToTop(this.bonuses);
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
