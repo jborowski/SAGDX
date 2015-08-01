@@ -98,7 +98,7 @@ SAGDX.Preloader.prototype = {
     // Trash!
     this.game.load.spritesheet('trashpile', 'assets/trashpile.png', 304, 144);
     this.game.load.spritesheet('smalltrashpile', 'assets/smalltrashpile.png', 103, 39);
-    this.game.load.spritesheet('trashtruck', 'assets/trashpile.png', 607, 288);
+    this.game.load.spritesheet('trashtruck', 'assets/trashtruck.png', 103, 66);
 
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },
