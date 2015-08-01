@@ -98,7 +98,8 @@ SAGDX.level2State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
 
-    this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
+    //this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
+    this.player = new Player(this, this.game, 123*gridSize, 15*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     /***** TERRIBLE ****/

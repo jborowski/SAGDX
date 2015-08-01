@@ -35,10 +35,10 @@
   },
   { "type": "transition",
     "triggerType": "inside",
-    "x":119,
-    "y":13,
-    "x2":127,
-    "y2":21,
+    "x":125,
+    "y":24,
+    "x2":129,
+    "y2":33,
     "target": "Level3"
   }
 ]
