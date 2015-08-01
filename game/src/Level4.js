@@ -389,6 +389,8 @@ SAGDX.level4State.prototype = {
     }
   },
   touchDoor: function(event){
+    this.player.cState.inputDisabled = true;
+    this.player.steps.stop();
     this.goToState(event.target);
   },
   goToState: function(state){
@@ -403,6 +405,7 @@ SAGDX.level4State.prototype = {
       this.eventSpawns = [];
       this.eventActivations = [];
       this.paused = false;
+      this.player.steps.stop();
       this.state.start(state);
     //}, this);
     //fadeOut.start();
