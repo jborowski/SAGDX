@@ -12,9 +12,9 @@
   },
   { "type": "transition",
     "triggerType": "inside",
-    "x":266,
+    "x":269,
     "y":73,
-    "x2":269,
+    "x2":273,
     "y2":79,
     "target": "Level2"
   },

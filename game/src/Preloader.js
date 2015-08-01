@@ -68,7 +68,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('bigblast', 'assets/bigblast.png', 120, 70);
     this.game.load.spritesheet('littleblast', 'assets/littleblast.png', 92, 34);
     this.game.load.spritesheet('floorbutton', 'assets/floorbutton.png', 60, 5);
-    this.game.load.spritesheet('door', 'assets/door_opening_spritesheet.png', 196, 280)
+    this.game.load.spritesheet('door', 'assets/door.png', 64, 92);
 
     this.game.load.spritesheet('parabackground1', 'assets/levels/act1/background1.png', 768, 512);
     this.game.load.spritesheet('parabackground1p', 'assets/levels/act1/background1paused.png', 768, 512);
@@ -106,7 +106,7 @@ SAGDX.Preloader.prototype = {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
       this.state.start('Intro');
-      //this.state.start('Level3');
+      //this.state.start('Level2');
     }
   }
 };

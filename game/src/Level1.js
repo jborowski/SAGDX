@@ -107,6 +107,10 @@ SAGDX.level1State.prototype = {
     this.bonus2.animations.add("full");
     this.bonus2.animations.play('full', 10, true);
     this.bonuses.add(this.bonus2);
+
+    this.door = this.game.add.sprite(268*gridSize,73*gridSize+4, 'door');
+    this.door.frame = 1;
+    this.bonuses.add(this.door);
     /*******************/
 
     this.keyboard = this.game.input.keyboard;

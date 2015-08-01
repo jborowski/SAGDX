@@ -98,7 +98,7 @@ SAGDX.level2State.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.stage.backgroundColor = 000000;
 
-    this.player = new Player(this, this.game, 3*gridSize, 64*gridSize, 'player');
+    this.player = new Player(this, this.game, 3*gridSize, 66*gridSize, 'player');
     this.game.camera.follow(this.player);
 
     /***** TERRIBLE ****/
@@ -112,6 +112,10 @@ SAGDX.level2State.prototype = {
     this.bonus1.animations.add("full");
     this.bonus1.animations.play('full', 10, true);
     this.bonuses.add(this.bonus1);
+
+    this.door = this.game.add.sprite(3*gridSize,65*gridSize+4, 'door');
+    this.door.frame = 0;
+    this.bonuses.add(this.door);
     /*******************/
 
     this.keyboard = this.game.input.keyboard;
@@ -350,6 +354,9 @@ SAGDX.level2State.prototype = {
         this.bgMap.swap(ii, ii+tilecount);
         this.map.swap(ii, ii+tilecount);
       }
+
+      // PAUSE DOOR
+      this.door.frame = 2;
     }
 
     this.player.setPause(true);
