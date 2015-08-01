@@ -3,7 +3,7 @@
     "triggerType": "pass",
     "y": 34,
     "dialogue": [
-      {"speaker": "unknown", "text": "You're almost out, now."}
+      {"speaker": "Unknown", "text": "We're very excited that you made it this far. You're performing better than we could have hoped. You're almost out, now. End of message."}
     ]
   },
   { "type": "transition",
