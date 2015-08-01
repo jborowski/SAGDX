@@ -111,6 +111,22 @@ SAGDX.level1State.prototype = {
     this.door = this.game.add.sprite(268*gridSize,73*gridSize+4, 'door');
     this.door.frame = 1;
     this.bonuses.add(this.door);
+
+    this.backtrash = this.game.add.group();
+    this.trash1 = this.game.add.sprite(-3*gridSize, 31*gridSize, 'trashpile');
+    this.trash1.frame = 0;
+    this.backtrash.add(this.trash1);
+    this.trash2 = this.game.add.sprite(4*gridSize, 35*gridSize, 'trashpile');
+    this.trash2.frame = 0;
+    this.backtrash.add(this.trash2);
+
+    this.fronttrash = this.game.add.group();
+    this.trash3 = this.game.add.sprite(3*gridSize, 34*gridSize+9, 'smalltrashpile');
+    this.trash3.frame = 0;
+    this.fronttrash.add(this.trash3);
+    this.trash4 = this.game.add.sprite(14*gridSize, 34*gridSize+9, 'smalltrashpile');
+    this.trash4.frame = 0;
+    this.fronttrash.add(this.trash4);
     /*******************/
 
     this.keyboard = this.game.input.keyboard;
@@ -164,6 +180,7 @@ SAGDX.level1State.prototype = {
     this.game.world.bringToTop(this.parabgsFront);
     this.game.world.bringToTop(this.distanceFilter1);
     this.game.world.bringToTop(this.overlays);
+    this.game.world.bringToTop(this.backtrash);
     this.game.world.bringToTop(this.turrets);
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.mobs);
@@ -172,6 +189,7 @@ SAGDX.level1State.prototype = {
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
+    this.game.world.bringToTop(this.fronttrash);
 
     if(this.debugMode){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });

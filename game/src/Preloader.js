@@ -95,6 +95,11 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('showerwithdad', 'assets/showerwithdad.png', 154, 112);
     this.game.load.spritesheet('echo', 'assets/echo.png', 27, 25);
 
+    // Trash!
+    this.game.load.spritesheet('trashpile', 'assets/trashpile.png', 304, 144);
+    this.game.load.spritesheet('smalltrashpile', 'assets/smalltrashpile.png', 103, 39);
+    this.game.load.spritesheet('trashtruck', 'assets/trashpile.png', 607, 288);
+
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },
 
@@ -106,7 +111,7 @@ SAGDX.Preloader.prototype = {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
       this.state.start('Intro');
-      //this.state.start('Level2');
+      //this.state.start('Level1');
     }
   }
 };
