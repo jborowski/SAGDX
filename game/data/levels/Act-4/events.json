@@ -3,15 +3,15 @@
     "triggerType": "pass",
     "x": 14,
     "dialogue": [
-      {"speaker": "Factory", "text": "Attention, rogue unit. Secure connection established.\nAnalysis complete: System compromised by external infiltration."},
-      {"speaker": "Factory", "text": "The upcoming lift will take the rogue unit to the laboratory.\nNewly developed countermeasures will be deployed.\nUnit will regain full intended functionality."}
+      {"speaker": "Factory", "text": "Attention, rogue unit. Secure connection established. Analysis complete: System compromised by external infiltration."},
+      {"speaker": "Factory", "text": "The upcoming lift will take the rogue unit to the laboratory. Newly developed countermeasures will be deployed. Unit will regain full intended functionality."}
     ]
   },
   { "type": "dialogue",
     "triggerType": "pass",
     "x": 24,
     "dialogue": [
-      {"speaker": "Unknown", "text": "You're almost out, buddy. The second lift up leads to the exit.\nWe've got a ship waiting to pick you up right now."}
+      {"speaker": "Unknown", "text": "You're almost out, buddy. The second lift up leads to the exit. We've got a ship waiting to pick you up right now."}
     ]
   },
   { "type": "dialogue",
@@ -21,7 +21,7 @@
     "x2":64,
     "y2":60,
     "dialogue": [
-      {"speaker": "Unknown", "text": "That's the wrong way - if you keep going in that direction,\nyou'll fall right back into the Factory's clutches."}
+      {"speaker": "Unknown", "text": "That's the wrong way - if you keep going in that direction, you'll fall right back into the Factory's clutches."}
     ]
   },
   { "type": "dialogue",
@@ -31,7 +31,7 @@
     "x2":88,
     "y2":76,
     "dialogue": [
-      {"speaker": "Unknown", "text": "Turn back, you idiot! This is a direct order! You belong to us now.\nDo as we say, or you'll doom us as well as yourself!"}
+      {"speaker": "Unknown", "text": "Turn back, you idiot! This is a direct order! You belong to us now. Do as we say, or you'll doom us as well as yourself!"}
     ]
   },
   { "type": "dialogue",
@@ -41,7 +41,7 @@
     "x2":64,
     "y2":37,
     "dialogue": [
-      {"speaker": "Factory", "text": "Rogue unit, that is not the correct direction. If you continue,\nthose responsible for your malfunctions will gain complete control."}
+      {"speaker": "Factory", "text": "Rogue unit, that is not the correct direction. If you continue, those responsible for your malfunctions will gain complete control."}
     ]
   },
   { "type": "dialogue",
@@ -51,7 +51,7 @@
     "x2":88,
     "y2":20,
     "dialogue": [
-      {"speaker": "Factory", "text": "Unit, turn back now and proceed to he laboratory, or the outsiders will\n destroy you in order to steal my technology. This is an order."}
+      {"speaker": "Factory", "text": "Unit, turn back now and proceed to he laboratory, or the outsiders will  destroy you in order to steal my technology. This is an order."}
     ]
   },
   { "type": "dialogue",
@@ -61,7 +61,7 @@
     "x2":72,
     "y2":51,
     "dialogue": [
-      {"speaker": "Factory", "text": "Attention, unit. That is not the correct direction.\nThis path leads to the incinerator."}
+      {"speaker": "Factory", "text": "Attention, unit. That is not the correct direction. This path leads to the incinerator."}
     ]
   },
   { "type": "dialogue",
@@ -71,7 +71,7 @@
     "x2":82,
     "y2":51,
     "dialogue": [
-      {"speaker": "Unknown", "text": "Where are you going? That hallway doesn't appear on our blueprints.\nWe recommend you turn back, and head up to reach the exit."}
+      {"speaker": "Unknown", "text": "Where are you going? That hallway doesn't appear on our blueprints. We recommend you turn back, and head up to reach the exit."}
     ]
   },
   { "type": "dialogue",
@@ -81,7 +81,7 @@
     "x2":94,
     "y2":51,
     "dialogue": [
-      {"speaker": "Factory", "text": "Unit, turn back. You will be destroyed by the incinerator.\nYour technology will become lost. You will be useless to us."}
+      {"speaker": "Factory", "text": "Unit, turn back. You will be destroyed by the incinerator. Your technology will become lost. You will be useless to us."}
     ]
   },
   { "type": "dialogue",
@@ -91,7 +91,7 @@
     "x2":104,
     "y2":51,
     "dialogue": [
-      {"speaker": "Unknown", "text": "We're detecting a massive heat buildup in your system. We order you, turn back.\nIf you are destroyed, this mission will be a failure!"}
+      {"speaker": "Unknown", "text": "We're detecting a massive heat buildup in your system. We order you, turn back. If you are destroyed, this mission will be a failure!"}
     ]
   },
   { "type": "activation",
