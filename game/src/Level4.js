@@ -61,6 +61,12 @@ SAGDX.level4State.prototype = {
     this.floorbuttons.add(this.floorbutton1);
     /*******************/
 
+    // Incinerator overlay
+    var incinGraphic = new Phaser.Graphics().beginFill(0xFF0000).drawRect(0,0,this.game.camera.width,this.game.camera.height);
+    this.incin = this.game.add.sprite(0,0,incinGraphic.generateTexture());
+    this.incin.alpha = 0.0;
+    this.incin.fixedToCamera = true;
+
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
 
@@ -114,6 +120,7 @@ SAGDX.level4State.prototype = {
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
+    this.game.world.bringToTop(this.incin);
 
     if(this.debugMode){
       this.debugText = this.game.add.text(5, 50, 'DEBUG INFO ', { fontSize: '10px', fill: '#FFF' });
@@ -124,6 +131,16 @@ SAGDX.level4State.prototype = {
     ambience.volume = 0.3;
   },
   update: function(){
+    //Incinerator code
+    if(this.player.y > 42*gridSize && this.player.y < 51*gridSize){
+      if(this.player.body.right > 68*gridSize){
+        var percentToIncin = 1-(100*gridSize - this.player.body.right)/(32*gridSize);
+        this.incin.alpha = percentToIncin;
+      } else {
+        this.incin.alpha = 0.0;
+      }
+    }
+
     if(this.debugMode){
       this.debugText.text = "";
     }
