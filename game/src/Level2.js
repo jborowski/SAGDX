@@ -486,6 +486,7 @@ SAGDX.level2State.prototype = {
       this.eventSpawns = [];
       this.eventActivations = [];
       this.paused = false;
+      this.player.steps.stop();
       this.state.start(state);
     //}, this);
     //fadeOut.start();
