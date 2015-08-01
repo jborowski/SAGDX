@@ -37,9 +37,11 @@ SAGDX.Preloader.prototype = {
     this.game.load.tilemap('level4CollisionLayerMap', 'data/levels/Act-4/collisionLayer.json', null, Phaser.Tilemap.TILED_JSON);
 
     this.game.load.image('tileset', 'assets/tileset.png');
-    this.game.load.image('factorydialogbox', 'assets/factoryDialogBox.png');
-    this.game.load.image('unknowndialogbox', 'assets/unknownDialogBox.png');
+    this.game.load.image('factoryDialogBox', 'assets/factoryDialogBox.png');
+    this.game.load.image('unknownDialogBox', 'assets/unknownDialogBox.png');
     this.game.load.image('instructionbox', 'assets/instructionBox.png');
+    this.game.load.spritesheet('factoryFace', 'assets/factoryFace.png', 80, 60);
+    this.game.load.spritesheet('unknownFace', 'assets/unknownFace.png', 80, 60);
 
     this.game.load.image('title', 'assets/title.png');
     this.game.load.image('pausetext', 'assets/paused.png');
@@ -97,9 +99,9 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      this.state.start('Intro');
+      //this.state.start('Intro');
       //this.state.start('Level1');
-      //this.state.start('Level2');
+      this.state.start('Level1');
     }
   }
 };

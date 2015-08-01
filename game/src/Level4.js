@@ -12,6 +12,7 @@ SAGDX.level4State.prototype = {
   eventSpawns: [],
   eventActivations: [],
   dialogue: null,
+  textIndent: "           ",
 
   preload: function(){
   },
@@ -303,25 +304,33 @@ SAGDX.level4State.prototype = {
   },
   sendDialogue: function(newEvent){
     this.enablePause();
-
     var dialogueElement = newEvent.dialogue;
     var name = dialogueElement[0].speaker;
-    var text = dialogueElement[0].text;
+    var text = this.textIndent+dialogueElement[0].text;
 
     if(name == "Unknown"){
-      this.dialogueBox = this.game.add.sprite(30, 220, 'unknowndialogbox');
+      this.dialogueBox = this.game.add.sprite(30, 220, 'unknownDialogBox');
+      this.speakerPortrait = this.game.add.sprite(4,4, 'unknownFace');
     } else if(name == "Factory"){
-      this.dialogueBox = this.game.add.sprite(30, 220, 'factorydialogbox');
+      this.dialogueBox = this.game.add.sprite(30, 220, 'factoryDialogBox');
+      this.speakerPortrait = this.game.add.sprite(8,8, 'factoryFace');
     }
+    this.speakerPortrait.animations.add("full");
+    this.speakerPortrait.animations.play('full', 10, true);
+    this.dialogueBox.addChild(this.speakerPortrait);
     this.dialogueBox.fixedToCamera = true;
-    this.speakerName = this.game.add.text(20, 15, name, {font: '16px Lato', fill: '#000'});
+    this.speakerName = this.game.add.text(120, 15, name, {font: '16px Lato', fill: '#000', wordWrap: true, wordWrapWidth: 200});
     this.dialogueBox.addChild(this.speakerName);
-    this.dialogueText = this.game.add.text(40, 40, text, { font: '20px Lato Black', fill: '#000' });
+    this.dialogueText = this.game.add.text(45, 50, text, { font: '20px Lato Black', fill: '#000', wordWrap: true, wordWrapWidth: 600});
     this.dialogueBox.addChild(this.dialogueText);
     this.dialogue = {
       index: 0,
       element: dialogueElement
     };
+
+    if(this.keyboard.isDown(32)){
+      this.justToggled = 32;
+    }
   },
   spawnEvent: function(newEvent){
     var ii, spawnDef;
@@ -363,12 +372,15 @@ SAGDX.level4State.prototype = {
     if(this.dialogue.element[this.dialogue.index]){
       var line = this.dialogue.element[this.dialogue.index];
       if(line.speaker == "Unknown"){
-        this.dialogueBox.loadTexture('unknowndialogbox');
+        this.dialogueBox.loadTexture('unknownDialogBox');
+        this.speakerPortrait.loadTexture('unknownFace');
       } else if(line.speaker == "Factory"){
-        this.dialogueBox.loadTexture('factorydialogbox');
+        this.dialogueBox.loadTexture('factoryDialogBox');
+        this.speakerPortrait.loadTexture('factoryFace');
       }
       this.speakerName.text = line.speaker
-      this.dialogueText.text = line.text;
+      this.dialogueText.text = this.textIndent + line.text;
+
     }else{
       this.dialogueText.text = "";
       this.speakerName.text = "";
@@ -376,7 +388,6 @@ SAGDX.level4State.prototype = {
       this.dialogueBox.destroy();
     }
   },
-
   touchDoor: function(event){
     this.goToState(event.target);
   },
