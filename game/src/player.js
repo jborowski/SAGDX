@@ -74,7 +74,7 @@ var Player = function(conflux, game, x, y, key, group) {
     left: null,
     top: null,
     bottom: null,
-    right: null
+    right: null,
   };
 
   this.resetAgainst = function(){
