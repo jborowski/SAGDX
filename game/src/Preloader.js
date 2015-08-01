@@ -89,6 +89,11 @@ SAGDX.Preloader.prototype = {
     sfx.addMarker('land', 4, 0.5, 1, false);
     sfx.addMarker('suicide', 6.5, 0.5, 1, false);
 
+    // Bonus content!
+    this.game.load.spritesheet('tinroof', 'assets/tinroof.png', 154, 112);
+    this.game.load.spritesheet('interstellaria', 'assets/interstellaria.png', 154, 112);
+    this.game.load.spritesheet('showerwithdad', 'assets/showerwithdad.png', 154, 112);
+
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },
 
@@ -99,8 +104,8 @@ SAGDX.Preloader.prototype = {
   update: function () {
     if (this.cache.isSoundDecoded('music') && this.ready == false) {
       this.ready = true;
-      this.state.start('Intro');
-      //this.state.start('Level1');
+      //this.state.start('Intro');
+      this.state.start('Level1');
     }
   }
 };

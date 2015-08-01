@@ -97,6 +97,18 @@ SAGDX.level1State.prototype = {
     this.player = new Player(this, this.game, 3*gridSize, 15*gridSize, 'player');
     this.game.camera.follow(this.player);
 
+    /***** TERRIBLE ****/
+    this.bonuses = this.game.add.group();
+    this.bonus1 = this.game.add.sprite(48*gridSize,1*gridSize, 'tinroof');
+    this.bonus1.animations.add("full");
+    this.bonus1.animations.play('full', 10, true);
+    this.bonuses.add(this.bonus1);
+    this.bonus2 = this.game.add.sprite(161*gridSize,63*gridSize, 'showerwithdad');
+    this.bonus2.animations.add("full");
+    this.bonus2.animations.play('full', 10, true);
+    this.bonuses.add(this.bonus2);
+    /*******************/
+
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
 
@@ -152,6 +164,7 @@ SAGDX.level1State.prototype = {
     this.game.world.bringToTop(this.backgroundLayer);
     this.game.world.bringToTop(this.mobs);
     this.game.world.bringToTop(this.lifts);
+    this.game.world.bringToTop(this.bonuses);
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);
