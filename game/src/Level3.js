@@ -102,6 +102,31 @@ SAGDX.level3State.prototype = {
     this.player = new Player(this, this.game, 26*gridSize, 1*gridSize, 'player');
     this.game.camera.follow(this.player);
 
+    /***** TERRIBLE ****/
+    this.bonuses = this.game.add.group();
+    this.bonus1 = this.game.add.sprite(55*gridSize,3*gridSize, 'echo');
+    this.bonus1.animations.add("full");
+    this.bonus1.animations.play('full', 30, true);
+    this.bonuses.add(this.bonus1);
+    this.bonus2 = this.game.add.sprite(61*gridSize,6*gridSize, 'echo');
+    this.bonus2.animations.add("full");
+    this.bonus2.animations.play('full', 25, true);
+    this.bonus2.frame=2;
+    this.bonuses.add(this.bonus2);
+    this.bonus3 = this.game.add.sprite(59*gridSize,2*gridSize, 'echo');
+    this.bonus3.animations.add("full");
+    this.bonus3.animations.play('full', 33, true);
+    this.bonus3.frame=4;
+    this.bonuses.add(this.bonus3);
+    this.bonus4 = this.game.add.sprite(64*gridSize,4*gridSize, 'echo');
+    this.bonus4.animations.add("full");
+    this.bonus4.animations.play('full', 28, true);
+    this.bonuses.add(this.bonus4);
+    this.bonus4.frame=5;
+    /*******************/
+
+
+
     this.keyboard = this.game.input.keyboard;
     this.timerEvents = [];
 
@@ -158,6 +183,7 @@ SAGDX.level3State.prototype = {
     this.game.world.bringToTop(this.trucks);
     this.game.world.bringToTop(this.floaters);
     this.game.world.bringToTop(this.lifts);
+    this.game.world.bringToTop(this.bonuses);
     this.game.world.bringToTop(this.player);
     this.game.world.bringToTop(this.blasts);
     this.game.world.bringToTop(this.foregroundLayer);

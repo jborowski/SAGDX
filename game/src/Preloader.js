@@ -93,6 +93,7 @@ SAGDX.Preloader.prototype = {
     this.game.load.spritesheet('tinroof', 'assets/tinroof.png', 154, 112);
     this.game.load.spritesheet('interstellaria', 'assets/interstellaria.png', 154, 112);
     this.game.load.spritesheet('showerwithdad', 'assets/showerwithdad.png', 154, 112);
+    this.game.load.spritesheet('echo', 'assets/echo.png', 27, 25);
 
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },
